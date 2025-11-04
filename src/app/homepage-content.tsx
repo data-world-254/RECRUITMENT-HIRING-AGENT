@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Animated3DShape from '@/components/ui/animated-3d-shape'
 import { Testimonials } from '@/components/ui/testimonials-section'
 import { ModernPricingPage, PricingCardProps } from '@/components/ui/animated-glassy-pricing'
+import { GradientCard } from '@/components/ui/gradient-card'
+import { FeatureCarousel } from '@/components/ui/animated-feature-carousel'
 import { 
   Brain, 
   Users, 
@@ -162,13 +164,8 @@ export default function HomePageContent() {
       {/* Animated 3D Background Shape for Content Sections */}
       <Animated3DShape className="opacity-30" />
       
-      {/* Enhanced Features Section */}
-      <section className="py-20 px-4 relative">
-        {/* Background Elements */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
-        <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-gradient-to-r from-secondary/10 to-primary/10 rounded-full blur-3xl"></div>
-        
+      {/* Enhanced Features Section with Gradient Cards */}
+      <section className="py-20 px-4 relative bg-black">
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -177,50 +174,29 @@ export default function HomePageContent() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 mb-6">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6">
               <Brain className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-gray-700">Your all-in-one AI engine</span>
+              <span className="text-sm font-medium text-white/80">Your all-in-one AI engine</span>
             </div>
-            <h2 className="text-5xl font-figtree font-semibold mb-4 gradient-text">
-              Powerful AI-Driven Features
+            <h2 className="text-5xl md:text-6xl font-figtree font-semibold mb-4">
+              <span className="gradient-text">Powerful</span>{' '}
+              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">AI-Driven Features</span>
             </h2>
-            <p className="text-xl font-figtree font-light text-gray-700 max-w-3xl mx-auto">
+            <p className="text-xl font-figtree font-light text-gray-300 max-w-3xl mx-auto">
               Transform your recruitment process with cutting-edge AI technology that learns, adapts, and delivers exceptional results.
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {coreFeatures.map((feature, index) => (
-              <motion.div
+              <GradientCard
                 key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full hover:shadow-2xl transition-all duration-500 group bg-white/80 backdrop-blur-sm border border-white/50 hover:bg-white/90 hover:scale-105">
-                  <CardHeader className="relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-2xl"></div>
-                    <div className="w-16 h-16 rounded-xl bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform relative z-10 shadow-lg">
-                      <feature.icon className="w-8 h-8 text-white" />
-                    </div>
-                    <CardTitle className="text-2xl mb-3 relative z-10">{feature.title}</CardTitle>
-                    <CardDescription className="text-base leading-relaxed mb-4 relative z-10 text-gray-600">
-                      {feature.description}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="relative z-10">
-                    <div className="space-y-2">
-                      {feature.benefits.map((benefit, idx) => (
-                        <div key={idx} className="flex items-center gap-2">
-                          <CheckCircle className="w-4 h-4 text-green-500" />
-                          <span className="text-sm font-medium text-gray-700">{benefit}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                benefits={feature.benefits}
+                index={index}
+              />
             ))}
           </div>
         </div>
@@ -332,84 +308,35 @@ export default function HomePageContent() {
 
       
 
-      {/* Enhanced How It Works Section */}
-      <section className="py-20 px-4">
+      {/* Enhanced How It Works Section with Animated Carousel */}
+      <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-black relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-8 sm:mb-12 md:mb-16"
           >
-            <h2 className="text-4xl font-figtree font-semibold mb-4 gradient-text">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-figtree font-semibold mb-3 sm:mb-4 text-white">
               How It Works
             </h2>
-            <p className="text-xl font-figtree font-light text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto px-4">
               Get started in minutes and see results immediately with our streamlined process
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                step: '01',
-                title: 'Create & Post Jobs',
-                description: 'Use our AI-optimized templates to create compelling job postings that attract top talent',
-                icon: FileText,
-                details: ['AI-optimized templates', 'Multi-channel posting', 'SEO optimization'],
-              },
-              {
-                step: '02',
-                title: 'AI Candidate Screening',
-                description: 'Our advanced AI analyzes and scores candidates based on your specific requirements',
-                icon: Brain,
-                details: ['Resume analysis', 'Skill matching', 'Bias-free evaluation'],
-              },
-              {
-                step: '03',
-                title: 'Review & Interview',
-                description: 'Review AI-ranked candidates with detailed insights and conduct smart interviews',
-                icon: Users,
-                details: ['Smart ranking', 'Interview scheduling', 'Collaborative review'],
-              },
-              {
-                step: '04',
-                title: 'Hire & Onboard',
-                description: 'Make data-driven hiring decisions and seamlessly onboard your new team members',
-                icon: CheckCircle,
-                details: ['Decision analytics', 'Offer management', 'Onboarding automation'],
-              },
-            ].map((step, index) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="relative mb-6">
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto group-hover:scale-110 transition-transform">
-                    <step.icon className="w-10 h-10 text-white" />
-                  </div>
-                  <div className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-white border-4 border-primary flex items-center justify-center shadow-lg">
-                    <span className="text-sm font-bold text-primary">{step.step}</span>
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold font-figtree mb-3">{step.title}</h3>
-                <p className="text-sm text-muted-foreground font-figtree font-light mb-4">{step.description}</p>
-                <div className="space-y-1">
-                  {step.details.map((detail, idx) => (
-                    <div key={idx} className="flex items-center justify-center gap-2">
-                      <CheckCircle className="w-3 h-3 text-green-500" />
-                      <span className="text-xs text-muted-foreground">{detail}</span>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <FeatureCarousel
+            image={{
+              alt: "How It Works - Recruitment Process",
+              step1img1: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1740&auto=format&fit=crop",
+              step1img2: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1740&auto=format&fit=crop",
+              step2img1: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1740&auto=format&fit=crop",
+              step2img2: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1740&auto=format&fit=crop",
+              step3img: "https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1740&auto=format&fit=crop",
+              step4img: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1740&auto=format&fit=crop",
+            }}
+          />
         </div>
       </section>
 
