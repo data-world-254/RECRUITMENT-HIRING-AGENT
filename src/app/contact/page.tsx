@@ -63,25 +63,6 @@ const contactInfo = [
   },
 ]
 
-const faqs = [
-  {
-    question: 'How quickly can I get started?',
-    answer: 'You can get started immediately with our 14-day free trial. No credit card required, and you\'ll have access to all features.',
-  },
-  {
-    question: 'Do you offer custom integrations?',
-    answer: 'Yes, we offer custom integrations for Enterprise customers. Our team can work with you to integrate with your existing systems.',
-  },
-  {
-    question: 'What kind of support do you provide?',
-    answer: 'We provide email support for all customers, priority support for Professional plans, and 24/7 phone support for Enterprise customers.',
-  },
-  {
-    question: 'Is my data secure?',
-    answer: 'Absolutely. We use enterprise-grade security with end-to-end encryption, GDPR compliance, and regular security audits.',
-  },
-]
-
 export default function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
 
@@ -388,45 +369,6 @@ export default function ContactPage() {
                 </CardContent>
               </Card>
             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-figtree font-semibold mb-4 gradient-text">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl font-figtree font-light text-muted-foreground">
-              Quick answers to common questions
-            </p>
-          </motion.div>
-
-          <div className="space-y-6">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="hover:shadow-lg transition-all duration-300">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold font-figtree mb-3">{faq.question}</h3>
-                    <p className="text-muted-foreground font-figtree font-light">{faq.answer}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
           </div>
         </div>
       </section>

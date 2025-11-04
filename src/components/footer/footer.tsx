@@ -12,29 +12,33 @@ import {
   Globe,
   Heart,
 } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { FooterBackgroundGradient } from '@/components/ui/hover-footer'
 import { TextHoverEffect } from '@/components/ui/hover-footer'
 
 export function Footer() {
-  // Footer link data
+  const shouldReduceMotion = useReducedMotion()
+  
+  // Footer link data - Production ready links
   const footerLinks = [
     {
-      title: "About Us",
+      title: "Product",
       links: [
-        { label: "Company History", href: "/about" },
-        { label: "Meet the Team", href: "/about#team" },
-        { label: "Employee Handbook", href: "/about#handbook" },
-        { label: "Careers", href: "/careers" },
+        { label: "Features", href: "/features" },
+        { label: "Pricing", href: "/pricing" },
+        { label: "How It Works", href: "/#how-it-works" },
+        { label: "Dashboard", href: "/dashboard" },
       ],
     },
     {
-      title: "Helpful Links",
+      title: "Company",
       links: [
-        { label: "FAQs", href: "/contact#faqs" },
-        { label: "Support", href: "/contact" },
+        { label: "About Us", href: "/about" },
+        { label: "Contact", href: "/contact" },
+        { label: "Support", href: "/contact#support" },
         {
-          label: "Live Chat",
-          href: "/contact#chat",
+          label: "Get Started",
+          href: "/auth/signup",
           pulse: true,
         },
       ],
@@ -69,7 +73,7 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-[#0F0F11]/10 relative h-fit rounded-3xl overflow-hidden m-8 mt-0">
+    <footer className="bg-black relative h-fit overflow-hidden">
       <FooterBackgroundGradient />
       
       <div className="max-w-7xl mx-auto p-8 sm:p-12 md:p-14 z-40 relative">
@@ -149,24 +153,10 @@ export function Footer() {
           </div>
         </div>
 
-        <hr className="border-t border-gray-700 my-8" />
+        <hr className="border-t border-gray-700 mt-8 mb-12" />
 
         {/* Footer bottom */}
-        <div className="flex flex-col md:flex-row justify-between items-center text-sm space-y-4 md:space-y-0">
-          {/* Social icons */}
-          <div className="flex space-x-6 text-gray-400">
-            {socialLinks.map(({ icon, label, href }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                className="hover:text-[#3ca2fa] transition-colors"
-              >
-                {icon}
-              </a>
-            ))}
-          </div>
-
+        <div className="flex flex-col md:flex-row justify-end items-center text-sm pb-4">
           {/* Copyright */}
           <p className="text-center md:text-left text-gray-400 font-figtree font-light">
             &copy; {new Date().getFullYear()} HR AI Agent. All rights reserved.
@@ -174,10 +164,53 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Text hover effect */}
-      <div className="lg:flex hidden h-[30rem] -mt-52 -mb-36">
-        <TextHoverEffect text="EMIL AI" className="z-50" />
-      </div>
+      {/* Text hover effect - Desktop only with dark blue shadow */}
+      <motion.div 
+        className="hidden lg:block relative w-full h-[28rem] -mt-32 pt-16 mb-[5px] overflow-visible"
+        initial={{ opacity: 0, y: 40, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{
+          duration: shouldReduceMotion ? 0 : 1.2,
+          ease: [0.22, 1, 0.36, 1],
+          delay: 0.3,
+        }}
+      >
+        {/* Dark blue shadow/glow effect behind the text */}
+        <motion.div 
+          className="absolute inset-0 z-40"
+          style={{
+            background: 'radial-gradient(ellipse 80% 50% at 50% 60%, rgba(30, 58, 138, 0.4) 0%, rgba(30, 58, 138, 0.2) 30%, transparent 70%)',
+            filter: 'blur(40px)',
+            transform: 'translateY(10%)',
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 1.5,
+            delay: 0.5,
+            ease: 'easeOut',
+          }}
+        />
+        {/* Additional subtle dark blue shadow for depth */}
+        <motion.div 
+          className="absolute inset-0 z-40"
+          style={{
+            background: 'radial-gradient(ellipse 60% 40% at 50% 65%, rgba(15, 23, 42, 0.6) 0%, transparent 60%)',
+            filter: 'blur(20px)',
+            transform: 'translateY(5%)',
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: shouldReduceMotion ? 0 : 1.5,
+            delay: 0.5,
+            ease: 'easeOut',
+          }}
+        />
+        <div className="relative z-50 w-full h-full flex items-center justify-center">
+          <TextHoverEffect text="EMIL AI" className="z-50 w-full h-full" />
+        </div>
+      </motion.div>
     </footer>
   )
 }

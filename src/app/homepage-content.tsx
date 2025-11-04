@@ -9,6 +9,8 @@ import { Testimonials } from '@/components/ui/testimonials-section'
 import { ModernPricingPage, PricingCardProps } from '@/components/ui/animated-glassy-pricing'
 import { GradientCard } from '@/components/ui/gradient-card'
 import { FeatureCarousel } from '@/components/ui/animated-feature-carousel'
+import { PricingBackground } from '@/components/ui/pricing-background'
+import StackingCardComponent from '@/components/ui/stacking-card'
 import { 
   Brain, 
   Users, 
@@ -130,35 +132,6 @@ export default function HomePageContent() {
     },
   ]
 
-  
-
-  const faqs = [
-    {
-      question: 'How accurate is the AI screening?',
-      answer: 'Our AI achieves 95% accuracy in candidate matching, with continuous learning to improve over time.',
-    },
-    {
-      question: 'Can I customize the screening criteria?',
-      answer: 'Yes, you can fully customize screening criteria, job requirements, and evaluation parameters.',
-    },
-    {
-      question: 'Does it integrate with our existing HR systems?',
-      answer: 'We integrate with 50+ popular HR systems including Workday, BambooHR, and custom APIs.',
-    },
-    {
-      question: 'Is my data secure and compliant?',
-      answer: 'We are SOC 2 Type II compliant with enterprise-grade security and GDPR compliance.',
-    },
-    {
-      question: 'What support do you provide?',
-      answer: 'We offer 24/7 support, dedicated account managers, and comprehensive training resources.',
-    },
-    {
-      question: 'Can I try before I buy?',
-      answer: 'Yes, we offer a 14-day free trial with full access to all features and no credit card required.',
-    },
-  ]
-
   return (
     <>
       {/* Animated 3D Background Shape for Content Sections */}
@@ -203,15 +176,9 @@ export default function HomePageContent() {
       </section>
 
       {/* Industry Solutions Section */}
-      <section className="py-20 px-4 relative overflow-hidden">
-        {/* Enhanced Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-secondary/5 to-primary/8"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-10 left-10 w-3 h-3 bg-primary/30 rounded-full animate-pulse"></div>
-        <div className="absolute top-32 right-20 w-2 h-2 bg-secondary/40 rounded-full animate-pulse delay-300"></div>
-        <div className="absolute bottom-20 left-32 w-4 h-4 bg-primary/20 rounded-full animate-pulse delay-700"></div>
+      <section className="py-20 px-4 relative overflow-hidden bg-black min-h-screen">
+        {/* Pricing Background Effects */}
+        <PricingBackground />
         
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
@@ -221,14 +188,14 @@ export default function HomePageContent() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-2 mb-6">
-              <Building2 className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-gray-700">Tools, security, and integrations</span>
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6">
+              <Building2 className="w-4 h-4 text-[#3ca2fa]" />
+              <span className="text-sm font-medium text-white/80">Tools, security, and integrations</span>
             </div>
-            <h2 className="text-4xl font-figtree font-semibold mb-4 gradient-text">
+            <h2 className="text-4xl font-figtree font-semibold mb-4 text-white">
               Industry-Specific Solutions
             </h2>
-            <p className="text-xl font-figtree font-light text-gray-700 max-w-2xl mx-auto">
+            <p className="text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto">
               Tailored recruitment solutions for every industry with specialized screening and assessment tools.
             </p>
           </motion.div>
@@ -242,15 +209,15 @@ export default function HomePageContent() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="h-full hover:shadow-2xl transition-all duration-500 group bg-white/70 backdrop-blur-sm border border-white/40 hover:bg-white/80 hover:scale-105 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-xl"></div>
+                <Card className="h-full hover:shadow-2xl transition-all duration-500 group bg-neutral-900/80 backdrop-blur-sm border border-neutral-800/50 hover:bg-neutral-900/90 hover:scale-105 relative overflow-hidden hover:border-[#3ca2fa]/50">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#3ca2fa]/20 to-blue-600/20 rounded-full blur-xl"></div>
                   <CardContent className="p-6 relative z-10">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-primary to-secondary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+                    <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#3ca2fa] to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-[#3ca2fa]/30">
                       <solution.icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-gray-800">{solution.title}</h3>
-                    <p className="text-sm text-gray-600 mb-3">{solution.description}</p>
-                    <div className="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full inline-block">{solution.metrics}</div>
+                    <h3 className="text-lg font-semibold mb-2 text-white">{solution.title}</h3>
+                    <p className="text-sm text-gray-300 mb-3">{solution.description}</p>
+                    <div className="text-sm font-medium text-[#3ca2fa] bg-[#3ca2fa]/10 px-3 py-1 rounded-full inline-block border border-[#3ca2fa]/20">{solution.metrics}</div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -259,48 +226,37 @@ export default function HomePageContent() {
         </div>
       </section>
 
-      {/* Business Benefits Section */}
-      <section className="py-20 px-4">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-figtree font-semibold mb-4 gradient-text">
-              Measurable Business Impact
-            </h2>
-            <p className="text-xl font-figtree font-light text-muted-foreground max-w-2xl mx-auto">
-              See the real impact on your bottom line with our comprehensive ROI tracking and analytics.
-            </p>
-          </motion.div>
+      {/* Business Benefits Section - Stacking Cards */}
+      <StackingCardComponent
+        projects={businessBenefits.map((benefit) => {
+          // Map colors by title as specified
+          const colorMap: Record<string, string> = {
+            'Reduce Hiring Costs': '#2D2DDD',
+            'Faster Time-to-Hire': '#06B6D4',
+            'Higher Quality Hires': '#2D2DDD',
+            'Compliance & Security': '#06B6D4',
+          };
+          
+          // Select appropriate images for each benefit
+          const imageMap: Record<string, string> = {
+            'Reduce Hiring Costs': 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1000&auto=format&fit=crop',
+            'Faster Time-to-Hire': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
+            'Higher Quality Hires': 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1000&auto=format&fit=crop',
+            'Compliance & Security': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop',
+          };
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {businessBenefits.map((benefit, index) => (
-              <motion.div
-                key={benefit.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="h-full hover:shadow-lg transition-all duration-300">
-                  <CardContent className="p-6 text-center">
-                    <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${benefit.color} flex items-center justify-center mx-auto mb-4`}>
-                      <benefit.icon className="w-8 h-8 text-white" />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-2">{benefit.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-3">{benefit.description}</p>
-                    <div className="text-2xl font-bold text-primary">{benefit.value}</div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+          return {
+            title: benefit.title,
+            description: benefit.description,
+            link: imageMap[benefit.title] || 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1000&auto=format&fit=crop',
+            color: colorMap[benefit.title] || '#4A0DBA',
+            value: benefit.value,
+            icon: benefit.icon,
+          };
+        })}
+        heading="Measurable Business Impact"
+        subheading="See the real impact on your bottom line with our comprehensive ROI tracking and analytics."
+      />
 
       
 
@@ -337,49 +293,6 @@ export default function HomePageContent() {
               step4img: "https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1740&auto=format&fit=crop",
             }}
           />
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-figtree font-semibold mb-4 gradient-text">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl font-figtree font-light text-muted-foreground max-w-2xl mx-auto">
-              Get answers to common questions about our AI-powered recruitment platform
-            </p>
-          </motion.div>
-
-          <div className="space-y-6">
-            {faqs.map((faq, index) => (
-              <motion.div
-                key={faq.question}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Card className="hover:shadow-lg transition-all duration-300">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold mb-3 text-gray-900 font-figtree">
-                      {faq.question}
-                    </h3>
-                    <p className="text-muted-foreground font-figtree font-light">
-                      {faq.answer}
-                    </p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 

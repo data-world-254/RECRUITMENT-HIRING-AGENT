@@ -59,19 +59,16 @@ export const TextHoverEffect = memo(({
         <linearGradient
           id="textGradient"
           gradientUnits="userSpaceOnUse"
-          cx="50%"
-          cy="50%"
-          r="25%"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="0%"
         >
-          {hovered && (
-            <>
-              <stop offset="0%" stopColor="#eab308" />
-              <stop offset="25%" stopColor="#ef4444" />
-              <stop offset="50%" stopColor="#80eeb4" />
-              <stop offset="75%" stopColor="#06b6d4" />
-              <stop offset="100%" stopColor="#8b5cf6" />
-            </>
-          )}
+          <stop offset="0%" stopColor="#eab308" stopOpacity={hovered ? 1 : 0} />
+          <stop offset="25%" stopColor="#ef4444" stopOpacity={hovered ? 1 : 0} />
+          <stop offset="50%" stopColor="#80eeb4" stopOpacity={hovered ? 1 : 0} />
+          <stop offset="75%" stopColor="#06b6d4" stopOpacity={hovered ? 1 : 0} />
+          <stop offset="100%" stopColor="#8b5cf6" stopOpacity={hovered ? 1 : 0} />
         </linearGradient>
 
         <radialGradient
@@ -110,9 +107,9 @@ export const TextHoverEffect = memo(({
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
-        className="fill-transparent stroke-[#3ca2fa] font-figtree text-7xl font-bold 
-        dark:stroke-[#3ca2fa99]"
+        strokeWidth="0.5"
+        className="fill-transparent stroke-[#3ca2fa] font-figtree text-7xl font-bold"
+        style={{ opacity: hovered ? 0.3 : 1 }}
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
@@ -131,9 +128,10 @@ export const TextHoverEffect = memo(({
         textAnchor="middle"
         dominantBaseline="middle"
         stroke="url(#textGradient)"
-        strokeWidth="0.3"
+        strokeWidth="0.5"
         mask="url(#textMask)"
         className="fill-transparent font-figtree text-7xl font-bold"
+        style={{ opacity: hovered ? 1 : 0 }}
       >
         {text}
       </text>

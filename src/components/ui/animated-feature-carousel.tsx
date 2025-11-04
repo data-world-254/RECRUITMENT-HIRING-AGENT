@@ -230,7 +230,7 @@ const FeatureCard = memo(({ children, step }: { children: React.ReactNode; step:
       } as WrapperStyle}
     >
       <div 
-        className="relative w-full overflow-hidden rounded-3xl backdrop-blur-sm transition-colors duration-300"
+        className="relative w-full overflow-hidden rounded-[25px] backdrop-blur-sm transition-colors duration-300 h-[480px] lg:h-[560px]"
         style={{
           backgroundColor: "#4A4A4A",
           borderWidth: "1.6px",
@@ -238,7 +238,7 @@ const FeatureCard = memo(({ children, step }: { children: React.ReactNode; step:
           borderStyle: "solid"
         }}
       >
-        <div className="m-4 sm:m-6 md:m-8 lg:m-10 min-h-[350px] sm:min-h-[400px] md:min-h-[450px] lg:min-h-[500px] w-full">
+        <div className="m-4 sm:m-6 md:m-8 lg:m-10 min-h-[350px] sm:min-h-[400px] md:min-h-[450px] lg:h-full w-full">
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
@@ -385,7 +385,7 @@ export const FeatureCarousel = memo(({
   }, [step, image, step1img1Class, step1img2Class, step2img1Class, step2img2Class, step3imgClass, step4imgClass, shouldReduceMotion])
 
   return (
-    <div className="flex flex-col gap-8 sm:gap-10 md:gap-12 w-full max-w-4xl mx-auto p-2 sm:p-4 md:p-6">
+    <div className="flex flex-col gap-8 sm:gap-10 md:gap-12 w-[90%] lg:w-[95%] mx-auto p-2 sm:p-4 md:p-6">
         <FeatureCard {...props} step={step}>
             <AnimatePresence mode="wait">
                 <motion.div 
