@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 255 255 255;
+    --foreground: 0 0 0;
+    --primary: 229 26 229;
+    --primary-foreground: 255 255 255;
+    --secondary: 0 194 212;
+    --secondary-foreground: 255 255 255;
+    --border: 229 231 235;
+    --muted: 249 250 251;
+    --muted-foreground: 107 114 128;
+  }
+
+  .dark {
+    --background: 0 0 0;
+    --foreground: 255 255 255;
+    --primary: 229 26 229;
+    --primary-foreground: 255 255 255;
+    --secondary: 0 194 212;
+    --secondary-foreground: 255 255 255;
+    --border: 55 65 81;
+    --muted: 31 41 55;
+    --muted-foreground: 156 163 175;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-figtree), 'Figtree';
+  }
+  
+  /* Ensure Figtree font is applied to all text elements */
+  h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
+    font-family: var(--font-figtree), 'Figtree';
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+  }
+
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/10 border border-white/20;
+  }
+
+  .glow-effect {
+    @apply shadow-glow hover:shadow-glow-secondary transition-all duration-300;
+  }
+
+  .animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+@layer utilities {
+  .animate-spin-smooth {
+    @apply transform-gpu;
+    will-change: transform;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #E51AE5, #00C2D4);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #D10BC7, #00A8B8);
+}
