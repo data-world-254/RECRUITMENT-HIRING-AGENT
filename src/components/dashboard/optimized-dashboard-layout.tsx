@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Sidebar } from './sidebar'
 import { useAuth } from '@/hooks/use-auth'
@@ -59,10 +60,27 @@ const LazyProfileSection = dynamic(
 
 export function OptimizedDashboardLayout() {
   const { user } = useAuth()
+  const pathname = usePathname()
+  const router = useRouter()
   const [activeSection, setActiveSection] = useState('overview')
   const [isPreloading, setIsPreloading] = useState(true)
   const [preloadTime, setPreloadTime] = useState<number>(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
+  // Sync active section with URL pathname
+  useEffect(() => {
+    if (pathname === '/dashboard') {
+      setActiveSection('overview')
+    } else if (pathname === '/dashboard/jobs') {
+      setActiveSection('jobs')
+    } else if (pathname === '/dashboard/reports') {
+      setActiveSection('reports')
+    } else if (pathname === '/dashboard/interviews') {
+      setActiveSection('interviews')
+    } else if (pathname === '/dashboard/profile') {
+      setActiveSection('profile')
+    }
+  }, [pathname])
 
   // Preload critical data for instant rendering
   const preloadCriticalData = useCallback(async () => {
@@ -114,10 +132,20 @@ export function OptimizedDashboardLayout() {
     }
   }, [activeSection, isPreloading])
 
-  // Optimized section change handler
+  // Optimized section change handler - now includes URL navigation
   const handleSectionChange = useCallback((section: string) => {
     setActiveSection(section)
-  }, [])
+    // Update URL using Next.js router for proper client-side navigation
+    const sectionMap: Record<string, string> = {
+      overview: '/dashboard',
+      jobs: '/dashboard/jobs',
+      reports: '/dashboard/reports',
+      interviews: '/dashboard/interviews',
+      profile: '/dashboard/profile'
+    }
+    const newPath = sectionMap[section] || '/dashboard'
+    router.push(newPath)
+  }, [router])
 
   return (
     <div className="flex min-h-screen bg-white dark:bg-black text-foreground">
