@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Download, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -23,16 +23,7 @@ export function ApplicantReportModal({ isOpen, onClose, jobPosting }: ApplicantR
   const [error, setError] = useState<string | null>(null)
   const [isDownloading, setIsDownloading] = useState(false)
 
-  useEffect(() => {
-    if (isOpen && jobPosting) {
-      loadApplicants()
-    } else {
-      setApplicants([])
-      setError(null)
-    }
-  }, [isOpen, jobPosting])
-
-  const loadApplicants = async () => {
+  const loadApplicants = useCallback(async () => {
     if (!jobPosting) return
     
     setIsLoading(true)
@@ -54,7 +45,16 @@ export function ApplicantReportModal({ isOpen, onClose, jobPosting }: ApplicantR
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [jobPosting])
+
+  useEffect(() => {
+    if (isOpen && jobPosting) {
+      loadApplicants()
+    } else {
+      setApplicants([])
+      setError(null)
+    }
+  }, [isOpen, jobPosting, loadApplicants])
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status.toLowerCase()) {

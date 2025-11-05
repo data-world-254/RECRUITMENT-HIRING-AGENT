@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -41,13 +41,7 @@ export function SettingsSection() {
     hr_email: '',
   })
 
-  useEffect(() => {
-    if (user) {
-      loadCompanyData()
-    }
-  }, [user])
-
-  const loadCompanyData = async () => {
+  const loadCompanyData = useCallback(async () => {
     if (!user) return
 
     try {
@@ -76,7 +70,13 @@ export function SettingsSection() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (user) {
+      loadCompanyData()
+    }
+  }, [user, loadCompanyData])
 
   const handleSave = async () => {
     if (!user || !company) return

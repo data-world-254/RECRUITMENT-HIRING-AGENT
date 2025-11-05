@@ -58,7 +58,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [shapes.length])
 
   const currentShape = shapes[shapeIndex]
 

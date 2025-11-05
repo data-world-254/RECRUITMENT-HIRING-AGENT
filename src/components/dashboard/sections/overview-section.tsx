@@ -93,14 +93,18 @@ export function OverviewSection() {
       if (jobs) {
         setJobPostings(jobs)
         // Set default to first active job or first job (only if no job is selected)
-        if (selectedJobId === 'all' || !jobs.find(j => j.id === selectedJobId)) {
-          const activeJob = jobs.find(j => j.status === 'active')
-          if (activeJob) {
-            setSelectedJobId(activeJob.id)
-          } else if (jobs.length > 0) {
-            setSelectedJobId(jobs[0].id)
+        // Use functional setState to avoid dependency on selectedJobId
+        setSelectedJobId(prev => {
+          if (prev === 'all' || !jobs.find(j => j.id === prev)) {
+            const activeJob = jobs.find(j => j.status === 'active')
+            if (activeJob) {
+              return activeJob.id
+            } else if (jobs.length > 0) {
+              return jobs[0].id
+            }
           }
-        }
+          return prev
+        })
       }
       
       const jobIds = jobs?.map(job => job.id) || []
@@ -263,7 +267,7 @@ export function OverviewSection() {
         loadAllJobsAnalytics(jobIds)
       }
     }
-  }, [selectedJobId, jobPostings.length])
+  }, [selectedJobId, jobPostings, loadJobAnalytics, loadAllJobsAnalytics])
 
   // Set up real-time subscriptions for data updates
   useAnalyticsRealtime(() => {

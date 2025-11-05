@@ -9,7 +9,8 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-dialog', '@radix-ui/react-popover', '@radix-ui/react-select'],
-    optimizeCss: true,
+    // Disable optimizeCss to avoid critters dependency issue on Render
+    // optimizeCss: true,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
