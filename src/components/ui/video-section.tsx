@@ -67,13 +67,13 @@ export default function VideoSection({
   }, [videoSrc])
 
   return (
-    <section className="relative w-full bg-black py-20 px-4 md:py-24">
+    <section className="relative w-full bg-black pt-4 pb-20 px-4 md:pt-12 md:pb-24">
       <div className="container mx-auto max-w-6xl">
         {/* Section Header */}
         {(title || description) && (
           <div className="text-center mb-12 md:mb-16">
             {title && (
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extralight text-white mb-4">
+              <h2 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight text-white mb-4">
                 {title}
               </h2>
             )}

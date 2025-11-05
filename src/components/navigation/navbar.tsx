@@ -9,43 +9,19 @@ import {
   Brain, 
   Menu, 
   X, 
-  ChevronDown,
-  Users,
-  BarChart3,
   ArrowRight
 } from 'lucide-react'
+import { GradientButton } from '@/components/ui/gradient-button'
 
 const navigation = [
+  { name: 'Home', href: '/' },
   { name: 'Features', href: '/features' },
   { name: 'Pricing', href: '/pricing' },
-  { name: 'About', href: '/about' },
   { name: 'Contact', href: '/contact' },
-]
-
-const solutions = [
-  {
-    name: 'AI-Powered Screening',
-    description: 'Automated resume analysis and candidate matching',
-    href: '/features#screening',
-    icon: Brain,
-  },
-  {
-    name: 'Analytics Dashboard',
-    description: 'Real-time insights and recruitment metrics',
-    href: '/features#analytics',
-    icon: BarChart3,
-  },
-  {
-    name: 'Team Collaboration',
-    description: 'Streamlined hiring process for teams',
-    href: '/features#collaboration',
-    icon: Users,
-  },
 ]
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [solutionsOpen, setSolutionsOpen] = useState(false)
   const { user } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
@@ -80,47 +56,6 @@ export function Navbar() {
 
         {/* Desktop navigation */}
         <div className="hidden lg:flex lg:gap-x-12">
-          {/* Solutions dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-white hover:text-white/80 transition-colors"
-              onMouseEnter={() => setSolutionsOpen(true)}
-              onMouseLeave={() => setSolutionsOpen(false)}
-            >
-              Solutions
-              <ChevronDown className="h-5 w-5 flex-none text-white/70" aria-hidden="true" />
-            </button>
-
-            {solutionsOpen && (
-              <div
-                className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition-all duration-200"
-                onMouseEnter={() => setSolutionsOpen(true)}
-                onMouseLeave={() => setSolutionsOpen(false)}
-              >
-                  <div className="p-4">
-                    {solutions.map((item) => (
-                      <div
-                        key={item.name}
-                        className="group relative flex gap-x-6 rounded-lg p-4 hover:bg-gray-50"
-                      >
-                        <div className="mt-1 flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                          <item.icon className="h-6 w-6 text-gray-600 group-hover:text-primary" aria-hidden="true" />
-                        </div>
-                        <div>
-                          <Link href={item.href} className="font-semibold text-gray-900">
-                            {item.name}
-                            <span className="absolute inset-0" />
-                          </Link>
-                          <p className="mt-1 text-gray-600">{item.description}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-              </div>
-            )}
-          </div>
-
           {navigation.map((item) => (
             <Link
               key={item.name}
@@ -137,14 +72,12 @@ export function Navbar() {
         {/* CTA buttons */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
           {user ? (
-            <Button
+            <GradientButton
               onClick={() => router.push('/dashboard')}
-              variant="gradient"
-              className="group"
+              showArrow={false}
             >
               Dashboard
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </Button>
+            </GradientButton>
           ) : (
             <>
               <Button
@@ -153,14 +86,11 @@ export function Navbar() {
               >
                 Sign in
               </Button>
-              <Button
-                variant="gradient"
+              <GradientButton
                 onClick={() => router.push('/auth/signup')}
-                className="group"
               >
                 Get Started
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
+              </GradientButton>
             </>
           )}
         </div>
@@ -193,19 +123,6 @@ export function Navbar() {
               <div className="mt-6 flow-root">
                 <div className="-my-6 divide-y divide-gray-500/10">
                   <div className="space-y-2 py-6">
-                    {solutions.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="flex items-center gap-x-3 rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <item.icon className="h-5 w-5 text-primary" />
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                  <div className="space-y-2 py-6">
                     {navigation.map((item) => (
                       <Link
                         key={item.name}
@@ -219,17 +136,16 @@ export function Navbar() {
                   </div>
                   <div className="py-6">
                     {user ? (
-                      <Button
+                      <GradientButton
                         onClick={() => {
                           router.push('/dashboard')
                           setMobileMenuOpen(false)
                         }}
-                        variant="gradient"
-                        className="w-full group"
+                        showArrow={false}
+                        className="w-full"
                       >
                         Dashboard
-                        <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </Button>
+                      </GradientButton>
                     ) : (
                       <div className="space-y-3">
                         <Button
@@ -242,17 +158,15 @@ export function Navbar() {
                         >
                           Sign in
                         </Button>
-                        <Button
-                          variant="gradient"
+                        <GradientButton
                           onClick={() => {
                             router.push('/auth/signup')
                             setMobileMenuOpen(false)
                           }}
-                          className="w-full group"
+                          className="w-full"
                         >
                           Get Started
-                          <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
+                        </GradientButton>
                       </div>
                     )}
                   </div>

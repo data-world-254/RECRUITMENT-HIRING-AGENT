@@ -10,7 +10,9 @@ const figtree = Figtree({
   variable: '--font-figtree',
   display: 'swap',
   preload: true,
-  fallback: [],
+  fallback: ['system-ui', 'arial'],
+  // Optimize font loading
+  adjustFontFallback: true,
 })
 
 export const metadata: Metadata = {

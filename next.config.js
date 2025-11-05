@@ -39,7 +39,25 @@ const nextConfig = {
       { file: /\.nft\.json/ },
       { message: /webpack\.cache\.PackFileCacheStrategy/ },
       { message: /FileSystemInfo/ },
+      { message: /Skipped not serializable cache item/ },
+      { message: /while serializing/ },
     ]
+
+    // Configure webpack cache to handle serialization better
+    if (dev && config.cache) {
+      config.cache = {
+        ...config.cache,
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    // Suppress specific warnings at the compilation level
+    config.infrastructureLogging = {
+      level: 'error',
+    }
 
     // Fix for ESM modules - handle default exports properly
     if (!isServer) {

@@ -16,12 +16,20 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+  // Start with loading false to prevent blocking initial render
+  // Auth check happens in background
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // Get initial session
+    // Set loading to true only when we start checking
+    setLoading(true)
+    
+    // Get initial session - non-blocking
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
+      setLoading(false)
+    }).catch(() => {
+      // If session check fails, don't block - just set loading to false
       setLoading(false)
     })
 

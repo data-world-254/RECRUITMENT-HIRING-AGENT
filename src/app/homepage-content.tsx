@@ -5,12 +5,27 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import Animated3DShape from '@/components/ui/animated-3d-shape'
-import { Testimonials } from '@/components/ui/testimonials-section'
-import { ModernPricingPage, PricingCardProps } from '@/components/ui/animated-glassy-pricing'
+import PricingSection from '@/components/ui/pricing-section'
 import { GradientCard } from '@/components/ui/gradient-card'
 import { FeatureCarousel } from '@/components/ui/animated-feature-carousel'
-import { PricingBackground } from '@/components/ui/pricing-background'
 import StackingCardComponent from '@/components/ui/stacking-card'
+import PricingBackground from '@/components/ui/pricing-background'
+import { useRef, Suspense } from 'react'
+import dynamic from 'next/dynamic'
+import ContactSection from '@/components/ui/contact-section'
+
+// Lazy load the heavy Three.js component for better performance
+const AnimatedShaderBackground = dynamic(
+  () => import('@/components/ui/animated-shader-background'),
+  { 
+    ssr: false, // Disable SSR for WebGL components
+    loading: () => (
+      <div className="w-full h-[600px] md:h-[700px] lg:h-screen bg-black relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-black" />
+      </div>
+    )
+  }
+)
 import { 
   Brain, 
   Users, 
@@ -34,6 +49,7 @@ import {
 
 export default function HomePageContent() {
   const router = useRouter()
+  const backgroundRef = useRef<HTMLDivElement>(null)
 
   const coreFeatures = [
     {
@@ -151,9 +167,9 @@ export default function HomePageContent() {
               <Brain className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-white/80">Your all-in-one AI engine</span>
             </div>
-            <h2 className="text-5xl md:text-6xl font-figtree font-semibold mb-4">
-              <span className="gradient-text">Powerful</span>{' '}
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">AI-Driven Features</span>
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight mb-4 text-white">
+              <span>Powerful</span>{' '}
+              <span>AI-Driven Features</span>
             </h2>
             <p className="text-xl font-figtree font-light text-gray-300 max-w-3xl mx-auto">
               Transform your recruitment process with cutting-edge AI technology that learns, adapts, and delivers exceptional results.
@@ -177,9 +193,9 @@ export default function HomePageContent() {
 
       {/* Industry Solutions Section */}
       <section className="py-20 px-4 relative overflow-hidden bg-black min-h-screen">
-        {/* Pricing Background Effects */}
-        <PricingBackground />
-        
+        <div ref={backgroundRef} className="absolute inset-0 w-full h-full">
+          <PricingBackground backgroundRef={backgroundRef} />
+        </div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -192,7 +208,7 @@ export default function HomePageContent() {
               <Building2 className="w-4 h-4 text-[#3ca2fa]" />
               <span className="text-sm font-medium text-white/80">Tools, security, and integrations</span>
             </div>
-            <h2 className="text-4xl font-figtree font-semibold mb-4 text-white">
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight mb-4 text-white">
               Industry-Specific Solutions
             </h2>
             <p className="text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto">
@@ -274,7 +290,7 @@ export default function HomePageContent() {
             viewport={{ once: true }}
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-figtree font-semibold mb-3 sm:mb-4 text-white">
+            <h2 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight mb-3 sm:mb-4 text-white">
               How It Works
             </h2>
             <p className="text-base sm:text-lg md:text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto px-4">
@@ -296,165 +312,23 @@ export default function HomePageContent() {
         </div>
       </section>
 
-      {/* Enhanced Testimonials Section */}
-      <Testimonials />
-
-      
-
-      {/* Enhanced CTA Section */}
-      <section className="py-20 px-4 relative overflow-hidden">
-        {/* Dynamic Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-secondary/10 to-primary/15"></div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-        
-        {/* Animated Background Shapes */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-32 right-32 w-4 h-4 bg-primary/40 rounded-full animate-bounce delay-300"></div>
-        <div className="absolute bottom-32 left-32 w-6 h-6 bg-secondary/30 rounded-full animate-bounce delay-700"></div>
-        <div className="absolute top-1/2 left-1/4 w-3 h-3 bg-primary/50 rounded-full animate-bounce delay-1000"></div>
-        
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <div className="bg-white/90 backdrop-blur-xl rounded-3xl p-12 shadow-2xl border border-white/50 relative overflow-hidden">
-              {/* Background Elements */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-secondary/10 to-primary/10 rounded-full blur-3xl"></div>
-              
-              <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 bg-white/30 backdrop-blur-md border border-white/40 rounded-full px-4 py-2 mb-6">
-                  <Sparkles className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-medium text-gray-700">Launch with AI Precision</span>
-                </div>
-                
-                <h2 className="text-5xl font-figtree font-semibold mb-6 gradient-text">
-                  Ready to Transform Your Hiring?
-                </h2>
-                <p className="text-xl font-figtree font-light text-gray-700 mb-8 max-w-2xl mx-auto">
-                  Join thousands of companies already using our AI-powered recruitment platform. 
-                  Start your free trial today and see the difference AI can make.
-                </p>
-                
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                  <Button
-                    size="xl"
-                    variant="gradient"
-                    onClick={() => router.push('/auth/signup')}
-                    className="group bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-                  >
-                    Get Started
-                    <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                  <Button
-                    size="xl"
-                    variant="outline"
-                    onClick={() => router.push('/pricing')}
-                    className="group bg-white/30 backdrop-blur-md border-white/40 hover:bg-white/40 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                  >
-                    Learn More
-                    <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-600">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>14-day free trial</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>No credit card required</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4 text-green-500" />
-                    <span>24/7 support</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* Pricing Section */}
-      <section className="relative py-24 px-4 bg-black overflow-hidden">
-        <ModernPricingPage
-          title={
-            <>
-              Simple, Transparent <span style={{ color: '#4A0DBA' }}>Pricing</span>
-            </>
-          }
-          subtitle="Choose the perfect plan for your team. Start free, upgrade anytime."
-          plans={[
-            {
-              planName: 'Starter',
-              description: 'Perfect for small teams getting started with AI recruitment',
-              price: '29',
-              features: [
-                'Up to 100 job postings',
-                'Basic AI screening',
-                'Email support',
-                'Standard analytics',
-                'Team of up to 5 users',
-                'Basic integrations',
-              ],
-              buttonText: 'Get Started',
-              isPopular: false,
-              buttonVariant: 'secondary',
-              onButtonClick: () => router.push('/auth/signup'),
-            },
-            {
-              planName: 'Professional',
-              description: 'Advanced features for growing companies and HR teams',
-              price: '79',
-              features: [
-                'Unlimited job postings',
-                'Advanced AI screening',
-                'Priority support',
-                'Advanced analytics',
-                'Team of up to 25 users',
-                'All integrations',
-                'Custom workflows',
-                'Advanced reporting',
-                'API access',
-              ],
-              buttonText: 'Get Started',
-              isPopular: true,
-              buttonVariant: 'primary',
-              onButtonClick: () => router.push('/auth/signup'),
-            },
-            {
-              planName: 'Enterprise',
-              description: 'Complete solution for large organizations with custom needs',
-              price: '199',
-              features: [
-                'Everything in Professional',
-                'Unlimited users',
-                'White-label solution',
-                'Custom AI training',
-                'Dedicated account manager',
-                '24/7 phone support',
-                'Custom integrations',
-                'Advanced security',
-                'SLA guarantee',
-                'Custom deployment',
-              ],
-              buttonText: 'Contact Sales',
-              isPopular: false,
-              buttonVariant: 'primary',
-              onButtonClick: () => router.push('/contact'),
-            },
-          ]}
-          showAnimatedBackground={true}
-        />
+      <section className="relative bg-black overflow-hidden">
+        <PricingSection />
+      </section>
+
+      {/* Animated Shader Background Section with Contact overlay */}
+      <section className="relative bg-black overflow-hidden">
+        <Suspense fallback={
+          <div className="w-full h-[600px] md:h-[700px] lg:h-screen bg-black relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-black" />
+          </div>
+        }>
+          <AnimatedShaderBackground />
+        </Suspense>
+        {/* Overlay content */}
+        <ContactSection />
       </section>
     </>
   )

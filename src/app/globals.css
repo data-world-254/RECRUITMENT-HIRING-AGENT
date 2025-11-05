@@ -41,6 +41,26 @@
   h1, h2, h3, h4, h5, h6, p, span, div, a, button, input, textarea, select, label {
     font-family: var(--font-figtree), 'Figtree';
   }
+  
+  /* All headings use the same size and weight as hero section */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 200; /* font-extralight */
+    font-size: 3rem; /* text-5xl */
+    line-height: 1.05;
+    letter-spacing: -0.025em; /* tracking-tight */
+  }
+  
+  @media (min-width: 640px) {
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 3.75rem; /* sm:text-6xl */
+    }
+  }
+  
+  @media (min-width: 768px) {
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 4.5rem; /* md:text-7xl */
+    }
+  }
 }
 
 @layer components {
@@ -78,6 +98,19 @@
   .animate-spin-smooth {
     @apply transform-gpu;
     will-change: transform;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
   }
 }
 
