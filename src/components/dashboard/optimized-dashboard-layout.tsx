@@ -1,25 +1,60 @@
 'use client'
 
-import { useState, useEffect, useCallback, Suspense, lazy } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import dynamic from 'next/dynamic'
 import { Sidebar } from './sidebar'
 import { useAuth } from '@/hooks/use-auth'
-
-// Lazy load all sections for optimal performance
-const LazyOverviewSection = lazy(() => import('./sections/overview-section').then(m => ({ default: m.OverviewSection })))
-const LazyJobsSection = lazy(() => import('./sections/jobs-section').then(m => ({ default: m.JobsSection })))
-const LazyRealCandidatesSection = lazy(() => import('./sections/real-candidates-section').then(m => ({ default: m.RealCandidatesSection })))
-const LazyReportsSection = lazy(() => import('./sections/reports-section').then(m => ({ default: m.ReportsSection })))
-const LazyInterviewsSection = lazy(() => import('./sections/interviews-section').then(m => ({ default: m.InterviewsSection })))
-const LazySettingsSection = lazy(() => import('./sections/settings-section').then(m => ({ default: m.SettingsSection })))
+import { ToggleTheme } from '@/components/ui/toggle-theme'
 
 // Loading component for sections
 const SectionLoader = ({ sectionName }: { sectionName: string }) => (
   <div className="flex items-center justify-center py-12">
     <div className="text-center">
-        <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin-smooth mx-auto mb-4"></div>
-      <p className="text-muted-foreground">Loading {sectionName}...</p>
+      <div className="w-8 h-8 border-4 border-[#2D2DDD] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <p className="text-gray-600 dark:text-gray-400">Loading {sectionName}...</p>
     </div>
   </div>
+)
+
+// Lazy load all sections for optimal performance using Next.js dynamic imports
+const LazyOverviewSection = dynamic(
+  () => import('./sections/overview-section').then(mod => ({ default: mod.OverviewSection })),
+  { 
+    loading: () => <SectionLoader sectionName="overview" />,
+    ssr: false 
+  }
+)
+
+const LazyJobsSection = dynamic(
+  () => import('./sections/jobs-section').then(mod => ({ default: mod.JobsSection })),
+  { 
+    loading: () => <SectionLoader sectionName="jobs" />,
+    ssr: false 
+  }
+)
+
+const LazyReportsSection = dynamic(
+  () => import('./sections/reports-section').then(mod => ({ default: mod.ReportsSection })),
+  { 
+    loading: () => <SectionLoader sectionName="reports" />,
+    ssr: false 
+  }
+)
+
+const LazyInterviewsSection = dynamic(
+  () => import('./sections/interviews-section').then(mod => ({ default: mod.InterviewsSection })),
+  { 
+    loading: () => <SectionLoader sectionName="interviews" />,
+    ssr: false 
+  }
+)
+
+const LazyProfileSection = dynamic(
+  () => import('./sections/profile-section').then(mod => ({ default: mod.ProfileSection })),
+  { 
+    loading: () => <SectionLoader sectionName="profile" />,
+    ssr: false 
+  }
 )
 
 export function OptimizedDashboardLayout() {
@@ -27,6 +62,7 @@ export function OptimizedDashboardLayout() {
   const [activeSection, setActiveSection] = useState('overview')
   const [isPreloading, setIsPreloading] = useState(true)
   const [preloadTime, setPreloadTime] = useState<number>(0)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Preload critical data for instant rendering
   const preloadCriticalData = useCallback(async () => {
@@ -64,47 +100,17 @@ export function OptimizedDashboardLayout() {
 
     switch (activeSection) {
       case 'overview':
-        return (
-          <Suspense fallback={<SectionLoader sectionName="overview" />}>
-            <LazyOverviewSection />
-          </Suspense>
-        )
+        return <LazyOverviewSection />
       case 'jobs':
-        return (
-          <Suspense fallback={<SectionLoader sectionName="jobs" />}>
-            <LazyJobsSection />
-          </Suspense>
-        )
-      case 'candidates':
-        return (
-          <Suspense fallback={<SectionLoader sectionName="candidates" />}>
-            <LazyRealCandidatesSection />
-          </Suspense>
-        )
+        return <LazyJobsSection />
       case 'reports':
-        return (
-          <Suspense fallback={<SectionLoader sectionName="reports" />}>
-            <LazyReportsSection />
-          </Suspense>
-        )
+        return <LazyReportsSection />
       case 'interviews':
-        return (
-          <Suspense fallback={<SectionLoader sectionName="interviews" />}>
-            <LazyInterviewsSection />
-          </Suspense>
-        )
-      case 'settings':
-        return (
-          <Suspense fallback={<SectionLoader sectionName="settings" />}>
-            <LazySettingsSection />
-          </Suspense>
-        )
+        return <LazyInterviewsSection />
+      case 'profile':
+        return <LazyProfileSection />
       default:
-        return (
-          <Suspense fallback={<SectionLoader sectionName="overview" />}>
-            <LazyOverviewSection />
-          </Suspense>
-        )
+        return <LazyOverviewSection />
     }
   }, [activeSection, isPreloading])
 
@@ -114,13 +120,47 @@ export function OptimizedDashboardLayout() {
   }, [])
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar 
-        activeSection={activeSection} 
-        onSectionChange={handleSectionChange}
-      />
-      <main className="flex-1 overflow-auto">
-        <div className="p-8">
+    <div className="flex min-h-screen bg-white dark:bg-black text-foreground">
+      {/* Mobile Sidebar Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+      
+      {/* Sidebar - hidden on mobile, visible on tablet and up */}
+      <div className={`fixed lg:static inset-y-0 left-0 z-50 lg:z-auto transform transition-transform duration-300 ${
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      }`}>
+        <Sidebar 
+          activeSection={activeSection} 
+          onSectionChange={(section) => {
+            handleSectionChange(section)
+            setIsMobileMenuOpen(false)
+          }}
+        />
+      </div>
+      
+      <main className="flex-1 overflow-auto bg-white dark:bg-black w-full lg:w-auto">
+        {/* Top Header with Theme Toggle */}
+        <div className="sticky top-0 z-10 bg-white/80 dark:bg-black/80 backdrop-blur-sm border-b border-border">
+          <div className="flex items-center justify-between p-3 sm:p-4 md:p-6">
+            <div className="lg:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                aria-label="Menu"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+            <ToggleTheme />
+          </div>
+        </div>
+        <div className="p-3 sm:p-4 md:p-6 lg:p-8">
           {renderSection()}
         </div>
       </main>

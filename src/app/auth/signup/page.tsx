@@ -97,8 +97,8 @@ export default function SignUpPage() {
             </button>
           </div>
 
-          <div className="mb-8">
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight text-gray-900 mb-2">Create an Account</h1>
+          <div className="mb-6">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extralight font-figtree leading-[1.05] tracking-tight text-gray-900 mb-2">Create an Account</h1>
             <p className="text-gray-600 font-figtree">
               Already have an account?{' '}
               <Link href="/auth/signin" className="text-blue-600 hover:text-blue-700 font-medium">
@@ -118,7 +118,7 @@ export default function SignUpPage() {
                 id="email"
                 placeholder="Email Address"
                 {...register('email')}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-figtree"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-figtree bg-white text-gray-900 placeholder-gray-500 text-sm"
                 required
               />
               {errors.email && (
@@ -137,7 +137,7 @@ export default function SignUpPage() {
                   id="password"
                   placeholder="Password"
                   {...register('password')}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-figtree"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-figtree bg-white text-gray-900 placeholder-gray-500 text-sm"
                   required
                 />
                 <button
@@ -168,7 +168,7 @@ export default function SignUpPage() {
                   id="confirmPassword"
                   placeholder="Confirm Password"
                   {...register('confirmPassword')}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-figtree"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all font-figtree bg-white text-gray-900 placeholder-gray-500 text-sm"
                   required
                 />
                 <button

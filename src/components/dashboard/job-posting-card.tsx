@@ -83,22 +83,22 @@ export function JobPostingCard({ jobPosting, onViewDetails, delay = 0 }: JobPost
             {analytics && (
               <div className="grid grid-cols-3 gap-4 pt-4 border-t">
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-primary font-figtree">
+                  <p className="text-xl font-bold text-[#2D2DDD] dark:text-white font-figtree">
                     {analytics.total_applicants}
                   </p>
-                  <p className="text-xs text-muted-foreground">Total</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Total</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-green-600 font-figtree">
+                  <p className="text-xl font-bold text-green-600 dark:text-green-400 font-figtree">
                     {analytics.total_shortlisted}
                   </p>
-                  <p className="text-xs text-muted-foreground">Shortlisted</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Shortlisted</p>
                 </div>
                 <div className="text-center">
-                  <p className="text-2xl font-bold text-red-600 font-figtree">
+                  <p className="text-xl font-bold text-red-600 dark:text-red-400 font-figtree">
                     {analytics.total_rejected}
                   </p>
-                  <p className="text-xs text-muted-foreground">Rejected</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">Rejected</p>
                 </div>
               </div>
             )}

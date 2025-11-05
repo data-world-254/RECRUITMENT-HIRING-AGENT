@@ -14,10 +14,7 @@ import {
   ExternalLink,
   Edit,
   Trash2,
-  UserCheck,
-  UserX,
   AlertTriangle,
-  UserPlus,
   RefreshCw,
   Brain
 } from 'lucide-react'
@@ -570,29 +567,31 @@ export function JobsSection() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="flex items-center justify-between"
+        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
       >
         <div>
-          <h1 className="text-4xl font-figtree font-semibold mb-2 gradient-text">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">
             Job Postings
           </h1>
-          <p className="text-xl font-figtree font-light text-muted-foreground">
+          <p className="text-sm sm:text-base md:text-lg font-figtree font-light text-gray-600 dark:text-gray-400">
             Manage your active recruitment campaigns
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
           <Button 
             variant="outline" 
             onClick={refreshJobs}
             disabled={isLoading}
-            className="group"
+            size="sm"
+            className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin-smooth' : ''}`} />
             Refresh
           </Button>
           <Button 
-            variant="gradient" 
-            className="group"
+            variant="default" 
+            size="sm"
+            className="bg-[#2D2DDD] text-white hover:border-white hover:bg-[#2D2DDD] hover:text-white w-full sm:w-auto"
             onClick={() => setIsCreateModalOpen(true)}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -657,9 +656,9 @@ export function JobsSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.1 }}
           >
-            <Card className="hover:shadow-lg transition-all duration-300">
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between">
+                        <Card className="hover:shadow-lg transition-all duration-300">
+                          <CardContent className="p-4 sm:p-6">
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-xl font-semibold font-figtree">{job.job_title}</h3>
@@ -684,48 +683,6 @@ export function JobsSection() {
                       <div className="flex items-center gap-1">
                         <Briefcase className="w-4 h-4" />
                         {job.n8n_webhook_sent ? 'Webhook Sent' : 'Webhook Pending'}
-                      </div>
-                    </div>
-                    
-                    {/* Applicant Statistics */}
-                    <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-3 font-figtree">Applicant Statistics</h4>
-                      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 mb-1">
-                            <UserPlus className="w-4 h-4 text-blue-600" />
-                            <span className="text-xs font-medium text-gray-600">Total</span>
-                          </div>
-                          <p className="text-lg font-bold text-blue-600">{job.applicantStats.total}</p>
-                        </div>
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 mb-1">
-                            <UserCheck className="w-4 h-4 text-green-600" />
-                            <span className="text-xs font-medium text-gray-600">Shortlisted</span>
-                          </div>
-                          <p className="text-lg font-bold text-green-600">{job.applicantStats.shortlisted}</p>
-                        </div>
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 mb-1">
-                            <AlertTriangle className="w-4 h-4 text-yellow-600" />
-                            <span className="text-xs font-medium text-gray-600">Flagged</span>
-                          </div>
-                          <p className="text-lg font-bold text-yellow-600">{job.applicantStats.flagged}</p>
-                        </div>
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 mb-1">
-                            <UserX className="w-4 h-4 text-red-600" />
-                            <span className="text-xs font-medium text-gray-600">Rejected</span>
-                          </div>
-                          <p className="text-lg font-bold text-red-600">{job.applicantStats.rejected}</p>
-                        </div>
-                        <div className="text-center">
-                          <div className="flex items-center justify-center gap-1 mb-1">
-                            <Users className="w-4 h-4 text-gray-600" />
-                            <span className="text-xs font-medium text-gray-600">Pending</span>
-                          </div>
-                          <p className="text-lg font-bold text-gray-600">{job.applicantStats.pending}</p>
-                        </div>
                       </div>
                     </div>
                     
@@ -762,11 +719,12 @@ export function JobsSection() {
                       </div>
                     )}
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-4 sm:mt-0">
                     <Button 
                       variant="outline" 
                       size="sm"
                       onClick={() => handleEditJob(job.id)}
+                      className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
                     >
                       <Edit className="w-4 h-4 mr-1" />
                       Edit
@@ -775,6 +733,7 @@ export function JobsSection() {
                       variant="outline" 
                       size="sm"
                       onClick={() => handleViewDetails(job.id)}
+                      className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
                     >
                       <ExternalLink className="w-4 h-4 mr-1" />
                       View Details
@@ -783,7 +742,7 @@ export function JobsSection() {
                       variant="outline" 
                       size="sm"
                       onClick={() => setJobToDelete(job)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 hover:border-red-300"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 hover:border-red-300 dark:text-red-400 dark:hover:text-red-300 dark:border-red-800 dark:hover:bg-red-900/20 w-full sm:w-auto"
                     >
                       <Trash2 className="w-4 h-4 mr-1" />
                       Delete

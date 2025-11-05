@@ -13,8 +13,7 @@ import {
   LogOut,
   ChevronRight,
   Download,
-  Calendar,
-  Users
+  Calendar
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { useRouter } from 'next/navigation'
@@ -33,12 +32,6 @@ const sidebarItems = [
     href: '/dashboard/jobs',
   },
   {
-    id: 'candidates',
-    label: 'Real Candidates',
-    icon: Users,
-    href: '/dashboard/candidates',
-  },
-  {
     id: 'reports',
     label: 'Reports & Analytics',
     icon: BarChart3,
@@ -51,10 +44,10 @@ const sidebarItems = [
     href: '/dashboard/interviews',
   },
   {
-    id: 'settings',
-    label: 'Settings',
+    id: 'profile',
+    label: 'Profile',
     icon: Settings,
-    href: '/dashboard/settings',
+    href: '/dashboard/profile',
   },
 ]
 
@@ -79,28 +72,28 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
       initial={{ x: -300 }}
       animate={{ x: 0 }}
       transition={{ duration: 0.3 }}
-      className={`bg-white border-r border-border shadow-lg h-screen sticky top-0 ${
+      className={`bg-white dark:bg-black border-r border-border shadow-lg h-screen sticky top-0 ${
         isCollapsed ? 'w-16' : 'w-64'
-      } transition-all duration-300`}
+      } transition-all duration-300 overflow-y-auto`}
     >
       <div className="flex flex-col h-full">
         {/* Header */}
-        <div className="p-6 border-b border-border">
+        <div className="p-4 sm:p-6 border-b border-border">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
               <LayoutDashboard className="w-6 h-6 text-white" />
             </div>
             {!isCollapsed && (
-              <div>
-                <h2 className="text-lg font-figtree font-semibold">HR AI Dashboard</h2>
-                <p className="text-xs text-muted-foreground font-figtree font-light">Recruitment Platform</p>
+              <div className="flex-1 min-w-0">
+                <h2 className="text-lg font-figtree font-extralight text-gray-900 dark:text-white">HR AI Dashboard</h2>
+                <p className="text-xs text-gray-600 dark:text-gray-400 font-figtree font-light">Recruitment Platform</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Navigation Items */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-3 sm:p-4 space-y-2 overflow-y-auto">
           {sidebarItems.map((item) => {
             const isActive = activeSection === item.id
             return (
@@ -109,16 +102,16 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
                 onClick={() => onSectionChange(item.id)}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-all duration-200 group ${
                   isActive
-                    ? 'bg-gradient-to-r from-primary/10 to-secondary/10 text-primary border border-primary/20'
-                    : 'text-gray-700 hover:bg-gray-50 hover:text-primary'
+                    ? 'bg-gradient-to-r from-[#2D2DDD]/10 to-[#2D2DDD]/5 dark:from-[#2D2DDD]/20 dark:to-[#2D2DDD]/10 text-[#2D2DDD] dark:text-white border border-[#2D2DDD]/30 dark:border-[#2D2DDD]/50'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-[#2D2DDD] dark:hover:text-white'
                 }`}
               >
-                <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-primary' : 'text-gray-500 group-hover:text-primary'}`} />
+                <item.icon className={`w-5 h-5 flex-shrink-0 ${isActive ? 'text-[#2D2DDD]' : 'text-gray-500 dark:text-gray-400 group-hover:text-[#2D2DDD]'}`} />
                 {!isCollapsed && (
                   <>
                     <span className="font-figtree font-medium">{item.label}</span>
                     {isActive && (
-                      <ChevronRight className="w-4 h-4 ml-auto text-primary" />
+                      <ChevronRight className="w-4 h-4 ml-auto text-[#2D2DDD]" />
                     )}
                   </>
                 )}
@@ -129,19 +122,18 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
 
         {/* Reports Section */}
         {!isCollapsed && (
-          <div className="p-4 border-t border-border">
-            <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg p-4">
+          <div className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="bg-gradient-to-r from-[#2D2DDD]/5 to-[#2D2DDD]/10 dark:from-[#2D2DDD]/10 dark:to-[#2D2DDD]/20 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Download className="w-4 h-4 text-primary" />
-                <span className="text-sm font-semibold font-figtree">Quick Reports</span>
+                <Download className="w-4 h-4 text-[#2D2DDD]" />
+                <span className="text-sm font-semibold font-figtree text-gray-900 dark:text-white">Quick Reports</span>
               </div>
-              <p className="text-xs text-muted-foreground font-figtree font-light mb-3">
+              <p className="text-xs text-gray-600 dark:text-gray-400 font-figtree font-light mb-3">
                 Download comprehensive reports from Google Sheets
               </p>
               <Button
                 size="sm"
-                variant="gradient"
-                className="w-full text-xs"
+                className="w-full text-xs bg-[#2D2DDD] hover:bg-[#2D2DDD]/90 text-white"
                 onClick={() => onSectionChange('reports')}
               >
                 <Download className="w-3 h-3 mr-1" />
@@ -152,11 +144,11 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
         )}
 
         {/* Logout */}
-        <div className="p-4 border-t border-border">
+        <div className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-700">
           <Button
-            variant="ghost"
+            variant="default"
             onClick={handleLogout}
-            className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+            className="w-full justify-start bg-[#2D2DDD] text-white hover:bg-[#2D2DDD] hover:text-white"
           >
             <LogOut className="w-5 h-5 mr-3" />
             {!isCollapsed && <span className="font-figtree font-medium">Sign Out</span>}

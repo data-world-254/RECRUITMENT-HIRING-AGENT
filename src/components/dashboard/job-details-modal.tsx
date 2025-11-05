@@ -41,7 +41,7 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
             <Card className="bg-white shadow-2xl">
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-2xl font-figtree font-semibold gradient-text">
+                  <CardTitle className="text-xl font-figtree font-extralight text-[#2D2DDD] dark:text-white">
                     Job Details
                   </CardTitle>
                   <Button
@@ -59,7 +59,7 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                 {/* Header */}
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <h1 className="text-3xl font-figtree font-semibold mb-2">
+                    <h1 className="text-xl md:text-2xl font-figtree font-extralight mb-2 text-gray-900 dark:text-white">
                       {jobPosting.job_title}
                     </h1>
                     <Badge 

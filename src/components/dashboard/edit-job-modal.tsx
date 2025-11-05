@@ -91,7 +91,7 @@ export function EditJobModal({ isOpen, onClose, jobPosting, onSave }: EditJobMod
             <Card className="bg-white shadow-2xl">
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-2xl font-figtree font-semibold gradient-text">
+                  <CardTitle className="text-xl font-figtree font-extralight text-[#2D2DDD] dark:text-white">
                     Edit Job Posting
                   </CardTitle>
                   <Button

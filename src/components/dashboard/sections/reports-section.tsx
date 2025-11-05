@@ -9,6 +9,7 @@ import { Calendar, Loader2, UserCheck, UserPlus, UserX, AlertTriangle, FileText,
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/use-auth'
 import { JobPosting } from '@/types'
+import { ApplicantReportModal } from '../applicant-report-modal'
 
 interface JobReportItem {
   job: JobPosting
@@ -27,6 +28,8 @@ export function ReportsSection() {
   const [items, setItems] = useState<JobReportItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedJobPosting, setSelectedJobPosting] = useState<JobPosting | null>(null)
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false)
 
   useEffect(() => {
     const load = async () => {
@@ -130,8 +133,8 @@ export function ReportsSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl font-figtree font-semibold mb-2 gradient-text">Reports & Analytics</h1>
-        <p className="text-xl font-figtree font-light text-muted-foreground">All job posts with applicant breakdown</p>
+        <h1 className="text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">Reports & Analytics</h1>
+        <p className="text-base md:text-lg font-figtree font-light text-gray-600 dark:text-gray-400">All job posts with applicant breakdown</p>
       </motion.div>
 
       {error && (
@@ -158,7 +161,7 @@ export function ReportsSection() {
           <Card>
             <CardHeader>
               <CardTitle className="text-xl font-figtree font-semibold flex items-center gap-3">
-                <FileText className="w-5 h-5 text-primary" />
+                <FileText className="w-5 h-5 text-[#2D2DDD]" />
                 Job Reports
               </CardTitle>
             </CardHeader>
@@ -170,8 +173,8 @@ export function ReportsSection() {
                   {items.map((item, index) => (
                     <motion.div key={item.job.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: index * 0.05 }}>
                       <Card className="hover:shadow-lg transition-all duration-300">
-                        <CardContent className="p-6">
-                          <div className="flex items-start justify-between gap-4">
+                        <CardContent className="p-4 sm:p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-3 mb-2">
                                 <h3 className="text-lg font-semibold font-figtree truncate">{item.job.job_title}</h3>
@@ -187,8 +190,8 @@ export function ReportsSection() {
                                   {new Date(item.job.created_at).toLocaleDateString()}
                                 </div>
                               </div>
-                              <div className="bg-gray-50 rounded-lg p-4">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                                   <div className="text-center">
                                     <div className="flex items-center justify-center gap-1 mb-1">
                                       <UserPlus className="w-4 h-4 text-blue-600" />
@@ -225,8 +228,16 @@ export function ReportsSection() {
                                 </div>
                               )}
                             </div>
-                            <div className="flex items-center gap-2 shrink-0">
-                              <Button variant="outline" size="sm" className="gap-2">
+                            <div className="flex items-center gap-2 shrink-0 mt-4 sm:mt-0">
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="gap-2 bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
+                                onClick={() => {
+                                  setSelectedJobPosting(item.job)
+                                  setIsReportModalOpen(true)
+                                }}
+                              >
                                 <ExternalLink className="w-4 h-4" />
                                 View Report
                               </Button>
@@ -242,6 +253,16 @@ export function ReportsSection() {
           </Card>
         </motion.div>
       )}
+
+      {/* Applicant Report Modal */}
+      <ApplicantReportModal
+        isOpen={isReportModalOpen}
+        onClose={() => {
+          setIsReportModalOpen(false)
+          setSelectedJobPosting(null)
+        }}
+        jobPosting={selectedJobPosting}
+      />
     </div>
   )
 }

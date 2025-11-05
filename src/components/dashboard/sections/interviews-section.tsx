@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Calendar, Clock, Users, Video, ExternalLink, Loader2, MapPin, UserCheck, UserX, AlertTriangle, UserPlus } from 'lucide-react'
+import { Calendar, Clock, Video, ExternalLink, Loader2, MapPin } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { useAuth } from '@/hooks/use-auth'
 import { JobPosting } from '@/types'
@@ -138,10 +138,10 @@ export function InterviewsSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl font-figtree font-semibold mb-2 gradient-text">
+        <h1 className="text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">
           Interviews
         </h1>
-        <p className="text-xl font-figtree font-light text-muted-foreground">
+        <p className="text-base md:text-lg font-figtree font-light text-gray-600 dark:text-gray-400">
           Manage your interview schedule
         </p>
       </motion.div>
@@ -181,61 +181,25 @@ export function InterviewsSection() {
           <Card className="bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 border-primary/20">
             <CardHeader>
               <CardTitle className="text-xl font-figtree font-semibold flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-primary" />
+                <Calendar className="w-5 h-5 text-[#2D2DDD]" />
                 Interview Summary
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-5 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center mx-auto mb-3">
+                  <div className="w-16 h-16 rounded-full bg-[#2D2DDD] flex items-center justify-center mx-auto mb-3">
                     <Calendar className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="font-figtree font-semibold mb-1">Total Interviews</h3>
-                  <p className="text-2xl font-bold text-primary font-figtree">{interviews.length}</p>
+                  <h3 className="text-sm font-figtree font-medium mb-1 text-gray-900 dark:text-white">Total Interviews</h3>
+                  <p className="text-xl font-bold text-[#2D2DDD] dark:text-white font-figtree">{interviews.length}</p>
                 </div>
                 <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-secondary to-primary flex items-center justify-center mx-auto mb-3">
+                  <div className="w-16 h-16 rounded-full bg-[#2D2DDD] flex items-center justify-center mx-auto mb-3">
                     <Clock className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="font-figtree font-semibold mb-1">Upcoming</h3>
-                  <p className="text-2xl font-bold text-primary font-figtree">{upcomingInterviews.length}</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-3">
-                    <UserPlus className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="font-figtree font-semibold mb-1">Total Applicants</h3>
-                  <p className="text-2xl font-bold text-blue-600 font-figtree">
-                    {interviews.reduce((sum, interview) => sum + interview.applicantStats.total, 0)}
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center mx-auto mb-3">
-                    <UserCheck className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="font-figtree font-semibold mb-1">Shortlisted</h3>
-                  <p className="text-2xl font-bold text-green-600 font-figtree">
-                    {interviews.reduce((sum, interview) => sum + interview.applicantStats.shortlisted, 0)}
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 flex items-center justify-center mx-auto mb-3">
-                    <AlertTriangle className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="font-figtree font-semibold mb-1">Flagged</h3>
-                  <p className="text-2xl font-bold text-yellow-600 font-figtree">
-                    {interviews.reduce((sum, interview) => sum + interview.applicantStats.flagged, 0)}
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mx-auto mb-3">
-                    <UserX className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="font-figtree font-semibold mb-1">Rejected</h3>
-                  <p className="text-2xl font-bold text-red-600 font-figtree">
-                    {interviews.reduce((sum, interview) => sum + interview.applicantStats.rejected, 0)}
-                  </p>
+                  <h3 className="text-sm font-figtree font-medium mb-1 text-gray-900 dark:text-white">Upcoming</h3>
+                  <p className="text-xl font-bold text-[#2D2DDD] dark:text-white font-figtree">{upcomingInterviews.length}</p>
                 </div>
               </div>
             </CardContent>
@@ -253,7 +217,7 @@ export function InterviewsSection() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <Calendar className="w-5 h-5 text-primary" />
+                <Calendar className="w-5 h-5 text-[#2D2DDD]" />
                 Upcoming Interviews
               </CardTitle>
               <CardDescription>
@@ -281,8 +245,8 @@ export function InterviewsSection() {
                         transition={{ duration: 0.4, delay: index * 0.1 }}
                       >
                         <Card className="hover:shadow-lg transition-all duration-300">
-                          <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
+                          <CardContent className="p-4 sm:p-6">
+                            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                               <div className="flex-1">
                                 <div className="flex items-center gap-3 mb-2">
                                   <h3 className="text-lg font-semibold font-figtree">{interview.job_title}</h3>
@@ -300,58 +264,17 @@ export function InterviewsSection() {
                                     {interview.company_name}
                                   </div>
                                 </div>
-                                
-                                {/* Applicant Statistics for Interview */}
-                                <div className="bg-gray-50 rounded-lg p-3 mb-3">
-                                  <h5 className="text-xs font-semibold text-gray-700 mb-2 font-figtree">Applicant Statistics</h5>
-                                  <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                                    <div className="text-center">
-                                      <div className="flex items-center justify-center gap-1 mb-1">
-                                        <UserPlus className="w-3 h-3 text-blue-600" />
-                                        <span className="text-xs font-medium text-gray-600">Total</span>
-                                      </div>
-                                      <p className="text-sm font-bold text-blue-600">{interview.applicantStats.total}</p>
-                                    </div>
-                                    <div className="text-center">
-                                      <div className="flex items-center justify-center gap-1 mb-1">
-                                        <UserCheck className="w-3 h-3 text-green-600" />
-                                        <span className="text-xs font-medium text-gray-600">Shortlisted</span>
-                                      </div>
-                                      <p className="text-sm font-bold text-green-600">{interview.applicantStats.shortlisted}</p>
-                                    </div>
-                                    <div className="text-center">
-                                      <div className="flex items-center justify-center gap-1 mb-1">
-                                        <AlertTriangle className="w-3 h-3 text-yellow-600" />
-                                        <span className="text-xs font-medium text-gray-600">Flagged</span>
-                                      </div>
-                                      <p className="text-sm font-bold text-yellow-600">{interview.applicantStats.flagged}</p>
-                                    </div>
-                                    <div className="text-center">
-                                      <div className="flex items-center justify-center gap-1 mb-1">
-                                        <UserX className="w-3 h-3 text-red-600" />
-                                        <span className="text-xs font-medium text-gray-600">Rejected</span>
-                                      </div>
-                                      <p className="text-sm font-bold text-red-600">{interview.applicantStats.rejected}</p>
-                                    </div>
-                                    <div className="text-center">
-                                      <div className="flex items-center justify-center gap-1 mb-1">
-                                        <Users className="w-3 h-3 text-gray-600" />
-                                        <span className="text-xs font-medium text-gray-600">Pending</span>
-                                      </div>
-                                      <p className="text-sm font-bold text-gray-600">{interview.applicantStats.pending}</p>
-                                    </div>
-                                  </div>
-                                </div>
                                 <p className="text-sm text-muted-foreground font-figtree font-light">
                                   {interview.job_description.substring(0, 100)}...
                                 </p>
                               </div>
-                              <div className="flex items-center gap-2">
+                              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-4 sm:mt-0">
                                 {interview.interview_meeting_link && (
                                   <Button
                                     variant="outline"
                                     size="sm"
                                     onClick={() => window.open(interview.interview_meeting_link!, '_blank')}
+                                    className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
                                   >
                                     <Video className="w-4 h-4 mr-1" />
                                     Join Meeting
@@ -362,6 +285,7 @@ export function InterviewsSection() {
                                     variant="outline"
                                     size="sm"
                                     onClick={() => window.open(interview.google_calendar_link, '_blank')}
+                                    className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
                                   >
                                     <ExternalLink className="w-4 h-4 mr-1" />
                                     Calendar

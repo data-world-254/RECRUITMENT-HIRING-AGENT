@@ -217,7 +217,7 @@ const AnimatedShaderBackground = () => {
   return (
     <div 
       ref={containerRef} 
-      className="relative w-full h-[600px] md:h-[700px] lg:h-screen overflow-hidden bg-black"
+      className="relative w-full h-[520px] md:h-[560px] lg:h-[640px] overflow-hidden bg-black"
       aria-hidden="true"
     >
       <div className="relative z-10 divider" />

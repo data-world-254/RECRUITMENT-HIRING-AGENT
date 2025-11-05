@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Figtree } from 'next/font/google'
 import './globals.css'
 import { AuthProvider } from '@/hooks/use-auth'
+import { ThemeProvider } from '@/components/providers/theme-provider'
 import { ConditionalLayout } from '@/components/layout/conditional-layout'
 
 const figtree = Figtree({
@@ -50,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={figtree.variable}>
+    <html lang="en" className={figtree.variable} suppressHydrationWarning>
       <head>
         {/* Preload critical resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -58,12 +59,14 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
       </head>
-      <body className={`${figtree.className} antialiased`}>
-        <AuthProvider>
-          <div className="min-h-screen bg-gradient-to-br from-background via-muted to-background">
-            <ConditionalLayout>{children}</ConditionalLayout>
-          </div>
-        </AuthProvider>
+      <body className={`${figtree.className} antialiased bg-background text-foreground`}>
+        <ThemeProvider>
+          <AuthProvider>
+            <div className="min-h-screen bg-background">
+              <ConditionalLayout>{children}</ConditionalLayout>
+            </div>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

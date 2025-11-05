@@ -162,10 +162,10 @@ export function RealCandidatesSection() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl font-figtree font-semibold mb-2 gradient-text">
+            <h1 className="text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">
               Real Candidates from N8N
             </h1>
-            <p className="text-xl font-figtree font-light text-muted-foreground">
+            <p className="text-base md:text-lg font-figtree font-light text-gray-600 dark:text-gray-400">
               AI-processed candidates from your n8n workflow
             </p>
             <p className="text-sm text-muted-foreground font-figtree font-light">

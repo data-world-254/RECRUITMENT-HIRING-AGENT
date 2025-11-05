@@ -13,6 +13,10 @@
     --border: 229 231 235;
     --muted: 249 250 251;
     --muted-foreground: 107 114 128;
+    --popover: 255 255 255;
+    --popover-foreground: 0 0 0;
+    --accent: 249 250 251;
+    --accent-foreground: 0 0 0;
   }
 
   .dark {
@@ -25,6 +29,10 @@
     --border: 55 65 81;
     --muted: 31 41 55;
     --muted-foreground: 156 163 175;
+    --popover: 31 41 55;
+    --popover-foreground: 255 255 255;
+    --accent: 55 65 81;
+    --accent-foreground: 255 255 255;
   }
 }
 
@@ -42,25 +50,8 @@
     font-family: var(--font-figtree), 'Figtree';
   }
   
-  /* All headings use the same size and weight as hero section */
-  h1, h2, h3, h4, h5, h6 {
-    font-weight: 200; /* font-extralight */
-    font-size: 3rem; /* text-5xl */
-    line-height: 1.05;
-    letter-spacing: -0.025em; /* tracking-tight */
-  }
-  
-  @media (min-width: 640px) {
-    h1, h2, h3, h4, h5, h6 {
-      font-size: 3.75rem; /* sm:text-6xl */
-    }
-  }
-  
-  @media (min-width: 768px) {
-    h1, h2, h3, h4, h5, h6 {
-      font-size: 4.5rem; /* md:text-7xl */
-    }
-  }
+  /* All headings use the same size and weight as hero section - but allow component-level overrides */
+  /* Note: Component-level text size classes will override these global styles */
 }
 
 @layer components {
@@ -112,6 +103,11 @@
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
+
+  .border-focus-thin:focus,
+  .border-focus-thin:focus-visible {
+    border-width: 0.5px !important;
+  }
 }
 
 /* Custom scrollbar */
@@ -120,7 +116,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgb(var(--muted));
   border-radius: 10px;
 }
 
@@ -131,4 +127,8 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #D10BC7, #00A8B8);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgb(var(--muted));
 }

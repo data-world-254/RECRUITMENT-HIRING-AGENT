@@ -16,6 +16,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { supabase } from '@/lib/supabase'
 import { Plus, X, Building2, Users, Calendar, Link as LinkIcon } from 'lucide-react'
 import { JobPostingFormData } from '@/types'
+import { DateTimePicker } from '@/components/ui/date-time-picker'
 
 const companySetupSchema = z.object({
   company_name: z.string().min(1, 'Company name is required'),
@@ -24,7 +25,26 @@ const companySetupSchema = z.object({
   job_title: z.string().min(1, 'Job title is required'),
   job_description: z.string().min(10, 'Job description must be at least 10 characters'),
   required_skills: z.array(z.string()).min(1, 'At least one skill is required'),
-  interview_date: z.string().min(1, 'Interview date is required'),
+  deadline_for_applications: z.string().min(1, 'Application deadline is required').refine((val) => {
+    if (!val) return false
+    // Check if it's a valid datetime-local format (YYYY-MM-DDTHH:mm)
+    const datetimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+    if (!datetimeRegex.test(val)) return false
+    const date = new Date(val)
+    return !isNaN(date.getTime()) && date > new Date()
+  }, {
+    message: 'Application deadline must be a valid future date and time'
+  }),
+  interview_date: z.string().min(1, 'Interview date is required').refine((val) => {
+    if (!val) return false
+    // Check if it's a valid datetime-local format (YYYY-MM-DDTHH:mm)
+    const datetimeRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+    if (!datetimeRegex.test(val)) return false
+    const date = new Date(val)
+    return !isNaN(date.getTime())
+  }, {
+    message: 'Please enter a valid date and time'
+  }),
   interview_meeting_link: z.string().optional(),
   google_calendar_link: z.string().url('Please enter a valid Google Calendar link'),
 })
@@ -100,6 +120,7 @@ export default function CompanySetupPage() {
           job_title: data.job_title,
           job_description: data.job_description,
           required_skills: data.required_skills,
+          deadline_for_applications: data.deadline_for_applications,
           interview_date: data.interview_date,
           interview_meeting_link: data.interview_meeting_link || null,
           google_calendar_link: data.google_calendar_link,
@@ -121,6 +142,7 @@ export default function CompanySetupPage() {
           job_title: data.job_title,
           job_description: data.job_description,
           required_skills: data.required_skills,
+          deadline_for_applications: data.deadline_for_applications,
           interview_date: data.interview_date,
           interview_meeting_link: data.interview_meeting_link,
           google_calendar_link: data.google_calendar_link,
@@ -151,18 +173,18 @@ export default function CompanySetupPage() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4">
+    <div className="min-h-screen bg-black pt-32 md:pt-40 pb-8 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="text-center mb-8">
-            <h1 className="text-5xl font-figtree font-semibold mb-4 gradient-text">
+          <div className="text-center mb-8 relative z-10">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-figtree font-extralight mb-4 text-white drop-shadow-lg">
               Company Setup
             </h1>
-            <p className="text-xl font-figtree font-light text-muted-foreground">
+            <p className="text-xl font-figtree font-light text-gray-300">
               Tell us about your company and the position you're hiring for
             </p>
           </div>
@@ -311,6 +333,21 @@ export default function CompanySetupPage() {
                       <p className="text-sm text-red-500">{errors.required_skills.message}</p>
                     )}
                   </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="deadline_for_applications" className="text-sm font-medium">
+                      Deadline for Applications *
+                    </Label>
+                    <DateTimePicker
+                      value={watch('deadline_for_applications')}
+                      onChange={(value) => setValue('deadline_for_applications', value)}
+                      placeholder="Select application deadline and time"
+                      minDateTime={new Date().toISOString().slice(0, 16)}
+                    />
+                    {errors.deadline_for_applications && (
+                      <p className="text-sm text-red-500">{errors.deadline_for_applications.message}</p>
+                    )}
+                  </div>
                 </div>
 
                 {/* Interview Information */}
@@ -324,11 +361,11 @@ export default function CompanySetupPage() {
                     <Label htmlFor="interview_date" className="text-sm font-medium">
                       Interview Date & Time *
                     </Label>
-                    <Input
-                      id="interview_date"
-                      type="datetime-local"
-                      {...register('interview_date')}
-                      className="h-12"
+                    <DateTimePicker
+                      value={watch('interview_date')}
+                      onChange={(value) => setValue('interview_date', value)}
+                      placeholder="Select interview date and time"
+                      minDateTime={new Date().toISOString().slice(0, 16)}
                     />
                     {errors.interview_date && (
                       <p className="text-sm text-red-500">{errors.interview_date.message}</p>
@@ -373,8 +410,8 @@ export default function CompanySetupPage() {
 
                 <Button
                   type="submit"
-                  className="w-full h-14 text-lg"
-                  variant="gradient"
+                  className="w-full h-14 text-lg text-white hover:opacity-90 transition-opacity"
+                  style={{ backgroundColor: '#2D2DDD' }}
                   disabled={isLoading}
                 >
                   {isLoading ? 'Setting Up...' : 'Complete Setup & Start Hiring'}

@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge'
 import { X, Plus, Calendar, Briefcase, MapPin, Users, Loader2, CheckCircle, AlertCircle, Clock } from 'lucide-react'
 import { JobPostingFormData } from '@/types'
 import { WebhookService } from '@/lib/webhook-service'
+import { DateTimePicker } from '@/components/ui/date-time-picker'
 
 interface CreateJobModalProps {
   isOpen: boolean
@@ -123,10 +124,10 @@ export function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobModalProp
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto"
           >
-            <Card className="bg-white shadow-2xl">
+            <Card className="bg-white dark:bg-gray-900 shadow-2xl border border-gray-200 dark:border-gray-800">
               <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-2xl font-figtree font-semibold gradient-text">
+                  <CardTitle className="text-xl font-figtree font-extralight text-[#2D2DDD] dark:text-white">
                     Create New Job Posting
                   </CardTitle>
                   <Button
@@ -144,43 +145,46 @@ export function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobModalProp
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Company Information */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-figtree font-semibold text-gray-900">
+                    <h3 className="text-lg font-figtree font-semibold text-gray-900 dark:text-white">
                       Company Information
                     </h3>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="company_name">Company Name</Label>
+                        <Label htmlFor="company_name" className="text-gray-900 dark:text-white">Company Name</Label>
                         <Input
                           id="company_name"
                           value={formData.company_name}
                           onChange={(e) => handleInputChange('company_name', e.target.value)}
                           placeholder="Enter company name"
+                          className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                           required
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="company_email">Company Email</Label>
+                        <Label htmlFor="company_email" className="text-gray-900 dark:text-white">Company Email</Label>
                         <Input
                           id="company_email"
                           type="email"
                           value={formData.company_email}
                           onChange={(e) => handleInputChange('company_email', e.target.value)}
                           placeholder="company@example.com"
+                          className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                           required
                         />
                       </div>
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="hr_email">HR Email</Label>
+                      <Label htmlFor="hr_email" className="text-gray-900 dark:text-white">HR Email</Label>
                       <Input
                         id="hr_email"
                         type="email"
                         value={formData.hr_email}
                         onChange={(e) => handleInputChange('hr_email', e.target.value)}
                         placeholder="hr@example.com"
+                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                         required
                       />
                     </div>
@@ -188,44 +192,47 @@ export function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobModalProp
 
                   {/* Job Details */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-figtree font-semibold text-gray-900">
+                    <h3 className="text-lg font-figtree font-semibold text-gray-900 dark:text-white">
                       Job Details
                     </h3>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="job_title">Job Title</Label>
+                      <Label htmlFor="job_title" className="text-gray-900 dark:text-white">Job Title</Label>
                       <Input
                         id="job_title"
                         value={formData.job_title}
                         onChange={(e) => handleInputChange('job_title', e.target.value)}
                         placeholder="e.g., Senior Software Engineer"
+                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                         required
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="job_description">Job Description</Label>
+                      <Label htmlFor="job_description" className="text-gray-900 dark:text-white">Job Description</Label>
                       <Textarea
                         id="job_description"
                         value={formData.job_description}
                         onChange={(e) => handleInputChange('job_description', e.target.value)}
                         placeholder="Describe the role, responsibilities, and requirements..."
                         rows={4}
+                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                         required
                       />
                     </div>
                     
                     {/* Skills */}
                     <div className="space-y-2">
-                      <Label>Required Skills</Label>
+                      <Label className="text-gray-900 dark:text-white">Required Skills</Label>
                       <div className="flex gap-2">
                         <Input
                           value={newSkill}
                           onChange={(e) => setNewSkill(e.target.value)}
                           placeholder="Add a skill"
                           onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
+                          className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                         />
-                        <Button type="button" onClick={addSkill} variant="outline">
+                        <Button type="button" onClick={addSkill} variant="outline" className="bg-[#2D2DDD] hover:bg-[#2D2DDD]/90 text-white border-[#2D2DDD]">
                           <Plus className="w-4 h-4" />
                         </Button>
                       </div>
@@ -252,56 +259,57 @@ export function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobModalProp
 
                   {/* Application Deadline */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-figtree font-semibold text-gray-900 flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-purple-600" />
+                    <h3 className="text-lg font-figtree font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-[#2D2DDD]" />
                       Application Deadline
                     </h3>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="application_deadline">Deadline Date & Time</Label>
-                      <Input
-                        id="application_deadline"
-                        type="datetime-local"
+                      <Label htmlFor="application_deadline" className="text-gray-900 dark:text-white">Deadline Date & Time</Label>
+                      <DateTimePicker
                         value={formData.application_deadline}
-                        onChange={(e) => handleInputChange('application_deadline', e.target.value)}
+                        onChange={(value) => handleInputChange('application_deadline', value)}
+                        placeholder="Select application deadline and time"
+                        minDateTime={new Date().toISOString().slice(0, 16)}
                       />
                     </div>
                   </div>
 
                   {/* Interview Details */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-figtree font-semibold text-gray-900">
+                    <h3 className="text-lg font-figtree font-semibold text-gray-900 dark:text-white">
                       Interview Details
                     </h3>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="interview_date">Interview Date & Time</Label>
-                      <Input
-                        id="interview_date"
-                        type="datetime-local"
+                      <Label htmlFor="interview_date" className="text-gray-900 dark:text-white">Interview Date & Time</Label>
+                      <DateTimePicker
                         value={formData.interview_date}
-                        onChange={(e) => handleInputChange('interview_date', e.target.value)}
-                        required
+                        onChange={(value) => handleInputChange('interview_date', value)}
+                        placeholder="Select interview date and time"
+                        minDateTime={new Date().toISOString().slice(0, 16)}
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="interview_meeting_link">Meeting Link (Optional)</Label>
+                      <Label htmlFor="interview_meeting_link" className="text-gray-900 dark:text-white">Meeting Link (Optional)</Label>
                       <Input
                         id="interview_meeting_link"
                         value={formData.interview_meeting_link}
                         onChange={(e) => handleInputChange('interview_meeting_link', e.target.value)}
                         placeholder="https://meet.google.com/..."
+                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                       />
                     </div>
                     
                     <div className="space-y-2">
-                      <Label htmlFor="google_calendar_link">Google Calendar Link</Label>
+                      <Label htmlFor="google_calendar_link" className="text-gray-900 dark:text-white">Google Calendar Link</Label>
                       <Input
                         id="google_calendar_link"
                         value={formData.google_calendar_link}
                         onChange={(e) => handleInputChange('google_calendar_link', e.target.value)}
                         placeholder="https://calendar.google.com/..."
+                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 hover:border-[#2D2DDD] focus-visible:border-white dark:focus-visible:border-white focus-visible:outline-none focus-visible:ring-0 border-focus-thin"
                         required
                       />
                     </div>
@@ -324,22 +332,22 @@ export function CreateJobModal({ isOpen, onClose, onSubmit }: CreateJobModalProp
                   )}
 
                   {/* Submit Buttons */}
-                  <div className="flex justify-end gap-3 pt-6 border-t">
+                  <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
                     <Button 
                       type="button" 
                       variant="outline" 
                       onClick={onClose}
                       disabled={isSubmitting}
+                      className="border-white text-white hover:bg-[#2D2DDD] hover:border-[#2D2DDD] hover:text-white"
                     >
                       Cancel
                     </Button>
                     <Button 
                       type="submit" 
-                      variant="gradient"
                       disabled={isSubmitting}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 bg-[#2D2DDD] hover:bg-[#2D2DDD]/90 text-white"
                     >
-                      {isSubmitting && <Loader2 className="w-4 h-4 animate-spin-smooth" />}
+                      {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
                       {isSubmitting ? 'Creating Job Posting...' : 'Create Job Posting'}
                     </Button>
                   </div>

@@ -10,22 +10,11 @@ import { GradientCard } from '@/components/ui/gradient-card'
 import { FeatureCarousel } from '@/components/ui/animated-feature-carousel'
 import StackingCardComponent from '@/components/ui/stacking-card'
 import PricingBackground from '@/components/ui/pricing-background'
-import { useRef, Suspense } from 'react'
-import dynamic from 'next/dynamic'
+import { useRef } from 'react'
 import ContactSection from '@/components/ui/contact-section'
+import AnimatedShaderBackground from '@/components/ui/animated-shader-background'
 
-// Lazy load the heavy Three.js component for better performance
-const AnimatedShaderBackground = dynamic(
-  () => import('@/components/ui/animated-shader-background'),
-  { 
-    ssr: false, // Disable SSR for WebGL components
-    loading: () => (
-      <div className="w-full h-[600px] md:h-[700px] lg:h-screen bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-black" />
-      </div>
-    )
-  }
-)
+// Shader background is a client component that mounts in useEffect; import directly to avoid chunk delays
 import { 
   Brain, 
   Users, 
@@ -314,21 +303,15 @@ export default function HomePageContent() {
 
 
       {/* Pricing Section */}
-      <section className="relative bg-black overflow-hidden">
+      <section className="relative bg-black overflow-hidden pb-12 md:pb-16 lg:pb-20">
         <PricingSection />
       </section>
 
       {/* Animated Shader Background Section with Contact overlay */}
-      <section className="relative bg-black overflow-hidden">
-        <Suspense fallback={
-          <div className="w-full h-[600px] md:h-[700px] lg:h-screen bg-black relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-black" />
-          </div>
-        }>
-          <AnimatedShaderBackground />
-        </Suspense>
-        {/* Overlay content */}
-        <ContactSection />
+      <section className="relative bg-black overflow-hidden min-h-[560px] lg:min-h-[640px] pb-12 md:pb-16 lg:pb-20">
+        <AnimatedShaderBackground />
+        {/* Foreground Contact content overlaying the meteors */}
+        <ContactSection overlay />
       </section>
     </>
   )
