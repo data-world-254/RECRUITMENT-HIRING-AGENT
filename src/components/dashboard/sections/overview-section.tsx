@@ -315,19 +315,95 @@ export function OverviewSection() {
 
   return (
     <div className="space-y-8">
-      {/* Welcome Section */}
+      {/* Welcome Section with Job Selector */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ type: 'tween', duration: 0.4, ease: 'easeOut' }}
         className="gpu-accelerated"
       >
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">
-          Welcome back!
-        </h1>
-        <p className="text-sm sm:text-base md:text-lg font-figtree font-light text-gray-600 dark:text-gray-300">
-          Here's what's happening with your recruitment process
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 sm:gap-6">
+          {/* Welcome Section */}
+          <div className="flex-1 min-w-0">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">
+              Welcome back!
+            </h1>
+            <p className="text-sm sm:text-base md:text-lg font-figtree font-light text-gray-600 dark:text-gray-300">
+              Here's what's happening with your recruitment process
+            </p>
+          </div>
+          
+          {/* Job Selector Button */}
+          <div className="flex-shrink-0 flex flex-col items-end sm:items-start gap-2">
+            <h2 className="text-sm sm:text-base font-figtree font-light text-gray-900 dark:text-white">
+              Select Job Post To View Its Analytics
+            </h2>
+            <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={isLoading || jobPostings.length === 0}
+                  className="h-9 min-w-[180px] max-w-[250px] border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                >
+                  <Briefcase className="w-4 h-4 mr-2 flex-shrink-0" />
+                  <span className="max-w-[150px] truncate text-sm font-figtree font-medium">
+                    {isLoading ? (
+                      'Loading...'
+                    ) : jobPostings.length === 0 ? (
+                      'No Jobs Available'
+                    ) : selectedJobId === 'all' ? (
+                      'All Job Posts'
+                    ) : (
+                      jobPostings.find(j => j.id === selectedJobId)?.job_title || 'Select Job'
+                    )}
+                  </span>
+                  <ChevronDown className="w-4 h-4 ml-2 flex-shrink-0" />
+                </Button>
+              </PopoverTrigger>
+              {jobPostings.length > 0 && (
+                <PopoverContent className="w-72 p-2 z-[100]" align="end">
+                  <div className="space-y-1 max-h-[300px] overflow-y-auto">
+                    <button
+                      type="button"
+                      onClick={() => handleJobSelect('all')}
+                      className={cn(
+                        "w-full text-left px-3 py-2 rounded-md text-sm font-figtree transition-colors",
+                        selectedJobId === 'all'
+                          ? "bg-[#2D2DDD] text-white"
+                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      )}
+                    >
+                      All Job Posts
+                    </button>
+                    {jobPostings.map((job) => (
+                      <button
+                        type="button"
+                        key={job.id}
+                        onClick={() => handleJobSelect(job.id)}
+                        className={cn(
+                          "w-full text-left px-3 py-2 rounded-md text-sm font-figtree transition-colors",
+                          selectedJobId === job.id
+                            ? "bg-[#2D2DDD] text-white"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                        )}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="truncate">{job.job_title}</span>
+                          {job.status === 'active' && (
+                            <span className="ml-2 px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded flex-shrink-0">
+                              Active
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </PopoverContent>
+              )}
+            </Popover>
+          </div>
+        </div>
       </motion.div>
 
       {/* Error Message */}
@@ -357,7 +433,7 @@ export function OverviewSection() {
 
       {/* Metrics Grid */}
       {!isLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {metricsData.map((metric, index) => (
             <MetricCard
               key={metric.title}
@@ -380,82 +456,14 @@ export function OverviewSection() {
       >
         <Card className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
           <CardHeader className="pb-4">
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                <CardTitle className="text-xl font-figtree font-extralight flex items-center gap-3 text-gray-900 dark:text-white mb-2">
-                  <Users className="w-5 h-5 text-[#2D2DDD] flex-shrink-0" />
-                  Applicant Analytics Overview
-                </CardTitle>
-                <CardDescription className="text-sm font-figtree font-light text-gray-600 dark:text-gray-400">
-                  Comprehensive breakdown of your recruitment pipeline
-                </CardDescription>
-              </div>
-              <div className="flex-shrink-0 flex items-center sm:items-start">
-                <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      disabled={isLoading || jobPostings.length === 0}
-                      className="h-9 min-w-[180px] max-w-[250px] border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
-                    >
-                      <Briefcase className="w-4 h-4 mr-2 flex-shrink-0" />
-                      <span className="max-w-[150px] truncate text-sm font-figtree font-medium">
-                        {isLoading ? (
-                          'Loading...'
-                        ) : jobPostings.length === 0 ? (
-                          'No Jobs Available'
-                        ) : selectedJobId === 'all' ? (
-                          'All Job Posts'
-                        ) : (
-                          jobPostings.find(j => j.id === selectedJobId)?.job_title || 'Select Job'
-                        )}
-                      </span>
-                      <ChevronDown className="w-4 h-4 ml-2 flex-shrink-0" />
-                    </Button>
-                  </PopoverTrigger>
-                  {jobPostings.length > 0 && (
-                    <PopoverContent className="w-72 p-2 z-[100]" align="end">
-                      <div className="space-y-1 max-h-[300px] overflow-y-auto">
-                        <button
-                          type="button"
-                          onClick={() => handleJobSelect('all')}
-                          className={cn(
-                            "w-full text-left px-3 py-2 rounded-md text-sm font-figtree transition-colors",
-                            selectedJobId === 'all'
-                              ? "bg-[#2D2DDD] text-white"
-                              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                          )}
-                        >
-                          All Job Posts
-                        </button>
-                        {jobPostings.map((job) => (
-                          <button
-                            type="button"
-                            key={job.id}
-                            onClick={() => handleJobSelect(job.id)}
-                            className={cn(
-                              "w-full text-left px-3 py-2 rounded-md text-sm font-figtree transition-colors",
-                              selectedJobId === job.id
-                                ? "bg-[#2D2DDD] text-white"
-                                : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                            )}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="truncate">{job.job_title}</span>
-                              {job.status === 'active' && (
-                                <span className="ml-2 px-2 py-0.5 text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded flex-shrink-0">
-                                  Active
-                                </span>
-                              )}
-                            </div>
-                          </button>
-                        ))}
-                      </div>
-                    </PopoverContent>
-                  )}
-                </Popover>
-              </div>
+            <div className="flex-1 min-w-0">
+              <CardTitle className="text-xl font-figtree font-extralight flex items-center gap-3 text-gray-900 dark:text-white mb-2">
+                <Users className="w-5 h-5 text-[#2D2DDD] flex-shrink-0" />
+                Applicant Analytics Overview
+              </CardTitle>
+              <CardDescription className="text-sm font-figtree font-light text-gray-600 dark:text-gray-400">
+                Comprehensive breakdown of your recruitment pipeline
+              </CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -538,7 +546,7 @@ export function OverviewSection() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                 <CardContent className="p-4 text-center">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#2D2DDD] to-[#2D2DDD]/80 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
@@ -561,7 +569,7 @@ export function OverviewSection() {
                   </p>
                 </CardContent>
               </Card>
-              <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+              <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 col-span-2 sm:col-span-1">
                 <CardContent className="p-4 text-center">
                   <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#2D2DDD] to-[#2D2DDD]/80 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
                     <TrendingUp className="w-6 h-6 text-white" />

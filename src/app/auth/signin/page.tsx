@@ -75,6 +75,8 @@ export default function SignInPage() {
               src="/assets/images/2149741207.jpg"
               alt="HR Recruitment"
               className="w-full h-full object-cover"
+              loading="eager"
+              fetchPriority="high"
             />
           </div>
         </div>

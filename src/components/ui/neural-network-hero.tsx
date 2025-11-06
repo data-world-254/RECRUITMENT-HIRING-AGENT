@@ -170,9 +170,19 @@ function ShaderPlane() {
 
   useFrame((state) => {
     if (!materialRef.current) return;
-    materialRef.current.iTime = state.clock.elapsedTime;
+    
+    // Use elapsedTime for smooth continuous animation
+    // This ensures animation continues smoothly even if frame rate varies
+    const currentTime = state.clock.elapsedTime;
+    
+    // Ensure continuous time progression - use clock's elapsedTime directly
+    // This is already smoothed by React Three Fiber's clock
+    materialRef.current.iTime = currentTime;
+    
     const { width, height } = state.size;
-    materialRef.current.iResolution.set(width, height);
+    if (materialRef.current.iResolution) {
+      materialRef.current.iResolution.set(width, height);
+    }
   });
 
   return (
@@ -186,38 +196,58 @@ function ShaderPlane() {
 
 function ShaderBackground() {
   const canvasRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   
   const camera = useMemo(() => ({ position: [0, 0, 1] as [number, number, number], fov: 75, near: 0.1, far: 1000 }), []);
   
   useGSAP(
     () => {
-      if (!canvasRef.current) return;
+      if (!containerRef.current) return;
       
-      gsap.set(canvasRef.current, {
+      gsap.set(containerRef.current, {
         opacity: 0.7
       });
       
-      gsap.to(canvasRef.current, {
+      const tween = gsap.to(containerRef.current, {
         opacity: 1,
         duration: 1.5,
         ease: 'power3.out',
-        delay: 0.3
+        delay: 0.3,
+        immediateRender: false
       });
+
+      // Return cleanup function
+      return () => {
+        tween.kill();
+      };
     },
-    { scope: canvasRef }
+    { scope: containerRef, dependencies: [] }
   );
   
   return (
-    <div ref={canvasRef} className="bg-black absolute inset-0 -z-10 w-full h-full" aria-hidden style={{ opacity: 1 }}>
+    <div ref={containerRef} className="bg-black absolute inset-0 -z-10 w-full h-full" aria-hidden>
       <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-pink-900/20" />
-      <Canvas
-        camera={camera}
-        gl={{ antialias: true, alpha: false }}
-        dpr={[1, 2]}
-        style={{ width: '100%', height: '100%', display: 'block', position: 'absolute', top: 0, left: 0 }}
-      >
-        <ShaderPlane />
-      </Canvas>
+      <div ref={canvasRef} className="absolute inset-0 w-full h-full">
+        <Canvas
+          camera={camera}
+          dpr={typeof window !== 'undefined' ? Math.min(window.devicePixelRatio, 2) : 1}
+          frameloop="always"
+          performance={{ min: 0.5, max: 1, debounce: 200 }}
+          gl={{ 
+            antialias: true, 
+            alpha: false,
+            powerPreference: "high-performance",
+            stencil: false,
+            depth: true,
+            preserveDrawingBuffer: false,
+            // Optimize for continuous rendering
+            failIfMajorPerformanceCaveat: false,
+          }}
+          style={{ width: '100%', height: '100%', display: 'block' }}
+        >
+          <ShaderPlane />
+        </Canvas>
+      </div>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20" />
     </div>
   );
@@ -256,33 +286,39 @@ export default function NeuralNetworkHero({
 
   useGSAP(
     () => {
-      if (!headerRef.current) return;
+      if (!headerRef.current || !sectionRef.current) return;
 
       // Basic, plugin-free intro animations
-      const headerEl = headerRef.current!;
+      const headerEl = headerRef.current;
       const badgeEl = badgeRef.current;
       const paraEl = paraRef.current;
       const ctaEl = ctaRef.current;
       const microItems = [microItem1Ref.current, microItem2Ref.current, microItem3Ref.current].filter(Boolean) as HTMLElement[];
 
-      // Set initial states with small delay to ensure DOM is ready
-      setTimeout(() => {
-        gsap.set([headerEl, paraEl, ctaEl, badgeEl, ...microItems], { opacity: 0, y: 30 });
-        if (paraEl) gsap.set(paraEl, { y: 12 });
-        if (ctaEl) gsap.set(ctaEl, { y: 10 });
-        if (badgeEl) gsap.set(badgeEl, { y: -8 });
-        if (microItems.length > 0) gsap.set(microItems, { y: 6 });
+      // Set initial states immediately
+      gsap.set([headerEl, paraEl, ctaEl, badgeEl, ...microItems], { opacity: 0, y: 30 });
+      if (paraEl) gsap.set(paraEl, { y: 12 });
+      if (ctaEl) gsap.set(ctaEl, { y: 10 });
+      if (badgeEl) gsap.set(badgeEl, { y: -8 });
+      if (microItems.length > 0) gsap.set(microItems, { y: 6 });
 
-        // Animate in
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        if (badgeEl) tl.to(badgeEl, { opacity: 1, y: 0, duration: 0.5 }, 0.0);
-        tl.to(headerEl, { opacity: 1, y: 0, duration: 0.9 }, 0.1);
-        if (paraEl) tl.to(paraEl, { opacity: 1, y: 0, duration: 0.5 }, '-=0.55');
-        if (ctaEl) tl.to(ctaEl, { opacity: 1, y: 0, duration: 0.5 }, '-=0.35');
-        if (microItems.length > 0) tl.to(microItems, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, '-=0.25');
-      }, 100);
+      // Animate in with smooth timeline
+      const tl = gsap.timeline({ 
+        defaults: { ease: 'power3.out' },
+        immediateRender: false
+      });
+      if (badgeEl) tl.to(badgeEl, { opacity: 1, y: 0, duration: 0.5 }, 0.0);
+      tl.to(headerEl, { opacity: 1, y: 0, duration: 0.9 }, 0.1);
+      if (paraEl) tl.to(paraEl, { opacity: 1, y: 0, duration: 0.5 }, '-=0.55');
+      if (ctaEl) tl.to(ctaEl, { opacity: 1, y: 0, duration: 0.5 }, '-=0.35');
+      if (microItems.length > 0) tl.to(microItems, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, '-=0.25');
+
+      // Return cleanup function
+      return () => {
+        tl.kill();
+      };
     },
-    { scope: sectionRef },
+    { scope: sectionRef, dependencies: [] },
   );
 
   return (
@@ -290,21 +326,21 @@ export default function NeuralNetworkHero({
       <ShaderBackground />
 
       <div className="relative z-20 mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 pb-4 sm:pb-12 md:pb-24 pt-48 sm:gap-8 sm:pt-56 md:px-10 lg:px-16" style={{ position: 'relative', zIndex: 20 }}>
-        <div ref={badgeRef} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm" style={{ opacity: 1, visibility: 'visible' }}>
+        <div ref={badgeRef} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm">
           <span className="text-[10px] font-light uppercase tracking-[0.08em] text-white/70">{badgeLabel}</span>
           <span className="h-1 w-1 rounded-full bg-white/40" />
           <span className="text-xs font-light tracking-tight text-white/80">{badgeText}</span>
         </div>
 
-        <h1 ref={headerRef} className="max-w-2xl text-center text-[27px] sm:text-[57px] md:text-[69px] font-extralight leading-[1.05] tracking-tight text-white" style={{ opacity: 1, visibility: 'visible' }}>
+        <h1 ref={headerRef} className="max-w-2xl text-center text-[27px] sm:text-[57px] md:text-[69px] font-extralight leading-[1.05] tracking-tight text-white">
           {title}
         </h1>
 
-        <p ref={paraRef} className="max-w-xl text-center text-sm sm:text-lg font-light leading-relaxed tracking-tight text-white/75" style={{ opacity: 1, visibility: 'visible' }}>
+        <p ref={paraRef} className="max-w-xl text-center text-sm sm:text-lg font-light leading-relaxed tracking-tight text-white/75">
           {description}
         </p>
 
-        <div ref={ctaRef} className="flex flex-wrap items-center justify-center gap-5 pt-2" style={{ opacity: 1, visibility: 'visible' }}>
+        <div ref={ctaRef} className="flex flex-wrap items-center justify-center gap-5 pt-2">
           {ctaButtons.map((button, index) => {
             if (button.primary) {
               return (

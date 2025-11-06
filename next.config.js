@@ -1,14 +1,32 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost'],
+    domains: ['localhost', 'images.unsplash.com'],
     formats: ['image/webp', 'image/avif'],
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 60, // Reduced cache for faster updates
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+    ],
   },
   experimental: {
-    optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-dialog', '@radix-ui/react-popover', '@radix-ui/react-select'],
+    optimizePackageImports: [
+      'lucide-react', 
+      'framer-motion', 
+      '@radix-ui/react-dialog', 
+      '@radix-ui/react-popover', 
+      '@radix-ui/react-select',
+      '@react-three/fiber',
+      '@react-three/drei',
+      'three',
+    ],
     // Disable optimizeCss to avoid critters dependency issue on Render
     // optimizeCss: true,
   },
@@ -18,11 +36,11 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
   swcMinify: true,
-  // Clear all caches
-  generateEtags: false,
+  // Optimize caching for faster builds
+  generateEtags: true,
   onDemandEntries: {
-    maxInactiveAge: 25 * 1000,
-    pagesBufferLength: 2,
+    maxInactiveAge: 15 * 1000, // Reduced from 25s to 15s for faster cleanup
+    pagesBufferLength: 1, // Reduced from 2 to 1 for less memory usage
   },
   webpack: (config, { isServer, dev }) => {
     // Ignore warnings about non-serializable cache items and module warnings
@@ -45,7 +63,7 @@ const nextConfig = {
       { message: /while serializing/ },
     ]
 
-    // Configure webpack cache to handle serialization better
+    // Optimize webpack cache for faster builds
     if (dev && config.cache) {
       config.cache = {
         ...config.cache,
@@ -53,6 +71,9 @@ const nextConfig = {
         buildDependencies: {
           config: [__filename],
         },
+        // Reduce cache size for faster builds
+        maxMemoryGenerations: 1,
+        compression: 'gzip',
       }
     }
 
@@ -78,6 +99,49 @@ const nextConfig = {
         'webgl-sdf-generator': 'commonjs webgl-sdf-generator',
         'bidi-js': 'commonjs bidi-js',
       })
+    }
+
+    // Optimize bundle splitting
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            // Vendor chunk for large libraries
+            vendor: {
+              name: 'vendor',
+              chunks: 'all',
+              test: /node_modules/,
+              priority: 20,
+            },
+            // Separate chunk for Three.js (large library)
+            three: {
+              name: 'three',
+              test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
+              chunks: 'all',
+              priority: 30,
+            },
+            // Separate chunk for Framer Motion
+            framer: {
+              name: 'framer',
+              test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+              chunks: 'all',
+              priority: 25,
+            },
+            // Common chunk for shared code
+            common: {
+              name: 'common',
+              minChunks: 2,
+              chunks: 'all',
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
     }
 
     return config

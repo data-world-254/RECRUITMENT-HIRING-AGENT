@@ -186,7 +186,7 @@ export function InterviewsSection() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-[#2D2DDD] flex items-center justify-center mx-auto mb-3">
                     <Calendar className="w-8 h-8 text-white" />

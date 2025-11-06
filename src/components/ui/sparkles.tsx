@@ -53,7 +53,7 @@ export function Sparkles({
       enable: false,
       zIndex: 1,
     },
-    fpsLimit: 120,
+    fpsLimit: 60, // Reduced from 120 for smoother performance
     particles: {
       color: {
         value: color,
@@ -66,9 +66,22 @@ export function Sparkles({
           max: speed,
         },
         straight: false,
+        outModes: {
+          default: "out",
+        },
+        // Smooth continuous movement
+        bounce: false,
+        attract: {
+          enable: false,
+        },
       },
       number: {
         value: density,
+        // Ensure particles are always active
+        density: {
+          enable: true,
+          area: 800,
+        },
       },
       opacity: {
         value: {
@@ -79,12 +92,28 @@ export function Sparkles({
           enable: true,
           sync: false,
           speed: opacitySpeed,
+          // Continuous animation without stopping
+          destroy: "none",
+          startValue: "random",
         },
       },
       size: {
         value: {
           min: minSize || size / 2.5,
           max: size,
+        },
+        animation: {
+          enable: false, // Disable size animation for smoother performance
+        },
+      },
+      // Life settings for continuous particles
+      life: {
+        count: 0, // Infinite particles
+        delay: {
+          value: 0,
+        },
+        duration: {
+          value: 0,
         },
       },
     },

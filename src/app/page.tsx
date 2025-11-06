@@ -1,9 +1,19 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 import NeuralNetworkHero from '@/components/ui/neural-network-hero'
 import VideoSection from '@/components/ui/video-section'
-import HomePageContent from './homepage-content'
+
+// Lazy load heavy components below the fold for better initial load performance
+const HomePageContent = dynamic(() => import('./homepage-content'), {
+  loading: () => (
+    <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+    </div>
+  ),
+  ssr: true,
+})
 
 export default function HomePage() {
   const router = useRouter()
@@ -42,7 +52,7 @@ export default function HomePage() {
         description="Watch how our AI-powered platform transforms your hiring process"
       />
 
-      {/* Load all content immediately - no lazy loading */}
+      {/* Lazy load content below the fold */}
       <HomePageContent />
     </div>
   )

@@ -48,9 +48,9 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                     variant="ghost"
                     size="sm"
                     onClick={onClose}
-                    className="h-8 w-8 p-0"
+                    className="h-8 w-8 p-0 bg-[#2D2DDD] hover:bg-[#2D2DDD]/90"
                   >
-                    <X className="h-4 w-4" />
+                    <X className="h-4 w-4 text-white" />
                   </Button>
                 </div>
               </CardHeader>
@@ -73,17 +73,17 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                     <Button
                       variant="outline"
                       onClick={() => onEdit(jobPosting.id)}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90"
                     >
-                      <Edit className="w-4 h-4" />
+                      <Edit className="w-4 h-4 text-white" />
                       Edit
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => window.open(jobPosting.google_calendar_link, '_blank')}
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90"
                     >
-                      <ExternalLink className="w-4 h-4" />
+                      <ExternalLink className="w-4 h-4 text-white" />
                       View Calendar
                     </Button>
                   </div>
@@ -91,17 +91,17 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
 
                 {/* Job Description */}
                 <div className="space-y-3">
-                  <h3 className="text-lg font-figtree font-semibold text-gray-900">
+                  <h3 className="text-lg font-figtree font-semibold text-gray-900 dark:text-white">
                     Job Description
                   </h3>
-                  <p className="text-gray-700 font-figtree font-light leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-200 font-figtree font-light leading-relaxed">
                     {jobPosting.job_description}
                   </p>
                 </div>
 
                 {/* Required Skills */}
                 <div className="space-y-3">
-                  <h3 className="text-lg font-figtree font-semibold text-gray-900">
+                  <h3 className="text-lg font-figtree font-semibold text-gray-900 dark:text-white">
                     Required Skills
                   </h3>
                   <div className="flex flex-wrap gap-2">
@@ -119,10 +119,10 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                     <Card className="bg-purple-50 border-purple-200">
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3 mb-3">
-                          <Clock className="w-5 h-5 text-purple-600" />
+                          <Clock className="w-5 h-5 text-[#2D2DDD]" />
                           <h3 className="font-figtree font-semibold">Application Deadline</h3>
                         </div>
-                        <p className="text-gray-700 font-figtree font-light">
+                        <p className="text-gray-700 dark:text-gray-200 font-figtree font-light">
                           {formatDateTime(new Date(jobPosting.application_deadline))}
                         </p>
                       </CardContent>
@@ -132,10 +132,10 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                   <Card className="bg-gray-50">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3 mb-3">
-                        <Calendar className="w-5 h-5 text-primary" />
+                        <Calendar className="w-5 h-5 text-[#2D2DDD]" />
                         <h3 className="font-figtree font-semibold">Interview Date</h3>
                       </div>
-                      <p className="text-gray-700 font-figtree font-light">
+                      <p className="text-gray-700 dark:text-gray-200 font-figtree font-light">
                         {formatDateTime(new Date(jobPosting.interview_date))}
                       </p>
                     </CardContent>
@@ -145,7 +145,7 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                     <Card className="bg-gray-50">
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3 mb-3">
-                          <ExternalLink className="w-5 h-5 text-primary" />
+                          <ExternalLink className="w-5 h-5 text-[#2D2DDD]" />
                           <h3 className="font-figtree font-semibold">Meeting Link</h3>
                         </div>
                         <a
@@ -166,10 +166,10 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                   <Card className="bg-gray-50">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3 mb-3">
-                        <Briefcase className="w-5 h-5 text-primary" />
+                        <Briefcase className="w-5 h-5 text-[#2D2DDD]" />
                         <h3 className="font-figtree font-semibold">Created</h3>
                       </div>
-                      <p className="text-gray-700 font-figtree font-light">
+                      <p className="text-gray-700 dark:text-gray-200 font-figtree font-light">
                         {formatDate(new Date(jobPosting.created_at))}
                       </p>
                     </CardContent>
@@ -178,10 +178,10 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
                   <Card className="bg-gray-50">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-3 mb-3">
-                        <Users className="w-5 h-5 text-primary" />
+                        <Users className="w-5 h-5 text-[#2D2DDD]" />
                         <h3 className="font-figtree font-semibold">Status</h3>
                       </div>
-                      <p className="text-gray-700 font-figtree font-light">
+                      <p className="text-gray-700 dark:text-gray-200 font-figtree font-light">
                         {jobPosting.n8n_webhook_sent ? 'Webhook Sent' : 'Webhook Pending'}
                       </p>
                     </CardContent>
@@ -190,7 +190,10 @@ export function JobDetailsModal({ isOpen, onClose, jobPosting, onEdit }: JobDeta
 
                 {/* Close Button */}
                 <div className="flex justify-end pt-6 border-t">
-                  <Button onClick={onClose}>
+                  <Button 
+                    onClick={onClose}
+                    className="bg-[#2D2DDD] text-white hover:bg-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:hover:bg-[#2D2DDD]/90"
+                  >
                     Close
                   </Button>
                 </div>

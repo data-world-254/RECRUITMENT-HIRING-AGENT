@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 const ACCENT = '#2D2DDD'
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 1, y: 0 },
   visible: (i: number) => ({ opacity: 1, y: 0, transition: { delay: i * 0.08, duration: 0.5 } })
 }
 
@@ -44,9 +44,8 @@ export default function ContactSection({ overlay = false }: ContactSectionProps)
       <div className={`${overlay ? 'min-h-full' : ''} flex items-start justify-center px-4 sm:px-6 pt-8 sm:pt-12`}>
         <div className="w-full max-w-6xl py-4 sm:py-6 pb-32 sm:pb-20 md:pb-64 lg:pb-24">
           <motion.div 
-            initial={{ opacity: 0, y: 16 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            viewport={{ once: true }} 
+            initial={{ opacity: 1, y: 0 }} 
+            animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6 }}
             className="text-center mb-6 sm:mb-8 md:mb-10"
           >
@@ -68,9 +67,8 @@ export default function ContactSection({ overlay = false }: ContactSectionProps)
                 <motion.div 
                   key={card.title}
                   variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
+                  initial="visible"
+                  animate="visible"
                   custom={i}
                   className="pointer-events-auto group relative overflow-hidden rounded-[20px] sm:rounded-[24px] border border-white/20 bg-white/10 backdrop-blur-xl p-4 sm:p-5 md:p-6 transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-white/15"
                   style={{ ['--accent' as any]: ACCENT, boxShadow: `0 10px 40px -10px ${ACCENT}33` }}
@@ -92,9 +90,8 @@ export default function ContactSection({ overlay = false }: ContactSectionProps)
             {/* Right: Contact form */}
             <motion.form 
               onSubmit={handleSubmit(onSubmit)}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="pointer-events-auto relative rounded-[20px] sm:rounded-[24px] border border-white/20 bg-white/10 backdrop-blur-xl p-4 sm:p-5 md:p-6 lg:p-8"
               aria-label="Contact form"

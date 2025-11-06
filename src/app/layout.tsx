@@ -70,6 +70,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        {/* Prefetch critical routes */}
+        <link rel="prefetch" href="/auth/signin" />
+        <link rel="prefetch" href="/auth/signup" />
       </head>
       <body className={`${figtree.className} antialiased bg-background text-foreground`}>
         <ThemeProvider>

@@ -577,13 +577,13 @@ export function JobsSection() {
             Manage your active recruitment campaigns
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+        <div className="flex flex-row gap-2 sm:gap-3 w-full sm:w-auto">
           <Button 
             variant="outline" 
             onClick={refreshJobs}
             disabled={isLoading}
             size="sm"
-            className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
+            className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 flex-1 sm:w-auto"
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin-smooth' : ''}`} />
             Refresh
@@ -591,7 +591,7 @@ export function JobsSection() {
           <Button 
             variant="default" 
             size="sm"
-            className="bg-[#2D2DDD] text-white hover:border-white hover:bg-[#2D2DDD] hover:text-white w-full sm:w-auto"
+            className="bg-[#2D2DDD] text-white hover:border-white hover:bg-[#2D2DDD] hover:text-white flex-1 sm:w-auto"
             onClick={() => setIsCreateModalOpen(true)}
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -719,34 +719,38 @@ export function JobsSection() {
                       </div>
                     )}
                   </div>
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-4 sm:mt-0">
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => handleEditJob(job.id)}
-                      className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
-                    >
-                      <Edit className="w-4 h-4 mr-1" />
-                      Edit
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => handleViewDetails(job.id)}
-                      className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 w-full sm:w-auto"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-1" />
-                      View Details
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => setJobToDelete(job)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 hover:border-red-300 dark:text-red-400 dark:hover:text-red-300 dark:border-red-800 dark:hover:bg-red-900/20 w-full sm:w-auto"
-                    >
-                      <Trash2 className="w-4 h-4 mr-1" />
-                      Delete
-                    </Button>
+                  <div className="flex flex-col gap-2 mt-4 sm:mt-0">
+                    <div className="flex flex-row gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleEditJob(job.id)}
+                        className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 flex-1 sm:w-auto"
+                      >
+                        <Edit className="w-4 h-4 mr-1" />
+                        Edit
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => handleViewDetails(job.id)}
+                        className="bg-[#2D2DDD] text-white border-[#2D2DDD] hover:bg-[#2D2DDD]/90 hover:border-[#2D2DDD]/90 dark:bg-[#2D2DDD] dark:text-white dark:border-[#2D2DDD] dark:hover:bg-[#2D2DDD]/90 flex-1 sm:w-auto"
+                      >
+                        <ExternalLink className="w-4 h-4 mr-1" />
+                        View Details
+                      </Button>
+                    </div>
+                    <div className="flex justify-center">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        onClick={() => setJobToDelete(job)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 hover:border-red-300 dark:text-red-400 dark:hover:text-red-300 dark:border-red-800 dark:hover:bg-red-900/20 w-auto sm:w-auto"
+                      >
+                        <Trash2 className="w-4 h-4 mr-1" />
+                        Delete
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </CardContent>

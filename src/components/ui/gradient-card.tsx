@@ -55,18 +55,17 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
         boxShadow: "0 -10px 100px 10px rgba(78, 99, 255, 0.25), 0 0 10px 0 rgba(0, 0, 0, 0.5)",
         willChange: shouldReduceMotion ? "auto" : "transform",
       }}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.1,
-      }}
+      initial={{ opacity: 1, y: 0 }}
       animate={{
+        opacity: 1,
         y: shouldReduceMotion ? 0 : (isHovered ? -5 : 0),
         rotateX: shouldReduceMotion ? 0 : rotation.x,
         rotateY: shouldReduceMotion ? 0 : rotation.y,
         perspective: shouldReduceMotion ? 0 : 1000,
+      }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.1,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}

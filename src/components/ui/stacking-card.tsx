@@ -89,7 +89,13 @@ export const Card = ({
               className={`w-full h-full`}
               style={{ scale: imageScale }}
             >
-              <img src={url} alt={title} className='absolute inset-0 w-full h-full object-cover' />
+              <img 
+                src={url} 
+                alt={title} 
+                className='absolute inset-0 w-full h-full object-cover' 
+                loading="lazy"
+                decoding="async"
+              />
             </motion.div>
           </div>
         </div>

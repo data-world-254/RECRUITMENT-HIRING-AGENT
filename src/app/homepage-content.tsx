@@ -2,17 +2,41 @@
 
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import Animated3DShape from '@/components/ui/animated-3d-shape'
-import PricingSection from '@/components/ui/pricing-section'
+import { Card, CardContent } from '@/components/ui/card'
 import { GradientCard } from '@/components/ui/gradient-card'
-import { FeatureCarousel } from '@/components/ui/animated-feature-carousel'
-import StackingCardComponent from '@/components/ui/stacking-card'
-import PricingBackground from '@/components/ui/pricing-background'
+import dynamic from 'next/dynamic'
 import { useRef } from 'react'
-import ContactSection from '@/components/ui/contact-section'
-import AnimatedShaderBackground from '@/components/ui/animated-shader-background'
+
+// Lazy load heavy components for better performance
+const Animated3DShape = dynamic(() => import('@/components/ui/animated-3d-shape').then(mod => ({ default: mod.default })), {
+  ssr: false,
+})
+
+const PricingSection = dynamic(() => import('@/components/ui/pricing-section').then(mod => ({ default: mod.default })), {
+  ssr: true,
+})
+
+const FeatureCarousel = dynamic(() => import('@/components/ui/animated-feature-carousel').then(mod => ({ default: mod.FeatureCarousel })), {
+  ssr: false,
+  loading: () => <div className="h-[480px] lg:h-[560px] bg-neutral-800/50 rounded-2xl animate-pulse" />,
+})
+
+const StackingCardComponent = dynamic(() => import('@/components/ui/stacking-card').then(mod => ({ default: mod.default })), {
+  ssr: false,
+  loading: () => <div className="h-screen bg-slate-950 animate-pulse" />,
+})
+
+const PricingBackground = dynamic(() => import('@/components/ui/pricing-background').then(mod => ({ default: mod.default })), {
+  ssr: false,
+})
+
+const ContactSection = dynamic(() => import('@/components/ui/contact-section').then(mod => ({ default: mod.default })), {
+  ssr: true,
+})
+
+const AnimatedShaderBackground = dynamic(() => import('@/components/ui/animated-shader-background').then(mod => ({ default: mod.default })), {
+  ssr: false,
+})
 
 // Shader background is a client component that mounts in useEffect; import directly to avoid chunk delays
 import { 
@@ -20,11 +44,8 @@ import {
   Users, 
   Zap, 
   Target, 
-  ArrowRight, 
   TrendingUp, 
   Clock, 
-  CheckCircle, 
-  FileText,
   Shield,
   DollarSign,
   Building2,
@@ -33,7 +54,6 @@ import {
   Palette,
   ShoppingCart,
   Stethoscope,
-  Sparkles
 } from 'lucide-react'
 
 export default function HomePageContent() {
@@ -146,10 +166,9 @@ export default function HomePageContent() {
       <section className="py-20 px-4 relative bg-black">
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
-            viewport={{ once: true, margin: '-100px' }}
             className="text-center mb-16 gpu-accelerated"
           >
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6">
@@ -187,10 +206,9 @@ export default function HomePageContent() {
         </div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
-            viewport={{ once: true, margin: '-100px' }}
             className="text-center mb-16 gpu-accelerated"
           >
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6">
@@ -209,10 +227,9 @@ export default function HomePageContent() {
             {industrySolutions.map((solution, index) => (
               <motion.div
                 key={solution.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ type: 'tween', duration: 0.4, delay: index * 0.1, ease: 'easeOut' }}
-                viewport={{ once: true, margin: '-50px' }}
                 className="gpu-accelerated"
               >
                 <Card className="h-full hover:shadow-2xl transition-all duration-500 group bg-neutral-900/80 backdrop-blur-sm border border-neutral-800/50 hover:bg-neutral-900/90 hover:scale-105 relative overflow-hidden hover:border-[#3ca2fa]/50">
@@ -276,10 +293,9 @@ export default function HomePageContent() {
       <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-black relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
-            viewport={{ once: true, margin: '-100px' }}
             className="text-center mb-8 sm:mb-12 md:mb-16 gpu-accelerated"
           >
                 <h2 className="text-[27px] sm:text-[57px] md:text-[69px] font-extralight font-figtree leading-[1.05] tracking-tight mb-3 sm:mb-4 text-white">

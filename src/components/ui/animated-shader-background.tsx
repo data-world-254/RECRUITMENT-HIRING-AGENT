@@ -23,6 +23,7 @@ const AnimatedShaderBackground = () => {
   const cameraRef = useRef<THREE.OrthographicCamera | null>(null)
   const materialRef = useRef<THREE.ShaderMaterial | null>(null)
   const animationFrameRef = useRef<number | null>(null)
+  const isAnimatingRef = useRef<boolean>(false)
 
   useEffect(() => {
     // Check for reduced motion preference
@@ -56,10 +57,15 @@ const AnimatedShaderBackground = () => {
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true,
       alpha: true,
-      powerPreference: 'high-performance'
+      powerPreference: 'high-performance',
+      // Optimize for continuous rendering
+      preserveDrawingBuffer: false,
+      failIfMajorPerformanceCaveat: false,
     })
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // Limit pixel ratio for performance
     renderer.setSize(initialSize.width, initialSize.height)
+    // Ensure continuous rendering
+    renderer.setAnimationLoop(null) // Use manual animation loop for better control
     renderer.domElement.style.position = 'absolute'
     renderer.domElement.style.top = '0'
     renderer.domElement.style.left = '0'
@@ -148,8 +154,12 @@ const AnimatedShaderBackground = () => {
     const mesh = new THREE.Mesh(geometry, material)
     scene.add(mesh)
 
-    // Animation loop
+    // Animation loop - optimized for smooth continuous animation
     let lastTime = performance.now()
+    let accumulatedTime = 0
+    const targetFPS = 60
+    const frameTime = 1 / targetFPS
+    
     const animate = () => {
       const currentTime = performance.now()
       const deltaTime = (currentTime - lastTime) / 1000 // Convert to seconds
@@ -157,13 +167,23 @@ const AnimatedShaderBackground = () => {
 
       // Respect reduced motion preference
       if (!isReducedMotion) {
-        material.uniforms.iTime.value += Math.min(deltaTime, 0.016) // Cap at 60fps
+        // Use fixed timestep for smooth animation
+        accumulatedTime += Math.min(deltaTime, 0.033) // Cap at 30fps minimum
+        
+        // Update time uniformly for smooth continuous animation
+        while (accumulatedTime >= frameTime) {
+          material.uniforms.iTime.value += frameTime
+          accumulatedTime -= frameTime
+        }
       }
       
       renderer.render(scene, camera)
       animationFrameRef.current = requestAnimationFrame(animate)
     }
-    animate()
+    
+    // Start animation immediately
+    isAnimatingRef.current = true
+    animationFrameRef.current = requestAnimationFrame(animate)
 
     // Handle container resize
     const handleResize = () => {
@@ -192,8 +212,10 @@ const AnimatedShaderBackground = () => {
     return () => {
       mediaQuery.removeEventListener('change', handleReducedMotionChange)
       
+      isAnimatingRef.current = false
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
+        animationFrameRef.current = null
       }
       
       resizeObserver.disconnect()
