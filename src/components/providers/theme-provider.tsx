@@ -1,30 +1,21 @@
 'use client'
 
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
-import { useEffect, useState } from 'react'
 
 interface ThemeProviderProps {
   children: React.ReactNode
 }
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Prevent hydration mismatch by not rendering theme provider until mounted
-  if (!mounted) {
-    return <>{children}</>
-  }
-
+  // next-themes handles SSR internally, no need for mounted check
+  // This prevents hydration mismatches and ensures components render on first load
+  // Removing the mounted state check allows components to render immediately
   return (
     <NextThemesProvider 
       attribute="class" 
       defaultTheme="dark"
       enableSystem={true}
-      disableTransitionOnChange={false}
+      disableTransitionOnChange={true}
       storageKey="hr-recruitment-theme"
     >
       {children}

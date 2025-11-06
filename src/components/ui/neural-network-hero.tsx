@@ -286,21 +286,21 @@ export default function NeuralNetworkHero({
   );
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen w-full overflow-hidden bg-black" style={{ position: 'relative', zIndex: 1 }}>
+    <section ref={sectionRef} className="relative min-h-[80vh] sm:min-h-screen w-full overflow-hidden bg-black" style={{ position: 'relative', zIndex: 1 }}>
       <ShaderBackground />
 
-      <div className="relative z-20 mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 pb-12 md:pb-24 pt-48 sm:gap-8 sm:pt-56 md:px-10 lg:px-16" style={{ position: 'relative', zIndex: 20 }}>
+      <div className="relative z-20 mx-auto flex max-w-7xl flex-col items-center gap-6 px-6 pb-4 sm:pb-12 md:pb-24 pt-48 sm:gap-8 sm:pt-56 md:px-10 lg:px-16" style={{ position: 'relative', zIndex: 20 }}>
         <div ref={badgeRef} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 backdrop-blur-sm" style={{ opacity: 1, visibility: 'visible' }}>
           <span className="text-[10px] font-light uppercase tracking-[0.08em] text-white/70">{badgeLabel}</span>
           <span className="h-1 w-1 rounded-full bg-white/40" />
           <span className="text-xs font-light tracking-tight text-white/80">{badgeText}</span>
         </div>
 
-        <h1 ref={headerRef} className="max-w-2xl text-center text-5xl font-extralight leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl" style={{ opacity: 1, visibility: 'visible' }}>
+        <h1 ref={headerRef} className="max-w-2xl text-center text-[27px] sm:text-[57px] md:text-[69px] font-extralight leading-[1.05] tracking-tight text-white" style={{ opacity: 1, visibility: 'visible' }}>
           {title}
         </h1>
 
-        <p ref={paraRef} className="max-w-xl text-center text-base font-light leading-relaxed tracking-tight text-white/75 sm:text-lg" style={{ opacity: 1, visibility: 'visible' }}>
+        <p ref={paraRef} className="max-w-xl text-center text-sm sm:text-lg font-light leading-relaxed tracking-tight text-white/75" style={{ opacity: 1, visibility: 'visible' }}>
           {description}
         </p>
 

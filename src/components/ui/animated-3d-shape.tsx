@@ -47,16 +47,25 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
   ]
 
   useEffect(() => {
+    let ticking = false
+    
     const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
       const scrollPosition = window.scrollY
       setScrollY(scrollPosition)
       
       // Change shape based on scroll position
       const newShapeIndex = Math.floor(scrollPosition / 200) % shapes.length
       setShapeIndex(newShapeIndex)
+          
+          ticking = false
+        })
+        ticking = true
+      }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [shapes.length])
 
@@ -71,7 +80,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
       {[...Array(3)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute"
+          className="absolute gpu-accelerated"
           style={{
             top: `${20 + i * 30}%`,
             left: `${10 + i * 20}%`,
@@ -88,6 +97,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
             repeat: Infinity,
             ease: "easeInOut",
             delay: i * 0.5,
+            type: "tween",
           }}
         >
           <div
@@ -106,7 +116,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
       {[...Array(5)].map((_, i) => (
         <motion.div
           key={`floating-${i}`}
-          className="absolute"
+          className="absolute gpu-accelerated"
           style={{
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
@@ -125,6 +135,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
             repeat: Infinity,
             ease: "easeInOut",
             delay: Math.random() * 2,
+            type: "tween",
           }}
         >
           <div
@@ -140,7 +151,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
 
       {/* Main animated shape */}
       <motion.div
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 gpu-accelerated"
         style={{
           width: '400px',
           height: '400px',
@@ -154,6 +165,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
           duration: 2,
           repeat: Infinity,
           ease: "easeInOut",
+          type: "tween",
         }}
       >
         <div
@@ -169,7 +181,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
 
       {/* Scroll-responsive shapes */}
       <motion.div
-        className="absolute"
+        className="absolute gpu-accelerated"
         style={{
           top: `${50 + Math.sin(scrollY * 0.01) * 20}%`,
           right: `${20 + Math.cos(scrollY * 0.008) * 15}%`,
@@ -187,6 +199,7 @@ export default function Animated3DShape({ className = '' }: Animated3DShapeProps
           duration: 3,
           repeat: Infinity,
           ease: "easeInOut",
+          type: "tween",
         }}
       >
         <div

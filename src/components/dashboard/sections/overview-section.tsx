@@ -319,7 +319,8 @@ export function OverviewSection() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ type: 'tween', duration: 0.4, ease: 'easeOut' }}
+        className="gpu-accelerated"
       >
         <h1 className="text-xl sm:text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">
           Welcome back!
@@ -374,7 +375,8 @@ export function OverviewSection() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ type: 'tween', duration: 0.4, delay: 0.4, ease: 'easeOut' }}
+          className="gpu-accelerated"
       >
         <Card className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
           <CardHeader className="pb-4">

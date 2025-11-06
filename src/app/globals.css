@@ -40,9 +40,27 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    /* Enable smooth scrolling for better UX */
+    scroll-behavior: smooth;
+    /* Performance optimization */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Optimize rendering */
+    text-rendering: optimizeLegibility;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-figtree), 'Figtree';
+    /* Performance optimizations */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Prevent layout shifts */
+    overflow-x: hidden;
+    /* Optimize text rendering */
+    text-rendering: optimizeLegibility;
   }
   
   /* Ensure Figtree font is applied to all text elements */
@@ -86,27 +104,71 @@
 }
 
 @layer utilities {
+  /* Hardware acceleration for smooth animations */
   .animate-spin-smooth {
     @apply transform-gpu;
     will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 
   @keyframes float {
     0%, 100% {
-      transform: translateY(0px);
+      transform: translateY(0px) translateZ(0);
     }
     50% {
-      transform: translateY(-10px);
+      transform: translateY(-10px) translateZ(0);
     }
   }
 
   .animate-float {
     animation: float 3s ease-in-out infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   .border-focus-thin:focus,
   .border-focus-thin:focus-visible {
     border-width: 0.5px !important;
+  }
+  
+  /* Performance optimization utilities */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+  
+  .smooth-animation {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Global performance optimizations for animations */
+@layer base {
+  /* Optimize all motion elements */
+  [data-framer-component-type] {
+    transform: translateZ(0);
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+  
+  /* Optimize canvas elements (Three.js) */
+  canvas {
+    transform: translateZ(0);
+    will-change: contents;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Prevent layout shifts during animations */
+  img, video {
+    content-visibility: auto;
   }
 }
 

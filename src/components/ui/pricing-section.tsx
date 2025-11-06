@@ -178,7 +178,7 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
     setIsYearly(Number.parseInt(value) === 1);
 
   return (
-    <div className="px-4 pt-20 min-h-screen mx-auto relative bg-black" ref={pricingRef}>
+    <div className="px-4 pt-20 pb-8 sm:pb-12 md:pb-16 min-h-screen mx-auto relative bg-black" ref={pricingRef}>
       <div
         className="absolute top-0 left-[10%] right-[10%] w-[80%] h-full z-0"
         style={{
@@ -196,7 +196,7 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
           animationNum={0}
           timelineRef={pricingRef}
           customVariants={revealVariants}
-          className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight text-white mb-4"
+          className="text-[27px] sm:text-[57px] md:text-[69px] font-extralight font-figtree leading-[1.05] tracking-tight text-white mb-4"
         >
           Plans that works best for your{" "}
           <TimelineContent
@@ -215,7 +215,7 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
           animationNum={2}
           timelineRef={pricingRef}
           customVariants={revealVariants}
-          className="sm:text-base text-sm text-gray-300 sm:w-[70%] w-[80%] mx-auto font-figtree"
+          className="text-base sm:text-xl font-figtree font-light text-gray-300 max-w-3xl mx-auto"
         >
           Choose the perfect plan for your team. Start free, upgrade anytime.
         </TimelineContent>
@@ -230,7 +230,7 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
         <PricingSwitch onSwitch={togglePricingPeriod} />
       </TimelineContent>
 
-      <div className="grid md:grid-cols-3 max-w-7xl gap-4 py-6 mx-auto relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl gap-4 sm:gap-6 py-6 mx-auto relative z-10 px-4 sm:px-6">
         {plans.map((plan, index) => (
           <TimelineContent
             key={plan.name}
@@ -238,44 +238,45 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
             animationNum={4 + index}
             timelineRef={pricingRef}
             customVariants={revealVariants}
+            className="w-full"
           >
             <Card
-              className={`relative border-neutral-800 bg-neutral-900/50 backdrop-blur-sm ${
+              className={`relative border-neutral-800 bg-neutral-900/50 backdrop-blur-sm w-full h-full flex flex-col ${
                 plan.popular ? "ring-2 ring-blue-500 bg-gradient-to-b from-blue-900/30 to-neutral-900/50" : ""
               }`}
             >
-              <CardHeader className="text-left">
-                <div className="flex justify-between">
-                  <h3 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight text-white mb-2">
-                    {plan.name}
-                  </h3>
+              {/* Popular Badge - Positioned at top-right corner */}
                   {plan.popular && (
-                    <div className="">
-                      <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium font-figtree">
+                <div className="absolute -top-3 right-4 z-20">
+                  <span className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium font-figtree shadow-lg shadow-blue-500/50 border border-blue-400/50">
                         Popular
                       </span>
                     </div>
                   )}
-                </div>
-                <p className="text-sm text-gray-300 mb-4 font-figtree">{plan.description}</p>
+              
+              <CardHeader className="text-left pt-6">
+                <h3 className="text-[21px] sm:text-[33px] md:text-[45px] font-extralight font-figtree leading-[1.05] tracking-tight text-white mb-2">
+                  {plan.name}
+                </h3>
+                <p className="text-xs sm:text-base text-gray-300 mb-4 font-figtree">{plan.description}</p>
                 <div className="flex items-baseline">
-                  <span className="text-4xl font-semibold text-white font-figtree">
+                  <span className="text-2xl sm:text-4xl font-semibold text-white font-figtree">
                     $
                     <NumberFlow
                       value={isYearly ? plan.yearlyPrice : plan.price}
-                      className="text-4xl font-semibold font-figtree"
+                      className="text-2xl sm:text-4xl font-semibold font-figtree"
                     />
                   </span>
-                  <span className="text-gray-400 ml-1 font-figtree">
+                  <span className="text-gray-400 ml-1 text-xs sm:text-base font-figtree">
                     /{isYearly ? "year" : "month"}
                   </span>
                 </div>
               </CardHeader>
 
-              <CardContent className="pt-0">
+              <CardContent className="pt-0 pb-6 px-4 sm:px-6">
                 <button
                   onClick={plan.onButtonClick}
-                  className={`w-full mb-6 p-4 text-xl rounded-xl font-figtree transition-all duration-300 ${
+                  className={`w-full mb-6 p-3 sm:p-4 text-sm sm:text-xl rounded-xl font-figtree transition-all duration-300 ${
                     plan.popular
                       ? "bg-gradient-to-t from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg shadow-blue-500/50 border border-blue-400 text-white"
                       : plan.buttonVariant === "outline"
@@ -291,7 +292,7 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
                       <span className="text-blue-400 grid place-content-center mt-0.5 mr-3">
                         {feature.icon}
                       </span>
-                      <span className="text-sm text-gray-300 font-figtree">
+                      <span className="text-xs sm:text-sm text-gray-300 font-figtree">
                         {feature.text}
                       </span>
                     </li>
@@ -299,7 +300,7 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
                 </ul>
 
                 <div className="space-y-3 pt-4 border-t border-neutral-800">
-                  <h4 className="font-medium text-base text-white mb-3 font-figtree">
+                  <h4 className="font-medium text-[11px] sm:text-[13px] text-white mb-3 font-figtree">
                     {plan.includes[0]}
                   </h4>
                   <ul className="space-y-2 font-semibold">
@@ -308,7 +309,7 @@ export default function PricingSection({ plans: customPlans }: PricingSectionPro
                         <span className="h-6 w-6 bg-blue-500/20 border border-blue-500 rounded-full grid place-content-center mt-0.5 mr-3">
                           <CheckCheck className="h-4 w-4 text-blue-400" />
                         </span>
-                        <span className="text-sm text-gray-300 font-figtree">{feature}</span>
+                        <span className="text-xs sm:text-sm text-gray-300 font-figtree">{feature}</span>
                       </li>
                     ))}
                   </ul>

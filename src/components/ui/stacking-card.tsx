@@ -60,7 +60,7 @@ export const Card = ({
         }}
         className={`flex flex-col relative -top-[15%] lg:-top-[18%] h-[580px] lg:h-[680px] w-[80%] lg:w-[85%] rounded-[25px] p-10 origin-top`}
       >
-        <h2 className='text-2xl text-center font-semibold font-figtree text-white mb-6'>{title}</h2>
+                <h2 className='text-[17px] sm:text-[21px] text-center font-semibold font-figtree text-white mb-6'>{title}</h2>
         <div className={`flex h-full mt-5 gap-10`}>
           <div className={`w-[40%] relative top-[10%] flex flex-col`}>
             <div>
@@ -71,11 +71,11 @@ export const Card = ({
                   </div>
                 </div>
               )}
-              <p className='text-base text-white/90 font-figtree font-semibold leading-relaxed mb-6'>{description}</p>
+              <p className='text-sm sm:text-base text-white/90 font-figtree font-semibold leading-relaxed mb-6'>{description}</p>
             </div>
             {value && (
               <div className='mt-4'>
-                <div className='text-4xl font-semibold text-white font-figtree bg-white/10 backdrop-blur-sm px-4 py-2 rounded-[25px] inline-block border border-white/20'>
+                <div className='text-2xl sm:text-4xl font-semibold text-white font-figtree bg-white/10 backdrop-blur-sm px-4 py-2 rounded-[25px] inline-block border border-white/20'>
                   {value}
                 </div>
               </div>
@@ -120,11 +120,11 @@ const StackingCardComponent = forwardRef<HTMLElement, ComponentRootProps>(
               <div className='absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]'></div>
               
               <div className='relative z-10 text-center px-8 pt-8 lg:pt-12 pb-4'>
-                <h1 className='text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree text-center tracking-tight leading-[1.05] mb-4'>
+                <h1 className='text-[27px] sm:text-[57px] md:text-[69px] font-extralight font-figtree text-center tracking-tight leading-[1.05] mb-4'>
                   {heading}
                 </h1>
                 {subheading && (
-                  <p className='text-xl font-figtree font-semibold text-gray-300 max-w-2xl mx-auto'>
+                  <p className='text-base sm:text-xl font-figtree font-semibold text-gray-300 max-w-2xl mx-auto'>
                     {subheading}
                   </p>
                 )}

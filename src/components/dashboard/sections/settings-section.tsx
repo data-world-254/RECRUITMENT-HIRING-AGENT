@@ -116,7 +116,8 @@ export function SettingsSection() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ type: 'tween', duration: 0.4, ease: 'easeOut' }}
+        className="gpu-accelerated"
       >
         <h1 className="text-2xl md:text-3xl font-figtree font-extralight mb-2 text-[#2D2DDD] dark:text-white">
           Settings

@@ -148,19 +148,19 @@ export default function HomePageContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
+            transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
+            viewport={{ once: true, margin: '-100px' }}
+            className="text-center mb-16 gpu-accelerated"
           >
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6">
               <Brain className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-white/80">Your all-in-one AI engine</span>
             </div>
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight mb-4 text-white">
+            <h2 className="text-[27px] sm:text-[57px] md:text-[69px] font-extralight font-figtree leading-[1.05] tracking-tight mb-4 text-white">
               <span>Powerful</span>{' '}
               <span>AI-Driven Features</span>
             </h2>
-            <p className="text-xl font-figtree font-light text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-xl font-figtree font-light text-gray-300 max-w-3xl mx-auto">
               Transform your recruitment process with cutting-edge AI technology that learns, adapts, and delivers exceptional results.
             </p>
           </motion.div>
@@ -189,18 +189,18 @@ export default function HomePageContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
+            transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
+            viewport={{ once: true, margin: '-100px' }}
+            className="text-center mb-16 gpu-accelerated"
           >
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2 mb-6">
               <Building2 className="w-4 h-4 text-[#3ca2fa]" />
               <span className="text-sm font-medium text-white/80">Tools, security, and integrations</span>
             </div>
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight mb-4 text-white">
+            <h2 className="text-[27px] sm:text-[57px] md:text-[69px] font-extralight font-figtree leading-[1.05] tracking-tight mb-4 text-white">
               Industry-Specific Solutions
             </h2>
-            <p className="text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto">
+            <p className="text-base sm:text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto">
               Tailored recruitment solutions for every industry with specialized screening and assessment tools.
             </p>
           </motion.div>
@@ -211,8 +211,9 @@ export default function HomePageContent() {
                 key={solution.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                transition={{ type: 'tween', duration: 0.4, delay: index * 0.1, ease: 'easeOut' }}
+                viewport={{ once: true, margin: '-50px' }}
+                className="gpu-accelerated"
               >
                 <Card className="h-full hover:shadow-2xl transition-all duration-500 group bg-neutral-900/80 backdrop-blur-sm border border-neutral-800/50 hover:bg-neutral-900/90 hover:scale-105 relative overflow-hidden hover:border-[#3ca2fa]/50">
                   <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#3ca2fa]/20 to-blue-600/20 rounded-full blur-xl"></div>
@@ -220,9 +221,9 @@ export default function HomePageContent() {
                     <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#3ca2fa] to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-[#3ca2fa]/30">
                       <solution.icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold mb-2 text-white">{solution.title}</h3>
-                    <p className="text-sm text-gray-300 mb-3">{solution.description}</p>
-                    <div className="text-sm font-medium text-[#3ca2fa] bg-[#3ca2fa]/10 px-3 py-1 rounded-full inline-block border border-[#3ca2fa]/20">{solution.metrics}</div>
+                    <h3 className="text-[13px] sm:text-[15px] font-semibold mb-2 text-white">{solution.title}</h3>
+                    <p className="text-xs sm:text-sm text-gray-300 mb-3">{solution.description}</p>
+                    <div className="text-xs sm:text-sm font-medium text-[#3ca2fa] bg-[#3ca2fa]/10 px-3 py-1 rounded-full inline-block border border-[#3ca2fa]/20">{solution.metrics}</div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -232,36 +233,38 @@ export default function HomePageContent() {
       </section>
 
       {/* Business Benefits Section - Stacking Cards */}
-      <StackingCardComponent
-        projects={businessBenefits.map((benefit) => {
-          // Map colors by title as specified
-          const colorMap: Record<string, string> = {
-            'Reduce Hiring Costs': '#2D2DDD',
-            'Faster Time-to-Hire': '#06B6D4',
-            'Higher Quality Hires': '#2D2DDD',
-            'Compliance & Security': '#06B6D4',
-          };
-          
-          // Select appropriate images for each benefit
-          const imageMap: Record<string, string> = {
-            'Reduce Hiring Costs': 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1000&auto=format&fit=crop',
-            'Faster Time-to-Hire': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
-            'Higher Quality Hires': 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1000&auto=format&fit=crop',
-            'Compliance & Security': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop',
-          };
+      <div className="hidden md:block">
+        <StackingCardComponent
+          projects={businessBenefits.map((benefit) => {
+            // Map colors by title as specified
+            const colorMap: Record<string, string> = {
+              'Reduce Hiring Costs': '#2D2DDD',
+              'Faster Time-to-Hire': '#06B6D4',
+              'Higher Quality Hires': '#2D2DDD',
+              'Compliance & Security': '#06B6D4',
+            };
+            
+            // Select appropriate images for each benefit
+            const imageMap: Record<string, string> = {
+              'Reduce Hiring Costs': 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1000&auto=format&fit=crop',
+              'Faster Time-to-Hire': 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1000&auto=format&fit=crop',
+              'Higher Quality Hires': 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1000&auto=format&fit=crop',
+              'Compliance & Security': 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop',
+            };
 
-          return {
-            title: benefit.title,
-            description: benefit.description,
-            link: imageMap[benefit.title] || 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1000&auto=format&fit=crop',
-            color: colorMap[benefit.title] || '#4A0DBA',
-            value: benefit.value,
-            icon: benefit.icon,
-          };
-        })}
-        heading="Measurable Business Impact"
-        subheading="See the real impact on your bottom line with our comprehensive ROI tracking and analytics."
-      />
+            return {
+              title: benefit.title,
+              description: benefit.description,
+              link: imageMap[benefit.title] || 'https://images.unsplash.com/photo-1556761175-4b46a572b786?q=80&w=1000&auto=format&fit=crop',
+              color: colorMap[benefit.title] || '#4A0DBA',
+              value: benefit.value,
+              icon: benefit.icon,
+            };
+          })}
+          heading="Measurable Business Impact"
+          subheading="See the real impact on your bottom line with our comprehensive ROI tracking and analytics."
+        />
+      </div>
 
       
 
@@ -275,14 +278,14 @@ export default function HomePageContent() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 sm:mb-12 md:mb-16"
+            transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
+            viewport={{ once: true, margin: '-100px' }}
+            className="text-center mb-8 sm:mb-12 md:mb-16 gpu-accelerated"
           >
-            <h2 className="text-5xl sm:text-6xl md:text-7xl font-extralight font-figtree leading-[1.05] tracking-tight mb-3 sm:mb-4 text-white">
-              How It Works
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto px-4">
+                <h2 className="text-[27px] sm:text-[57px] md:text-[69px] font-extralight font-figtree leading-[1.05] tracking-tight mb-3 sm:mb-4 text-white">
+                  How It Works
+                </h2>
+            <p className="text-sm sm:text-lg md:text-xl font-figtree font-light text-gray-300 max-w-2xl mx-auto px-4">
               Get started in minutes and see results immediately with our streamlined process
             </p>
           </motion.div>
@@ -303,12 +306,12 @@ export default function HomePageContent() {
 
 
       {/* Pricing Section */}
-      <section className="relative bg-black overflow-hidden pb-12 md:pb-16 lg:pb-20">
+      <section className="relative bg-black overflow-hidden pb-16 sm:pb-20 md:pb-24 lg:pb-28">
         <PricingSection />
       </section>
 
       {/* Animated Shader Background Section with Contact overlay */}
-      <section className="relative bg-black overflow-hidden min-h-[560px] lg:min-h-[640px] pb-12 md:pb-16 lg:pb-20">
+      <section className="relative bg-black overflow-visible min-h-[1100px] sm:min-h-[900px] md:min-h-[1400px] lg:min-h-[1000px] pb-40 sm:pb-32 md:pb-96 lg:pb-48">
         <AnimatedShaderBackground />
         {/* Foreground Contact content overlaying the meteors */}
         <ContactSection overlay />

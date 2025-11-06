@@ -196,7 +196,7 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
           className="mb-auto"
         >
           <motion.h3
-            className="text-2xl font-medium text-white mb-3 font-figtree"
+            className="text-[17px] sm:text-[21px] font-medium text-white mb-3 font-figtree"
             style={{
               letterSpacing: "-0.01em",
               lineHeight: 1.2,
@@ -213,7 +213,7 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
           </motion.h3>
 
           <motion.p
-            className="text-sm mb-6 text-gray-300 font-figtree font-light"
+            className="text-xs sm:text-sm mb-6 text-gray-300 font-figtree font-light"
             style={{
               lineHeight: 1.5,
             }}
@@ -239,7 +239,7 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
                 transition={{ duration: 0.5, delay: 0.6 + idx * 0.1 }}
               >
                 <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span className="text-sm text-gray-300 font-figtree font-light">{benefit}</span>
+                <span className="text-xs sm:text-sm text-gray-300 font-figtree font-light">{benefit}</span>
               </motion.div>
             ))}
           </div>

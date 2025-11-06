@@ -37,7 +37,7 @@ export function Navbar() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-primary to-secondary">
                 <Brain className="h-5 w-5 text-white" />
               </div>
-              <span className="text-xl font-bold font-figtree text-white">HR AI Agent</span>
+              <span className="text-lg sm:text-xl font-bold font-figtree text-white">HR AI Agent</span>
             </div>
           </Link>
         </div>
@@ -60,7 +60,7 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`text-sm font-semibold leading-6 transition-colors hover:text-white/80 ${
+              className={`text-base font-extralight leading-6 transition-colors hover:text-white/80 font-figtree ${
                 pathname === item.href ? 'text-white' : 'text-white/90'
               }`}
             >
@@ -100,7 +100,7 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-0 z-50">
             <div className="fixed inset-0 z-50" />
-            <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+            <div className="fixed top-0 right-0 bottom-auto z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 rounded-[15px] max-h-[85vh] mt-4">
               <div className="flex items-center justify-between">
                 <Link href="/" className="-m-1.5 p-1.5">
                   <span className="sr-only">HR AI Agent</span>
@@ -108,7 +108,7 @@ export function Navbar() {
                     <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-primary to-secondary">
                       <Brain className="h-5 w-5 text-white" />
                     </div>
-                    <span className="text-xl font-bold font-figtree gradient-text">HR AI Agent</span>
+                    <span className="text-lg sm:text-xl font-bold font-figtree gradient-text">HR AI Agent</span>
                   </div>
                 </Link>
                 <button
@@ -127,7 +127,7 @@ export function Navbar() {
                       <Link
                         key={item.name}
                         href={item.href}
-                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                        className="-mx-3 block rounded-lg px-3 py-2 text-base sm:text-lg font-light leading-7 text-gray-900 hover:bg-gray-50 hover:border-l-4 hover:border-[#2D2DDD] transition-all duration-200 font-figtree"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {item.name}
@@ -136,34 +136,35 @@ export function Navbar() {
                   </div>
                   <div className="py-6">
                     {user ? (
-                      <GradientButton
-                        onClick={() => {
-                          router.push('/dashboard')
-                          setMobileMenuOpen(false)
-                        }}
-                        showArrow={false}
-                        className="w-full"
-                      >
-                        Dashboard
-                      </GradientButton>
+                      <div className="flex justify-center">
+                        <GradientButton
+                          onClick={() => {
+                            router.push('/dashboard')
+                            setMobileMenuOpen(false)
+                          }}
+                          showArrow={false}
+                          className="w-auto min-w-[200px]"
+                        >
+                          Dashboard
+                        </GradientButton>
+                      </div>
                     ) : (
-                      <div className="space-y-3">
-                        <Button
-                          variant="outline"
+                      <div className="space-y-3 flex flex-col items-center">
+                        <button
                           onClick={() => {
                             router.push('/auth/signin')
                             setMobileMenuOpen(false)
                           }}
-                          className="w-full"
+                          className="w-auto min-w-[200px] h-10 px-6 rounded-lg border-2 border-[#2D2DDD] text-black font-medium font-figtree transition-all hover:bg-[#2D2DDD] hover:text-white"
                         >
                           Sign in
-                        </Button>
+                        </button>
                         <GradientButton
                           onClick={() => {
                             router.push('/auth/signup')
                             setMobileMenuOpen(false)
                           }}
-                          className="w-full"
+                          className="w-auto min-w-[200px]"
                         >
                           Get Started
                         </GradientButton>

@@ -233,7 +233,8 @@ export function RealCandidatesSection() {
                 key={`${candidate.email}-${candidate.job_posting_id}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                transition={{ type: 'tween', duration: 0.3, delay: index * 0.05, ease: 'easeOut' }}
+                className="gpu-accelerated"
               >
                 <Card className="hover:shadow-lg transition-all duration-300 group">
                   <CardContent className="p-6">

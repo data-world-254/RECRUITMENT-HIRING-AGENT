@@ -73,18 +73,21 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-black relative h-fit overflow-hidden">
+    <footer className="bg-black relative h-fit overflow-hidden pt-20 sm:pt-0 md:pt-24">
+      {/* Mobile and tablet white separator line above footer */}
+      <div className="block lg:hidden w-full h-px bg-white/20 mb-8 md:mb-16"></div>
+      
       <FooterBackgroundGradient />
       
       <div className="max-w-7xl mx-auto p-8 sm:p-12 md:p-14 z-40 relative">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-8 lg:gap-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-8 lg:gap-16 pb-12">
           {/* Brand section */}
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-4 md:col-span-3 lg:col-span-1">
             <div className="flex items-center space-x-2">
               <Heart className="text-[#3ca2fa]" size={28} fill="#3ca2fa" />
-              <span className="text-white text-3xl font-bold font-figtree">HR AI Agent</span>
+              <span className="text-white text-2xl sm:text-3xl font-bold font-figtree">HR AI Agent</span>
             </div>
-            <p className="text-sm leading-relaxed text-gray-300 font-figtree font-light">
+            <p className="text-xs sm:text-sm leading-relaxed text-gray-300 font-figtree font-light">
               The future of recruitment is here. Our AI-powered platform helps you find, screen, and hire the best talent faster than ever before.
             </p>
             {/* Social icons in brand section */}
@@ -105,7 +108,7 @@ export function Footer() {
           {/* Footer link sections */}
           {footerLinks.map((section) => (
             <div key={section.title}>
-              <h4 className="text-white text-lg font-semibold mb-6 font-figtree">
+              <h4 className="text-white text-[13px] sm:text-[15px] font-semibold mb-6 font-figtree">
                 {section.title}
               </h4>
               <ul className="space-y-3">
@@ -113,7 +116,7 @@ export function Footer() {
                   <li key={link.label} className="relative">
                     <Link
                       href={link.href}
-                      className="text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light"
+                      className="text-xs sm:text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light"
                     >
                       {link.label}
                     </Link>
@@ -128,7 +131,7 @@ export function Footer() {
 
           {/* Contact section */}
           <div>
-            <h4 className="text-white text-lg font-semibold mb-6 font-figtree">
+            <h4 className="text-white text-[13px] sm:text-[15px] font-semibold mb-6 font-figtree">
               Contact Us
             </h4>
             <ul className="space-y-4">
@@ -138,12 +141,12 @@ export function Footer() {
                   {item.href ? (
                     <a
                       href={item.href}
-                      className="text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light"
+                      className="text-xs sm:text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light"
                     >
                       {item.text}
                     </a>
                   ) : (
-                    <span className="text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light">
+                    <span className="text-xs sm:text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light">
                       {item.text}
                     </span>
                   )}
@@ -156,7 +159,7 @@ export function Footer() {
         <hr className="border-t border-gray-700 mt-8 mb-12" />
 
         {/* Footer bottom */}
-        <div className="flex flex-col md:flex-row justify-end items-center text-sm pb-4">
+        <div className="flex flex-col md:flex-row justify-end items-center text-xs sm:text-sm pb-4">
           {/* Copyright */}
           <p className="text-center md:text-left text-gray-400 font-figtree font-light">
             &copy; {new Date().getFullYear()} HR AI Agent. All rights reserved.
