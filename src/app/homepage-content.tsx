@@ -184,7 +184,7 @@ export default function HomePageContent() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-8">
             {coreFeatures.map((feature, index) => (
               <GradientCard
                 key={feature.title}
@@ -223,7 +223,7 @@ export default function HomePageContent() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
             {industrySolutions.map((solution, index) => (
               <motion.div
                 key={solution.title}
@@ -233,14 +233,14 @@ export default function HomePageContent() {
                 className="gpu-accelerated"
               >
                 <Card className="h-full hover:shadow-2xl transition-all duration-500 group bg-neutral-900/80 backdrop-blur-sm border border-neutral-800/50 hover:bg-neutral-900/90 hover:scale-105 relative overflow-hidden hover:border-[#3ca2fa]/50">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[#3ca2fa]/20 to-blue-600/20 rounded-full blur-xl"></div>
-                  <CardContent className="p-6 relative z-10">
-                    <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#3ca2fa] to-blue-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-[#3ca2fa]/30">
-                      <solution.icon className="w-6 h-6 text-white" />
+                  <div className="absolute top-0 right-0 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-gradient-to-br from-[#3ca2fa]/20 to-blue-600/20 rounded-full blur-xl"></div>
+                  <CardContent className="p-3 sm:p-4 md:p-6 relative z-10">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg bg-gradient-to-r from-[#3ca2fa] to-blue-600 flex items-center justify-center mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 transition-transform shadow-lg shadow-[#3ca2fa]/30">
+                      <solution.icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
                     </div>
-                    <h3 className="text-[13px] sm:text-[15px] font-semibold mb-2 text-white">{solution.title}</h3>
-                    <p className="text-xs sm:text-sm text-gray-300 mb-3">{solution.description}</p>
-                    <div className="text-xs sm:text-sm font-medium text-[#3ca2fa] bg-[#3ca2fa]/10 px-3 py-1 rounded-full inline-block border border-[#3ca2fa]/20">{solution.metrics}</div>
+                    <h3 className="text-[11px] sm:text-[13px] md:text-[15px] font-semibold mb-1 sm:mb-2 text-white leading-tight">{solution.title}</h3>
+                    <p className="text-[9px] sm:text-xs md:text-sm text-gray-300 mb-2 sm:mb-3 leading-snug line-clamp-3">{solution.description}</p>
+                    <div className="text-[9px] sm:text-xs md:text-sm font-medium text-[#3ca2fa] bg-[#3ca2fa]/10 px-2 py-0.5 sm:px-2.5 sm:py-1 md:px-3 md:py-1 rounded-full inline-block border border-[#3ca2fa]/20">{solution.metrics}</div>
                   </CardContent>
                 </Card>
               </motion.div>

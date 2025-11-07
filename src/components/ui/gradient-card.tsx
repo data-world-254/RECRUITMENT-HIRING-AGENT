@@ -160,11 +160,11 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
 
       {/* Card content */}
       <motion.div
-        className="relative flex flex-col h-full p-8 z-40"
+        className="relative flex flex-col h-full p-4 sm:p-6 md:p-8 z-40"
       >
         {/* Icon circle */}
         <motion.div
-          className="w-12 h-12 rounded-full flex items-center justify-center mb-6"
+          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mb-3 sm:mb-4 md:mb-6"
           style={{
             background: "linear-gradient(225deg, #171c2c 0%, #121624 100%)",
             position: "relative",
@@ -186,7 +186,7 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
         >
           {/* Icon */}
           <div className="flex items-center justify-center w-full h-full relative z-10">
-            <Icon className="w-6 h-6 text-white" />
+            <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
         </motion.div>
 
@@ -195,7 +195,7 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
           className="mb-auto"
         >
           <motion.h3
-            className="text-[17px] sm:text-[21px] font-medium text-white mb-3 font-figtree"
+            className="text-[13px] sm:text-[17px] md:text-[21px] font-medium text-white mb-2 sm:mb-3 font-figtree leading-tight"
             style={{
               letterSpacing: "-0.01em",
               lineHeight: 1.2,
@@ -212,9 +212,9 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
           </motion.h3>
 
           <motion.p
-            className="text-xs sm:text-sm mb-6 text-gray-300 font-figtree font-light"
+            className="text-[10px] sm:text-xs md:text-sm mb-3 sm:mb-4 md:mb-6 text-gray-300 font-figtree font-light leading-snug"
             style={{
-              lineHeight: 1.5,
+              lineHeight: 1.4,
             }}
             initial={{ filter: "blur(3px)", opacity: 0.7 }}
             animate={{
@@ -228,17 +228,17 @@ export const GradientCard = memo(({ icon: Icon, title, description, benefits, in
           </motion.p>
 
           {/* Benefits list */}
-          <div className="space-y-2">
+          <div className="space-y-1 sm:space-y-2">
             {benefits.map((benefit, idx) => (
               <motion.div
                 key={idx}
-                className="flex items-center gap-2"
+                className="flex items-center gap-1.5 sm:gap-2"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.6 + idx * 0.1 }}
               >
-                <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span className="text-xs sm:text-sm text-gray-300 font-figtree font-light">{benefit}</span>
+                <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 flex-shrink-0" />
+                <span className="text-[10px] sm:text-xs md:text-sm text-gray-300 font-figtree font-light leading-tight">{benefit}</span>
               </motion.div>
             ))}
           </div>

@@ -12,12 +12,9 @@ import {
   Globe,
   Heart,
 } from 'lucide-react'
-import { motion, useReducedMotion } from 'framer-motion'
 import { FooterBackgroundGradient } from '@/components/ui/hover-footer'
-import { TextHoverEffect } from '@/components/ui/hover-footer'
 
 export function Footer() {
-  const shouldReduceMotion = useReducedMotion()
   
   // Footer link data - Production ready links
   const footerLinks = [
@@ -105,32 +102,34 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Footer link sections */}
-          {footerLinks.map((section) => (
-            <div key={section.title}>
-              <h4 className="text-white text-[13px] sm:text-[15px] font-semibold mb-6 font-figtree">
-                {section.title}
-              </h4>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.label} className="relative">
-                    <Link
-                      href={link.href}
-                      className="text-xs sm:text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light"
-                    >
-                      {link.label}
-                    </Link>
-                    {link.pulse && (
-                      <span className="absolute top-0 right-[-10px] w-2 h-2 rounded-full bg-[#3ca2fa] animate-pulse"></span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Footer link sections - Side by side on mobile */}
+          <div className="grid grid-cols-2 md:contents gap-6 md:gap-0">
+            {footerLinks.map((section) => (
+              <div key={section.title}>
+                <h4 className="text-white text-[13px] sm:text-[15px] font-semibold mb-6 font-figtree">
+                  {section.title}
+                </h4>
+                <ul className="space-y-3">
+                  {section.links.map((link) => (
+                    <li key={link.label} className="relative">
+                      <Link
+                        href={link.href}
+                        className="text-xs sm:text-sm text-gray-300 hover:text-[#3ca2fa] transition-colors font-figtree font-light"
+                      >
+                        {link.label}
+                      </Link>
+                      {link.pulse && (
+                        <span className="absolute top-0 right-[-10px] w-2 h-2 rounded-full bg-[#3ca2fa] animate-pulse"></span>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
 
           {/* Contact section */}
-          <div>
+          <div className="md:col-span-1 lg:col-span-1">
             <h4 className="text-white text-[13px] sm:text-[15px] font-semibold mb-6 font-figtree">
               Contact Us
             </h4>
@@ -166,54 +165,6 @@ export function Footer() {
           </p>
         </div>
       </div>
-
-      {/* Text hover effect - Desktop only with dark blue shadow */}
-      <motion.div 
-        className="hidden lg:block relative w-full h-[28rem] -mt-32 pt-16 mb-[5px] overflow-visible"
-        initial={{ opacity: 0, y: 40, scale: 0.95 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{
-          duration: shouldReduceMotion ? 0 : 1.2,
-          ease: [0.22, 1, 0.36, 1],
-          delay: 0.3,
-        }}
-      >
-        {/* Dark blue shadow/glow effect behind the text */}
-        <motion.div 
-          className="absolute inset-0 z-40"
-          style={{
-            background: 'radial-gradient(ellipse 80% 50% at 50% 60%, rgba(30, 58, 138, 0.4) 0%, rgba(30, 58, 138, 0.2) 30%, transparent 70%)',
-            filter: 'blur(40px)',
-            transform: 'translateY(10%)',
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 1.5,
-            delay: 0.5,
-            ease: 'easeOut',
-          }}
-        />
-        {/* Additional subtle dark blue shadow for depth */}
-        <motion.div 
-          className="absolute inset-0 z-40"
-          style={{
-            background: 'radial-gradient(ellipse 60% 40% at 50% 65%, rgba(15, 23, 42, 0.6) 0%, transparent 60%)',
-            filter: 'blur(20px)',
-            transform: 'translateY(5%)',
-          }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: shouldReduceMotion ? 0 : 1.5,
-            delay: 0.5,
-            ease: 'easeOut',
-          }}
-        />
-        <div className="relative z-50 w-full h-full flex items-center justify-center">
-          <TextHoverEffect text="EMIL AI" className="z-50 w-full h-full" />
-        </div>
-      </motion.div>
     </footer>
   )
 }
