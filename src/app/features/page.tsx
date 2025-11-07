@@ -138,7 +138,7 @@ export default function FeaturesPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 justify-items-center">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 md:gap-8 justify-items-center">
             {coreFeatures.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -180,7 +180,7 @@ export default function FeaturesPage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 icon: Clock,
@@ -216,7 +216,7 @@ export default function FeaturesPage() {
                 <Card className="h-full hover:shadow-2xl transition-all duration-500 group bg-gradient-to-br bg-neutral-900/80 backdrop-blur-sm border border-neutral-800/50 hover:bg-neutral-900/90 hover:scale-105 relative overflow-hidden">
                   <div className={`absolute inset-0 bg-gradient-to-br ${benefit.color} opacity-0 group-hover:opacity-10 transition-opacity`}></div>
                   <CardContent className="p-6 relative z-10">
-                    <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${benefit.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <div className="w-12 h-12 rounded-full bg-[#2D2DDD] flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
                       <benefit.icon className="w-6 h-6 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold mb-2 text-white">{benefit.title}</h3>

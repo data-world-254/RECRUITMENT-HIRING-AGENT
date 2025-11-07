@@ -175,6 +175,38 @@ export type Database = {
           last_updated?: string
         }
       }
+      contact_requests: {
+        Row: {
+          id: string
+          created_at: string
+          full_name: string
+          email: string
+          company: string
+          role: string
+          topic: string
+          message: string
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          full_name: string
+          email: string
+          company: string
+          role: string
+          topic: string
+          message: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          full_name?: string
+          email?: string
+          company?: string
+          role?: string
+          topic?: string
+          message?: string
+        }
+      }
     }
   }
 }

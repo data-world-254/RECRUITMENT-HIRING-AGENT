@@ -30,14 +30,6 @@ const PricingBackground = dynamic(() => import('@/components/ui/pricing-backgrou
   ssr: false,
 })
 
-const ContactSection = dynamic(() => import('@/components/ui/contact-section').then(mod => ({ default: mod.default })), {
-  ssr: true,
-})
-
-const AnimatedShaderBackground = dynamic(() => import('@/components/ui/animated-shader-background').then(mod => ({ default: mod.default })), {
-  ssr: false,
-})
-
 // Shader background is a client component that mounts in useEffect; import directly to avoid chunk delays
 import { 
   Brain, 
@@ -184,7 +176,7 @@ export default function HomePageContent() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-x-4 gap-y-2 md:gap-x-8 md:gap-y-4">
             {coreFeatures.map((feature, index) => (
               <GradientCard
                 key={feature.title}
@@ -320,17 +312,9 @@ export default function HomePageContent() {
         </div>
       </section>
 
-
       {/* Pricing Section */}
       <section className="relative bg-black overflow-hidden pb-16 sm:pb-20 md:pb-24 lg:pb-28">
         <PricingSection />
-      </section>
-
-      {/* Animated Shader Background Section with Contact overlay */}
-      <section className="relative bg-black overflow-visible min-h-[1100px] sm:min-h-[900px] md:min-h-[1400px] lg:min-h-[1000px] pb-40 sm:pb-32 md:pb-96 lg:pb-48">
-        <AnimatedShaderBackground />
-        {/* Foreground Contact content overlaying the meteors */}
-        <ContactSection overlay />
       </section>
     </>
   )
