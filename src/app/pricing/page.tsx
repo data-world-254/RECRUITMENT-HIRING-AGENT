@@ -58,6 +58,7 @@ const fadeUp = (index: number, disableMotion: boolean) => ({
 
 export default function PricingPage() {
   const prefersReducedMotion = useReducedMotion()
+  const disableMotion = prefersReducedMotion ?? false
 
   return (
     <main className="min-h-screen bg-black text-white">
@@ -66,26 +67,26 @@ export default function PricingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#2D2DDD40,transparent_60%)]" aria-hidden="true" />
         <div className="container mx-auto max-w-6xl relative z-10 text-center">
           <motion.div
-            {...fadeUp(0, prefersReducedMotion)}
+            {...fadeUp(0, disableMotion)}
             className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-4 py-2 mb-6"
           >
             <span className="text-xs sm:text-sm font-medium text-white/80">Transparent pricing engineered for HR velocity</span>
           </motion.div>
           <motion.h1
-            {...fadeUp(1, prefersReducedMotion)}
+            {...fadeUp(1, disableMotion)}
             className="text-[32px] sm:text-[48px] md:text-[64px] font-figtree font-extralight leading-[1.05] tracking-tight mb-4"
           >
             Choose the plan that accelerates your hiring strategy
           </motion.h1>
           <motion.p
-            {...fadeUp(2, prefersReducedMotion)}
+            {...fadeUp(2, disableMotion)}
             className="text-base sm:text-xl font-figtree font-light text-gray-300 max-w-3xl mx-auto"
           >
             Start with the plan that matches your team size today and scale effortlessly. Every tier includes AI-powered screening, collaborative workflows, and analytics out of the box.
           </motion.p>
 
           <motion.div
-            {...fadeUp(3, prefersReducedMotion)}
+            {...fadeUp(3, disableMotion)}
             className="mt-8 flex flex-wrap justify-center gap-4"
           >
             {stats.map(stat => (
@@ -114,7 +115,7 @@ export default function PricingPage() {
       <section className="py-16 sm:py-20 md:py-24 px-4 bg-black">
         <div className="container mx-auto max-w-6xl">
           <motion.div
-            {...fadeUp(0, prefersReducedMotion)}
+            {...fadeUp(0, disableMotion)}
             className="text-center mb-12"
           >
             <h2 className="text-[27px] sm:text-[57px] md:text-[69px] font-extralight font-figtree leading-[1.05] tracking-tight">
@@ -127,7 +128,7 @@ export default function PricingPage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-2 gap-4 sm:gap-6">
             {assurances.map((assurance, index) => (
-              <motion.div key={assurance.title} {...fadeUp(index / 2, prefersReducedMotion)}>
+              <motion.div key={assurance.title} {...fadeUp(index / 2, disableMotion)}>
                 <Card className="bg-neutral-900/70 border border-neutral-800/80 backdrop-blur-lg h-full">
                   <CardContent className="p-6 flex flex-col gap-4">
                     <div className="w-10 h-10 rounded-full bg-[#2D2DDD] flex items-center justify-center shadow-lg shadow-[#2D2DDD40]">
@@ -153,7 +154,7 @@ export default function PricingPage() {
       <section className="py-16 sm:py-20 px-4 bg-black">
         <div className="container mx-auto max-w-5xl">
           <motion.div
-            {...fadeUp(0, prefersReducedMotion)}
+            {...fadeUp(0, disableMotion)}
             className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-lg px-6 sm:px-10 md:px-16 py-12 text-center"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#2D2DDD33,transparent_70%)]" aria-hidden="true" />
