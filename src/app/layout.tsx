@@ -52,11 +52,18 @@ const baseMetadata: Metadata = {
 }
 
 export function generateMetadata(): Metadata {
+  const sentryTraceData = Object.fromEntries(
+    Object.entries(Sentry.getTraceData() ?? {}).filter(
+      ([_key, value]): value is string | number | (string | number)[] =>
+        value !== undefined && value !== null
+    )
+  ) as Record<string, string | number | (string | number)[]>
+
   return {
     ...baseMetadata,
     other: {
       ...(baseMetadata.other ?? {}),
-      ...Sentry.getTraceData(),
+      ...sentryTraceData,
     },
   }
 }
