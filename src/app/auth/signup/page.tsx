@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useForm } from 'react-hook-form'
@@ -77,12 +78,13 @@ export default function SignUpPage() {
           </div>
 
           <div className="absolute inset-0">
-            <img
+            <Image
               src="/assets/images/2149741207.jpg"
               alt="HR Recruitment"
-              className="w-full h-full object-cover"
-              loading="eager"
-              fetchPriority="high"
+              fill
+              priority
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
         </div>

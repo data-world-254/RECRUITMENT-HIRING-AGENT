@@ -3,6 +3,7 @@ import { ReactLenis } from 'lenis/react';
 import { useTransform, motion, useScroll, MotionValue } from 'framer-motion';
 import { useRef, forwardRef } from 'react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 interface ProjectData {
   title: string;
@@ -82,19 +83,18 @@ export const Card = ({
             )}
           </div>
 
-          <div
-            className={`relative w-[60%] h-full rounded-[25px] overflow-hidden`}
-          >
+          <div className="relative w-[60%] h-full rounded-[25px] overflow-hidden">
             <motion.div
-              className={`w-full h-full`}
+              className="relative w-full h-full"
               style={{ scale: imageScale }}
             >
-              <img 
-                src={url} 
-                alt={title} 
-                className='absolute inset-0 w-full h-full object-cover' 
-                loading="lazy"
-                decoding="async"
+              <Image
+                src={url}
+                alt={title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 600px"
+                priority={i === 0}
               />
             </motion.div>
           </div>

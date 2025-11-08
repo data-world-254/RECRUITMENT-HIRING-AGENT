@@ -8,6 +8,7 @@ import {
   memo,
   type MouseEvent,
 } from "react"
+import Image, { type StaticImageData } from "next/image"
 import {
   AnimatePresence,
   motion,
@@ -21,21 +22,18 @@ import {
 import { cn } from "@/lib/utils"
 import { FileText, Brain, Users, CheckCircle } from "lucide-react"
 
-// --- Types ---
-type StaticImageData = string;
-
 type WrapperStyle = MotionStyle & {
   "--x": MotionValue<string>
   "--y": MotionValue<string>
 }
 
 interface ImageSet {
-  step1img1: StaticImageData
-  step1img2: StaticImageData
-  step2img1: StaticImageData
-  step2img2: StaticImageData
-  step3img: StaticImageData
-  step4img: StaticImageData
+  step1img1: StaticImageData | string
+  step1img2: StaticImageData | string
+  step2img1: StaticImageData | string
+  step2img2: StaticImageData | string
+  step3img: StaticImageData | string
+  step4img: StaticImageData | string
   alt: string
 }
 
@@ -50,12 +48,14 @@ interface FeatureCarouselProps {
 }
 
 interface StepImageProps {
-  src: StaticImageData
+  src: StaticImageData | string
   alt: string
   className?: string
   style?: React.CSSProperties
   width?: number
   height?: number
+  priority?: boolean
+  sizes?: string
 }
 
 interface Step {
@@ -174,25 +174,31 @@ const stepVariants: Variants = {
   active: { scale: 1, opacity: 1 },
 }
 
-const StepImage = memo(forwardRef<HTMLImageElement, StepImageProps>(
-  ({ src, alt, className, style, ...props }, ref) => {
+const StepImage = memo(forwardRef<HTMLDivElement, StepImageProps>(
+  ({ src, alt, className, style, width, height, priority, sizes }, ref) => {
     return (
-      <img
+      <div
         ref={ref}
-        alt={alt}
-        className={className}
-        src={src}
-        style={{ 
-          position: "absolute", 
-          userSelect: "none", 
+        className={cn("absolute select-none", className)}
+        style={{
+          position: "absolute",
+          userSelect: "none",
           maxWidth: "unset",
           height: "auto",
-          ...style 
+          ...style,
         }}
-        loading="lazy"
-        decoding="async"
-        {...props}
-      />
+      >
+        <Image
+          alt={alt}
+          src={src}
+          width={width ?? 1200}
+          height={height ?? 900}
+          priority={priority}
+          className="h-full w-full object-cover"
+          sizes={sizes ?? "(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 33vw"}
+          draggable={false}
+        />
+      </div>
     )
   }
 ))

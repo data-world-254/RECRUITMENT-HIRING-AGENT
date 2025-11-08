@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import NextImage from 'next/image'
 
 interface PerformanceMetrics {
   loadTime: number
@@ -168,18 +169,18 @@ export function OptimizedImage({
       {!isLoaded && !isError && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse" />
       )}
-      {/* Use Next.js Image component for better optimization */}
-      <img
+      <NextImage
         src={src}
         alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? 'eager' : 'lazy'}
-        onLoad={() => setIsLoaded(true)}
+        width={width ?? 1200}
+        height={height ?? 800}
+        priority={priority}
+        onLoadingComplete={() => setIsLoaded(true)}
         onError={() => setIsError(true)}
-        className={`transition-opacity duration-300 ${
+        className={`h-full w-full object-cover transition-opacity duration-300 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 600px"
         {...props}
       />
     </div>

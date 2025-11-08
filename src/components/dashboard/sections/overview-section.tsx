@@ -221,7 +221,7 @@ export function OverviewSection() {
       }
       
       const normalizedJobs: JobPosting[] = (jobs ?? [])
-        .filter((job): job is Pick<JobPostingRow, 'id' | 'job_title' | 'status'> => Boolean(job))
+        .filter((job): job is Pick<JobPostingRow, 'id' | 'job_title' | 'status' | 'created_at'> => Boolean(job))
         .map(job => ({
           id: job.id,
           job_title: job.job_title,
