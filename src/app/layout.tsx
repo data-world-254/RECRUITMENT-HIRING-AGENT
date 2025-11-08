@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/nextjs'
 import type { Metadata } from 'next'
 import { Figtree } from 'next/font/google'
 import './globals.css'
@@ -48,6 +49,16 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+}
+
+export function generateMetadata(): Metadata {
+  return {
+    ...metadata,
+    other: {
+      ...(metadata.other ?? {}),
+      ...Sentry.getTraceData(),
+    },
+  }
 }
 
 export const viewport = {
