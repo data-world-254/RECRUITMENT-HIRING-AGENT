@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
 import type { Metadata } from 'next'
 import { Figtree } from 'next/font/google'
 import './globals.css'
@@ -52,20 +51,7 @@ const baseMetadata: Metadata = {
 }
 
 export function generateMetadata(): Metadata {
-  const sentryTraceData = Object.fromEntries(
-    Object.entries(Sentry.getTraceData() ?? {}).filter(
-      ([_key, value]): value is string | number | (string | number)[] =>
-        value !== undefined && value !== null
-    )
-  ) as Record<string, string | number | (string | number)[]>
-
-  return {
-    ...baseMetadata,
-    other: {
-      ...(baseMetadata.other ?? {}),
-      ...sentryTraceData,
-    },
-  }
+  return baseMetadata
 }
 
 export const viewport = {

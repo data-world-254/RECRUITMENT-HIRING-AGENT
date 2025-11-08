@@ -148,18 +148,3 @@ const nextConfig = {
   },
 }
 module.exports = nextConfig
-
-// Sentry configuration (single injection)
-const { withSentryConfig } = require('@sentry/nextjs')
-
-module.exports = withSentryConfig(
-  module.exports,
-  {
-    org: 'sorras',
-    project: 'hr-recruitment-agent',
-    silent: !process.env.CI,
-    widenClientFileUpload: true,
-    disableLogger: true,
-    automaticVercelMonitors: true,
-  }
-)
