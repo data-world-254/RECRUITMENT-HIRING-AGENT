@@ -28,7 +28,7 @@ const getMetadataBase = () => {
   return new URL('http://localhost:3000')
 }
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: 'AI-Powered Recruitment Platform | HR Recruitment AI Agent',
   description: 'Transform your hiring process with AI-powered recruitment platform. Hire 5x faster with 95% accuracy using intelligent automation, advanced analytics, and bias-free candidate screening.',
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
 
 export function generateMetadata(): Metadata {
   return {
-    ...metadata,
+    ...baseMetadata,
     other: {
-      ...(metadata.other ?? {}),
+      ...(baseMetadata.other ?? {}),
       ...Sentry.getTraceData(),
     },
   }
