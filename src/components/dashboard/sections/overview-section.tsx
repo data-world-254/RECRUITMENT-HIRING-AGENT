@@ -18,6 +18,7 @@ import {
   ChevronDown
 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import type { Database } from '@/lib/supabase'
 import { useAuth } from '@/hooks/use-auth'
 import { useAnalyticsRealtime, useJobsRealtime } from '@/hooks/use-realtime-data'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
@@ -43,10 +44,12 @@ interface DashboardMetrics {
   rejectedApplicants: number
 }
 
+type JobPostingRow = Database['public']['Tables']['job_postings']['Row']
+
 interface JobPosting {
   id: string
   job_title: string
-  status: string
+  status: JobPostingRow['status']
 }
 
 const ANALYTICS_SELECT_COLUMNS =
@@ -207,7 +210,7 @@ export function OverviewSection() {
         throw companyError
       }
       
-      const { data: jobs = [], error: jobsError } = await supabase
+      const { data: jobs, error: jobsError } = await supabase
         .from('job_postings')
         .select('id, job_title, status, created_at')
         .eq('company_id', company.id)
@@ -217,18 +220,26 @@ export function OverviewSection() {
         throw jobsError
       }
       
-      setJobPostings(jobs)
+      const normalizedJobs: JobPosting[] = (jobs ?? [])
+        .filter((job): job is Pick<JobPostingRow, 'id' | 'job_title' | 'status'> => Boolean(job))
+        .map(job => ({
+          id: job.id,
+          job_title: job.job_title,
+          status: job.status,
+        }))
       
-      const activeJob = jobs.find(job => job.status === 'active')
-      const fallbackJobId = jobs[0]?.id ?? 'all'
+      setJobPostings(normalizedJobs)
+      
+      const activeJob = normalizedJobs.find(job => job.status === 'active')
+      const fallbackJobId = normalizedJobs[0]?.id ?? 'all'
       const resolvedSelection =
-        (selectedJobId !== 'all' && jobs.some(job => job.id === selectedJobId))
+        (selectedJobId !== 'all' && normalizedJobs.some(job => job.id === selectedJobId))
           ? selectedJobId
           : (activeJob?.id ?? fallbackJobId)
       
       setSelectedJobId(resolvedSelection)
       
-      const jobIds = jobs.map(job => job.id)
+      const jobIds = normalizedJobs.map(job => job.id)
       
       let totalReports = 0
       let readyReports = 0
