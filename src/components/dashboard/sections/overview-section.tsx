@@ -23,6 +23,14 @@ import { useAnalyticsRealtime, useJobsRealtime } from '@/hooks/use-realtime-data
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import {
+  ApplicantMetricsSlice,
+  EMPTY_APPLICANT_METRICS,
+  combineApplicantMetrics,
+  deriveMetricsFromApplicantStatuses,
+  extractApplicantMetrics,
+  hasApplicantMetricsData,
+} from '@/utils/analytics'
 
 interface DashboardMetrics {
   activeJobs: number
@@ -39,6 +47,46 @@ interface JobPosting {
   id: string
   job_title: string
   status: string
+}
+
+const ANALYTICS_SELECT_COLUMNS =
+  'total_applicants,total_applicants_shortlisted,total_shortlisted,total_applicants_rejected,total_rejected,total_applicants_flagged_to_hr,total_flagged'
+
+const mergeApplicantMetrics = (
+  previous: DashboardMetrics,
+  slice: ApplicantMetricsSlice
+): DashboardMetrics => ({
+  ...previous,
+  totalApplicants: slice.totalApplicants,
+  shortlistedApplicants: slice.shortlistedApplicants,
+  rejectedApplicants: slice.rejectedApplicants,
+  flaggedApplicants: slice.flaggedApplicants,
+})
+
+const fetchApplicantFallbackMetrics = async (jobId: string) => {
+  const { data: applicants, error: applicantsError } = await supabase
+    .from('applicants')
+    .select('status')
+    .eq('job_posting_id', jobId)
+
+  if (!applicantsError && applicants) {
+    return deriveMetricsFromApplicantStatuses(applicants)
+  }
+
+  return { ...EMPTY_APPLICANT_METRICS }
+}
+
+const fetchApplicantsAggregateForJobs = async (jobIds: string[]) => {
+  const { data: applicants, error: applicantsError } = await supabase
+    .from('applicants')
+    .select('status')
+    .in('job_posting_id', jobIds)
+
+  if (!applicantsError && applicants) {
+    return deriveMetricsFromApplicantStatuses(applicants)
+  }
+
+  return { ...EMPTY_APPLICANT_METRICS }
 }
 
 export function OverviewSection() {
@@ -60,6 +108,88 @@ export function OverviewSection() {
   const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(false)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
+  // Load job-specific analytics from recruitment_analytics table
+  const loadJobAnalytics = useCallback(async (jobId: string, options?: { skipLoadingState?: boolean }) => {
+    if (!user || !jobId) return
+    
+    const shouldToggleLoading = !options?.skipLoadingState
+
+    try {
+      if (shouldToggleLoading) {
+        setIsLoadingAnalytics(true)
+      }
+      
+      const { data: analytics, error: analyticsError } = await supabase
+        .from('recruitment_analytics')
+        .select(`${ANALYTICS_SELECT_COLUMNS},ai_overall_analysis,processing_status`)
+        .eq('job_posting_id', jobId)
+        .single()
+      
+      let applicantSlice: ApplicantMetricsSlice | null = null
+
+      if (!analyticsError && analytics) {
+        const primarySlice = extractApplicantMetrics(analytics)
+        if (hasApplicantMetricsData(primarySlice)) {
+          applicantSlice = primarySlice
+        }
+      }
+
+      if (!applicantSlice) {
+        applicantSlice = await fetchApplicantFallbackMetrics(jobId)
+      }
+
+      setMetrics(prev => mergeApplicantMetrics(prev, applicantSlice))
+    } catch (err) {
+      console.error('Error loading job analytics:', err)
+    } finally {
+      if (shouldToggleLoading) {
+        setIsLoadingAnalytics(false)
+      }
+    }
+  }, [user])
+
+  // Load analytics for all jobs
+  const loadAllJobsAnalytics = useCallback(async (jobIds: string[], options?: { skipLoadingState?: boolean }) => {
+    if (!user || jobIds.length === 0) return
+    
+    const shouldToggleLoading = !options?.skipLoadingState
+
+    try {
+      if (shouldToggleLoading) {
+        setIsLoadingAnalytics(true)
+      }
+      
+      const { data: analytics, error: analyticsError } = await supabase
+        .from('recruitment_analytics')
+        .select(ANALYTICS_SELECT_COLUMNS)
+        .in('job_posting_id', jobIds)
+      
+      let totals = { ...EMPTY_APPLICANT_METRICS }
+
+      if (!analyticsError && analytics) {
+        totals = analytics.reduce<ApplicantMetricsSlice>(
+          (acc, current) => {
+            const normalized = extractApplicantMetrics(current)
+            return combineApplicantMetrics(acc, normalized)
+          },
+          { ...EMPTY_APPLICANT_METRICS }
+        )
+      }
+
+      if (!hasApplicantMetricsData(totals)) {
+        totals = await fetchApplicantsAggregateForJobs(jobIds)
+      }
+
+      setMetrics(prev => mergeApplicantMetrics(prev, totals))
+    } catch (err) {
+      console.error('Error loading all jobs analytics:', err)
+    } finally {
+      if (shouldToggleLoading) {
+        setIsLoadingAnalytics(false)
+      }
+    }
+  }, [user])
+
   const loadDashboardMetrics = useCallback(async () => {
     if (!user) return
     
@@ -67,7 +197,6 @@ export function OverviewSection() {
       setIsLoading(true)
       setError(null)
       
-      // Get company for this user
       const { data: company, error: companyError } = await supabase
         .from('companies')
         .select('id')
@@ -78,8 +207,7 @@ export function OverviewSection() {
         throw companyError
       }
       
-      // Get job postings for this company
-      const { data: jobs, error: jobsError } = await supabase
+      const { data: jobs = [], error: jobsError } = await supabase
         .from('job_postings')
         .select('id, job_title, status, created_at')
         .eq('company_id', company.id)
@@ -89,27 +217,19 @@ export function OverviewSection() {
         throw jobsError
       }
       
-      // Set job postings for dropdown
-      if (jobs) {
-        setJobPostings(jobs)
-        // Set default to first active job or first job (only if no job is selected)
-        // Use functional setState to avoid dependency on selectedJobId
-        setSelectedJobId(prev => {
-          if (prev === 'all' || !jobs.find(j => j.id === prev)) {
-            const activeJob = jobs.find(j => j.status === 'active')
-            if (activeJob) {
-              return activeJob.id
-            } else if (jobs.length > 0) {
-              return jobs[0].id
-            }
-          }
-          return prev
-        })
-      }
+      setJobPostings(jobs)
       
-      const jobIds = jobs?.map(job => job.id) || []
+      const activeJob = jobs.find(job => job.status === 'active')
+      const fallbackJobId = jobs[0]?.id ?? 'all'
+      const resolvedSelection =
+        (selectedJobId !== 'all' && jobs.some(job => job.id === selectedJobId))
+          ? selectedJobId
+          : (activeJob?.id ?? fallbackJobId)
       
-      // Get recruitment analytics for reports
+      setSelectedJobId(resolvedSelection)
+      
+      const jobIds = jobs.map(job => job.id)
+      
       let totalReports = 0
       let readyReports = 0
       
@@ -125,113 +245,33 @@ export function OverviewSection() {
         }
       }
       
-      // Get applicant statistics - will be loaded separately based on selected job
-      // This is kept for the overall metrics at the top
-      
-      // Calculate metrics
-      const activeJobs = jobs?.filter(job => job.status === 'active').length || 0
-      const totalJobs = jobs?.length || 0
+      const activeJobs = jobs.filter(job => job.status === 'active').length
+      const totalJobs = jobs.length
       
       setMetrics({
         activeJobs,
         totalJobs,
         totalReports,
         readyReports,
-        totalApplicants: 0, // Will be set by loadJobAnalytics
-        shortlistedApplicants: 0,
-        flaggedApplicants: 0,
-        rejectedApplicants: 0
+        ...EMPTY_APPLICANT_METRICS,
       })
-      
-      // Analytics will be loaded by the useEffect that watches selectedJobId
+
+      if (jobIds.length === 0) {
+        setMetrics(prev => mergeApplicantMetrics(prev, EMPTY_APPLICANT_METRICS))
+      } else if (resolvedSelection === 'all') {
+        await loadAllJobsAnalytics(jobIds, { skipLoadingState: true })
+      } else if (resolvedSelection && resolvedSelection !== 'all') {
+        await loadJobAnalytics(resolvedSelection, { skipLoadingState: true })
+      }
+
+      setIsLoadingAnalytics(false)
     } catch (err) {
       console.error('Error loading dashboard metrics:', err)
       setError('Failed to load dashboard metrics')
     } finally {
       setIsLoading(false)
     }
-  }, [user])
-
-  // Load job-specific analytics from recruitment_analytics table
-  const loadJobAnalytics = useCallback(async (jobId: string) => {
-    if (!user || !jobId) return
-    
-    try {
-      setIsLoadingAnalytics(true)
-      
-      const { data: analytics, error: analyticsError } = await supabase
-        .from('recruitment_analytics')
-        .select('total_applicants, total_applicants_shortlisted, total_applicants_rejected, total_applicants_flagged_to_hr')
-        .eq('job_posting_id', jobId)
-        .single()
-      
-      if (!analyticsError && analytics) {
-        setMetrics(prev => ({
-          ...prev,
-          totalApplicants: analytics.total_applicants || 0,
-          shortlistedApplicants: analytics.total_applicants_shortlisted || 0,
-          rejectedApplicants: analytics.total_applicants_rejected || 0,
-          flaggedApplicants: analytics.total_applicants_flagged_to_hr || 0,
-        }))
-      } else {
-        // If no analytics found, set to 0
-        setMetrics(prev => ({
-          ...prev,
-          totalApplicants: 0,
-          shortlistedApplicants: 0,
-          rejectedApplicants: 0,
-          flaggedApplicants: 0,
-        }))
-      }
-    } catch (err) {
-      console.error('Error loading job analytics:', err)
-    } finally {
-      setIsLoadingAnalytics(false)
-    }
-  }, [user])
-
-  // Load analytics for all jobs
-  const loadAllJobsAnalytics = useCallback(async (jobIds: string[]) => {
-    if (!user || jobIds.length === 0) return
-    
-    try {
-      setIsLoadingAnalytics(true)
-      
-      const { data: analytics, error: analyticsError } = await supabase
-        .from('recruitment_analytics')
-        .select('total_applicants, total_applicants_shortlisted, total_applicants_rejected, total_applicants_flagged_to_hr')
-        .in('job_posting_id', jobIds)
-      
-      if (!analyticsError && analytics) {
-        const totals = analytics.reduce((acc, curr) => ({
-          total_applicants: acc.total_applicants + (curr.total_applicants || 0),
-          total_applicants_shortlisted: acc.total_applicants_shortlisted + (curr.total_applicants_shortlisted || 0),
-          total_applicants_rejected: acc.total_applicants_rejected + (curr.total_applicants_rejected || 0),
-          total_applicants_flagged_to_hr: acc.total_applicants_flagged_to_hr + (curr.total_applicants_flagged_to_hr || 0),
-        }), { total_applicants: 0, total_applicants_shortlisted: 0, total_applicants_rejected: 0, total_applicants_flagged_to_hr: 0 })
-        
-        setMetrics(prev => ({
-          ...prev,
-          totalApplicants: totals.total_applicants,
-          shortlistedApplicants: totals.total_applicants_shortlisted,
-          rejectedApplicants: totals.total_applicants_rejected,
-          flaggedApplicants: totals.total_applicants_flagged_to_hr,
-        }))
-      } else {
-        setMetrics(prev => ({
-          ...prev,
-          totalApplicants: 0,
-          shortlistedApplicants: 0,
-          rejectedApplicants: 0,
-          flaggedApplicants: 0,
-        }))
-      }
-    } catch (err) {
-      console.error('Error loading all jobs analytics:', err)
-    } finally {
-      setIsLoadingAnalytics(false)
-    }
-  }, [user])
+  }, [loadAllJobsAnalytics, loadJobAnalytics, selectedJobId, user])
 
   // Handle job selection change
   const handleJobSelect = (jobId: string | 'all') => {
