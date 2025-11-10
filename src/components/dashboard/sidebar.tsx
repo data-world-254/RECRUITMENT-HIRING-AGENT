@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
@@ -17,6 +18,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 import { useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
 
 const sidebarItems = [
   {
@@ -58,8 +60,19 @@ interface SidebarProps {
 
 export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { signOut } = useAuth()
   const router = useRouter()
+  const { resolvedTheme } = useTheme()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const logoSrc =
+    resolvedTheme === 'light'
+      ? '/assets/logo/black_logo.png'
+      : '/assets/logo/ChatGPT%20Image%20Nov%208,%202025,%2010_47_18%20PM.png'
 
   const handleLogout = async () => {
     await signOut()
@@ -80,8 +93,19 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
         {/* Header */}
         <div className="p-4 sm:p-6 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-              <LayoutDashboard className="w-6 h-6 text-white" />
+            <div className="relative h-10 w-10">
+              {mounted ? (
+                <Image
+                  src={logoSrc}
+                  alt="Hirebit logo"
+                  fill
+                  sizes="40px"
+                  className="object-contain"
+                  priority
+                />
+              ) : (
+                <span className="block h-full w-full rounded-lg bg-muted-foreground/20" />
+              )}
             </div>
             {!isCollapsed && (
               <div className="flex-1 min-w-0">
