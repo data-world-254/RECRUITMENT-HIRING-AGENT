@@ -1,15 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/hooks/use-auth'
-import { 
-  Brain, 
-  Menu, 
-  X, 
-  ArrowRight
+import {
+  Menu,
+  X
 } from 'lucide-react'
 import { GradientButton } from '@/components/ui/gradient-button'
 
@@ -34,10 +33,14 @@ export function Navbar() {
           <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">HR AI Agent</span>
             <div className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-primary to-secondary">
-                <Brain className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-lg sm:text-xl font-bold font-figtree text-white">HR AI Agent</span>
+              <Image
+                src="/assets/logo/ChatGPT%20Image%20Nov%208,%202025,%2010_47_18%20PM.png"
+                alt="HR AI Agent"
+                width={112}
+                height={112}
+                className="h-12 w-12 md:h-14 md:w-14"
+                priority
+              />
             </div>
           </Link>
         </div>
@@ -105,10 +108,14 @@ export function Navbar() {
                 <Link href="/" className="-m-1.5 p-1.5">
                   <span className="sr-only">HR AI Agent</span>
                   <div className="flex items-center space-x-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-primary to-secondary">
-                      <Brain className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="text-lg sm:text-xl font-bold font-figtree gradient-text">HR AI Agent</span>
+                    <Image
+                      src="/assets/logo/ChatGPT%20Image%20Nov%208,%202025,%2010_47_18%20PM.png"
+                      alt="HR AI Agent"
+                      width={112}
+                      height={112}
+                      className="h-12 w-12"
+                      priority
+                    />
                   </div>
                 </Link>
                 <button

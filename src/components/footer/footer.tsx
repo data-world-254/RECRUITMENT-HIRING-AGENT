@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   Mail,
@@ -10,7 +11,6 @@ import {
   Twitter,
   Dribbble,
   Globe,
-  Heart,
 } from 'lucide-react'
 import { FooterBackgroundGradient } from '@/components/ui/hover-footer'
 
@@ -46,17 +46,17 @@ export function Footer() {
   const contactInfo = [
     {
       icon: <Mail size={18} className="text-[#3ca2fa]" />,
-      text: "support@hraiagent.com",
-      href: "mailto:support@hraiagent.com",
+      text: "strivego4@gmail.com",
+      href: "mailto:strivego4@gmail.com",
     },
     {
       icon: <Phone size={18} className="text-[#3ca2fa]" />,
-      text: "+1 (555) 123-4567",
-      href: "tel:+15551234567",
+      text: "+254701601126",
+      href: "tel:+254701601126",
     },
     {
       icon: <MapPin size={18} className="text-[#3ca2fa]" />,
-      text: "New York, USA",
+      text: "Nairobi, Kenya",
     },
   ]
 
@@ -80,9 +80,16 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-12 md:gap-8 lg:gap-16 pb-12">
           {/* Brand section */}
           <div className="flex flex-col space-y-4 md:col-span-3 lg:col-span-1">
-            <div className="flex items-center space-x-2">
-              <Heart className="text-[#3ca2fa]" size={28} fill="#3ca2fa" />
-              <span className="text-white text-2xl sm:text-3xl font-bold font-figtree">HR AI Agent</span>
+            <div className="flex items-center space-x-3">
+              <Image
+                src="/assets/logo/ChatGPT%20Image%20Nov%208,%202025,%2010_47_18%20PM.png"
+                alt="Hirebit logo"
+                width={120}
+                height={120}
+                className="h-12 w-12 md:h-14 md:w-14 object-contain"
+                priority
+              />
+              <span className="text-white text-2xl sm:text-3xl font-figtree font-extralight">Hirebit</span>
             </div>
             <p className="text-xs sm:text-sm leading-relaxed text-gray-300 font-figtree font-light">
               The future of recruitment is here. Our AI-powered platform helps you find, screen, and hire the best talent faster than ever before.
