@@ -203,7 +203,7 @@ export default function CompanySetupPage() {
                 {/* Company Information */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <Building2 className="w-5 h-5 text-primary" />
+                    <Building2 className="w-5 h-5 text-white" />
                     <h3 className="text-xl font-figtree font-semibold">Company Information</h3>
                   </div>
                   
@@ -260,7 +260,7 @@ export default function CompanySetupPage() {
                 {/* Job Information */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <Users className="w-5 h-5 text-primary" />
+                    <Users className="w-5 h-5 text-white" />
                     <h3 className="text-xl font-figtree font-semibold">Job Information</h3>
                   </div>
                   
@@ -353,7 +353,7 @@ export default function CompanySetupPage() {
                 {/* Interview Information */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <Calendar className="w-5 h-5 text-primary" />
+                    <Calendar className="w-5 h-5 text-white" />
                     <h3 className="text-xl font-figtree font-semibold">Interview Information</h3>
                   </div>
                   
